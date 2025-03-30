@@ -1,0 +1,133 @@
+﻿select clause in details
+=================================
+1. Display vid, vname, price and details from table vehicle with column heading as Vehicle id, vehicle name, price, discount and details.
+
+2. Create a copy of table customer and salesman by name customer1 and salesman1
+
+3. List all records with sal > 2000 and comm>200
+ 
+4. List all records where job=’Clerk’ or sal>2000
+
+5. List all the records with sal=1250 or 1100 
+ 
+6. List all employees with sal>1250 and <2850
+ 
+7. Retrieve the details (Name, Salary and dept no) of the emp who are working in department no 20
+ 
+8. Display all employees who have joined after 9th june 81.
+ 
+9. Display empno,empname,sal, comm and total salary.   
+   Total Salary = comm + sal
+
+ 
+10. Display all employees with sal >2000 or job is either clerk or Salesman.
+ 
+11. List the employees in dept 20 and 30 who did not get any commission.
+ 
+12. Display all employees who works in either dept 10 or 30 or joined in year 1982
+ 
+13. There is a salary hike by 20% . Display the information from emp table as empno,ename,sal and new sal.
+ 
+14. Create new table emp100 same as emp without any data. Check it's structure.
+ 
+15. Insert new row with data of your choice  in emp10 table where manager(mgr) is null.
+ 
+16. Display the emp details who do not have manager.
+ 
+17. Use emp100 table to perform following query 
+Update employee salary. Increase sal of each employee by 15% of (sal+comm), change the mgr to 777 for all employees in dept 10. 
+ 
+18. Display all employees who joined between years 1981 to 1983.
+ 
+19. Display empno, name and department number of an emp working under manager with id 7698.
+ 
+20. List all managers working in dept 10.   
+ 
+21. Display all jobs from emp table. 
+ 
+22. Display all unique  deptnos in which employees are working.
+ 
+23. Implement following using case statement. Use data from emp database. 
+
+24. Company decides to give salary rise with following percentage.
+    Using case statement display the data as below
+    ename,job,sal,new sal
+    Generate new sal and display with proper heading.
+    clerk 7%
+    analyst 5%
+    manager %2
+    others no rise
+
+25. Create a copy of table salesman as salesman1.
+
+26. Increase the salary of all employees by 5% who are earning less than 20000 as a basic pay. 
+    Update in the table.
+ 
+ .
+
+
+ 
+ Restricting rows using like operator and reg_exp
+
+1.Find all employees with name ending with R . 
+ 
+2. Find all employees with name starting with M and ending with R.
+ 
+3. To find all employees with name starting with either M or A.
+ 
+4. List the employee  name having letter 'L' as the second character.
+ 
+5. Find all employees with name having L at 3 rd position.
+ 
+6. To list all employees with name ending by ES.
+ 
+7. To list all employees with job starting with C and ending with K.
+ 
+8. To find all employees with name starting with either M or A and last character as either R or E.
+ 
+9. To find all employee with name starting with A or M and ending with E.
+ 
+10. Find all employees with name starting with A and ending with N, or it may start with S and end with H.
+ 
+11. Find all employees with name starting with M, having  L at 3 rd position and ends with R.
+ 
+12. Find all employees with name having L at 3 rd position and E at second last position.
+ 
+13. Find all employees with name not starting with A or M
+ 
+14. Display all employees with sal >1000 and sal<3000 and job has A at starting position and ends with T.
+ 
+15. Write a query  to display empno, ename, sal, commission, increased sal by 10% and for all employees  whose  name starts with A,M or S.
+ 
+16. Display all employees whose name starts with A and ends with either N or S, or works in dept 10.   
+ 
+17. List all departments whose name has atleast 8 characters.
+ 
+18. List the employees name having 'E' as a second last character.
+ 
+19. List the details of the employee , whose names start with ‘A’ and end with ‘S’ or whose names contains N as the second or third     character, and end with either ‘N’ or ‘S’.
+ 
+20. List employees whose name starts with either 'A' or 'S' in dept 20.
+ 
+21. To list all employees with job starting with C , E at 3rd position and  ending with K.
+ 
+22. To list all employees with job containing L at third position and M at third last position.
+ 
+23. To list all employees with comm is null and name starts with ‘S’
+ 
+24. List employees in all dept whose salary not in the range of 2000 to 3000 with the job which is having a  string called 'MAN' at the end.
+ 
+25. List all the employee whose name does not end with 'S' in dept 20 and 30?
+ 
+26. Display list all employees whose name ends with ER.
+ 
+27. Display all employees where comm is null and name starts with ‘S’.
+ 
+28. Display all rows where comm is null.
+ 
+========================================================
+
+ 
+
+
+

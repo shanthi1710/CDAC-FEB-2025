@@ -1,0 +1,564 @@
+1.Write a stored procedure which will find avg of all the salaries in the table. Display avg sal in the procedure.
+-->
+mysql> drop procedure if exists display;
+    -> create procedure display(out res decimal(8,2))
+    -> begin
+    -> select avg(sal) into res
+    -> from emp;
+    -> end //
+Query OK, 0 rows affected (0.06 sec)
+Query OK, 0 rows affected (0.07 sec)
+mysql> delimiter ;
+mysql> call display(@res);
+Query OK, 1 row affected (0.07 sec)
+mysql> select @res;
++---------+
+| @res    |
++---------+
+| 5212.50 |
++---------+
+
+2.Write a stored procedure which will find avg salary of dept no 20. Display  avg salary out of the procedure.
+-->
+mysql> delimiter //
+mysql> DROP PROCEDURE IF EXISTS display;
+    -> CREATE PROCEDURE display(OUT res DECIMAL(10,2))
+    -> begin
+    -> SELECT AVG(sal) INTO res FROM emp WHERE deptno = 20
+    -> ;
+    -> end //
+Query OK, 0 rows affected (0.02 sec)
+Query OK, 0 rows affected (0.03 sec)
+mysql> delimiter ;
+mysql> call display(@res);
+Query OK, 1 row affected (0.01 sec)
+mysql> select @res as "Average Salary for dept 20";
++----------------------------+
+| Average Salary for dept 20 |
++----------------------------+
+|                    2175.00 |
++----------------------------+
+
+3.Write a stored procedure which will find avg salary for any deptno passed to it.  Pass deptno as in parameter and avg(sal) as out parameter.          
+-->
+mysql> delimiter //
+mysql> drop procedure if exists display;
+    -> CREATE PROCEDURE display(IN dept_number INT, OUT result DECIMAL(10,2))
+    -> begin
+    -> SELECT AVG(sal) INTO result FROM emp WHERE deptno = dept_number;
+    -> end //
+Query OK, 0 rows affected (0.02 sec)
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> delimiter ;
+mysql> set @num = 30;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call display(@num,@res);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> select @res as "Average Salary for Dept 30";
++----------------------------+
+| Average Salary for Dept 30 |
++----------------------------+
+|                    8066.67 |
++----------------------------+
+
+4.Write a procedure to calculate total salary of all employees. 
+Total sal = sal +comm.
+-->
+mysql> delimiter //
+mysql> drop procedure if exists display;
+    -> create procedure display(out res decimal(15,2))
+    -> begin
+    -> select ifnull(sum(sal + ifnull(comm,0)),0) into res
+    -> from emp;
+    -> end //
+Query OK, 0 rows affected (0.04 sec)
+
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> delimiter ;
+mysql> call display(@res);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select @res;
++----------+
+| @res     |
++----------+
+| 96025.00 |
++----------+
+
+5.Pass any number to the procedure and check if it is a perfect number. If the number is perfect, procedure should set value of out parameter as 1 otherwise as 0.   
+-->
+mysql> drop procedure if exists display;
+    -> create procedure display(in num int, out res int)
+    -> begin
+    -> declare sum int default 0;
+    -> declare i int default 1;
+    -> if num<=1 then
+    -> set res =0;
+    -> else
+    -> while i<= num/2 do
+    -> if num%i = 0 then
+    -> set sum = sum+i;
+    -> end if;
+    -> set i = i + 1;
+    -> end while ;
+    -> if sum=num then
+    ->  set res = 1;
+    -> else
+    -> set res = 0;
+    -> end if;
+    -> end if;
+    -> end //
+Query OK, 0 rows affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> set @num = 6 //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call display(@num, @res) //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select (@num, @res) //
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> select @num, @res //
++------+------+
+| @num | @res |
++------+------+
+|    6 |    1 |
++------+------+
+1 row in set (0.00 sec)
+
+6.Pass empno as a in parameter to the procedure. If empno is found in the table then, display corrosponding salary out of the procedure. If empno is not found in the table then, display 0 out of the parameter.    
+-->
+mysql> delimiter //
+mysql> DROP PROCEDURE IF EXISTS display;
+    -> create procedure display(in id int,out salary decimal(10,2))
+    -> begin
+    -> select ifnull(sal,0) into salary
+    -> from emp
+    -> where empno = id
+    -> limit 1;
+    -> end //
+Query OK, 0 rows affected (0.02 sec)
+
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> set @id = 7844;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call display(@id,@salary);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select @id,@salary;
++------+---------+
+| @id  | @salary |
++------+---------+
+| 7844 | 1500.00 |
++------+---------+
+
+7.Write procedure 'prime' which will check if number passed to the procedure is prime. Procedure should display 1 if prime or 0 if not prime. Use out parameter to display value out of the procedure and in parameter to pass value to the procedure.
+-->
+mysql> DELIMITER //
+mysql> DROP PROCEDURE IF EXISTS display;
+    -> CREATE PROCEDURE display(IN num INT, OUT prime INT)
+    -> BEGIN
+    ->     DECLARE i INT;
+    ->     DECLARE flg INT DEFAULT 1;
+    ->
+    ->     IF num < 2 THEN
+    ->         SET prime = 0;
+    ->     ELSEIF num = 2 THEN
+    ->         SET prime = 1;
+    ->     ELSE
+    ->         SET i = 2;
+    ->         loop_label: WHILE i * i <= num DO
+    ->             IF num % i = 0 THEN
+    ->                 SET flg = 0;
+    ->                 LEAVE loop_label;
+    ->             END IF;
+    ->             SET i = i + 1;
+    ->         END WHILE loop_label;
+    ->         SET prime = flg;
+    ->     END IF;
+    -> END //
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>
+mysql> DELIMITER ;
+mysql> set @num = 7;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call display(@num,@res);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select @num,@res;
++------+------+
+| @num | @res |
++------+------+
+|    7 |    1 |
++------+------+
+
+8.Copy table emp as empTmp.
+Write the procedure to accept job as in parameter and perform following actions.
+Hike in sal by  5% if employee is manager.
+Hike in sal by 10% if employee is clerk
+Hile in sal by 7% if employee is analyse
+otherwise hike by 3%.
+​​​​​​​Make necessary changes in empTmp table.
+-->
+mysql> DROP TABLE IF EXISTS empTmp;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> CREATE TABLE empTmp AS SELECT * FROM emp;
+Query OK, 18 rows affected (0.10 sec)
+Records: 18  Duplicates: 0  Warnings: 0
+
+mysql> delimiter //
+mysql> CREATE PROCEDURE updateSalaryByJob(IN var VARCHAR(50))
+    -> begin
+    -> update empTmp
+    -> set sal =
+    -> case
+    ->  WHEN var = 'MANAGER' THEN sal * 1.05
+    ->  WHEN var = 'CLERK' THEN sal * 1.10
+    ->  WHEN var = 'ANALYST' THEN sal * 1.07
+    -> ELSE sal * 1.03
+    -> end
+    -> where job = var;
+    -> end //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> CALL updateSalaryByJob('MANAGER');
+Query OK, 3 rows affected (0.01 sec)
+
+mysql> CALL updateSalaryByJob('CLERK');
+Query OK, 4 rows affected (0.00 sec)
+
+mysql> CALL updateSalaryByJob('ANALYST');
+Query OK, 3 rows affected (0.00 sec)
+
+mysql> CALL updateSalaryByJob('SALESMAN');
+Query OK, 7 rows affected (0.01 sec)
+
+1.Write a function to calculate total salary of an employee.  Call the function in the select clause. 
+ total sal=sal+comm
+-->
+mysql> DELIMITER //
+mysql>
+mysql> CREATE FUNCTION calculate(msal DECIMAL(7,2), mcomm DECIMAL(7,2))
+    -> RETURNS DECIMAL(7,2) DETERMINISTIC
+    -> BEGIN
+    ->     DECLARE x DECIMAL(7,2);
+    ->     SET x = msal + IFNULL(mcomm, 0);
+    ->     RETURN x;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ;
+mysql> select ename,sal,comm,calculate(sal,comm)
+    ->       from emp;
++--------+----------+---------+---------------------+
+| ename  | sal      | comm    | calculate(sal,comm) |
++--------+----------+---------+---------------------+
+| SMITH  |   800.00 |    NULL |              800.00 |
+| ALLEN  |  1600.00 |  300.00 |             1900.00 |
+| WARD   |  1250.00 |  500.00 |             1750.00 |
+| JONES  |  2975.00 |    NULL |             2975.00 |
+| MARTIN |  1250.00 | 1400.00 |             2650.00 |
+| BLAKE  |  2850.00 |    NULL |             2850.00 |
+| CLARK  |  2450.00 |    NULL |             2450.00 |
+| SCOTT  |  3000.00 |    NULL |             3000.00 |
+| KING   |  5000.00 |    NULL |             5000.00 |
+| TURNER |  1500.00 |    0.00 |             1500.00 |
+| ADAMS  |  1100.00 |    NULL |             1100.00 |
+| JAMES  |   950.00 |    NULL |              950.00 |
+| FORD   |  3000.00 |    NULL |             3000.00 |
+| MILLER |  1300.00 |    NULL |             1300.00 |
+| RAHUL  |  1600.00 |    NULL |             1600.00 |
+| RAHUL  |  1600.00 |    NULL |             1600.00 |
+| RAHUL  |  1600.00 |    NULL |             1600.00 |
+| Mahesh | 60000.00 |    NULL |            60000.00 |
++--------+----------+---------+---------------------+
+
+2.Write a function to generate an email. Call the function in select clause.email is generated as follows
+​​​​​ first 2 letters of name + last 2 letters of job @knowit.com. Call the function in the select clause.
+-->
+mysql> DELIMITER //
+mysql>
+mysql> CREATE FUNCTION email1(ename VARCHAR(50), job VARCHAR(50))
+    -> RETURNS VARCHAR(100) DETERMINISTIC
+    -> BEGIN
+    ->     DECLARE email_str VARCHAR(100);
+    ->
+    ->     SET email_str = CONCAT(LEFT(ename, 2), RIGHT(job, 2), '@knowit.com');
+    ->
+    ->     RETURN email_str;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> DELIMITER ;
+mysql> SELECT empno, ename, job, email1(ename, job) AS email
+    -> from emp;
++-------+--------+-----------+-----------------+
+| empno | ename  | job       | email           |
++-------+--------+-----------+-----------------+
+|  7369 | SMITH  | CLERK     | SMRK@knowit.com |
+|  7499 | ALLEN  | SALESMAN  | ALAN@knowit.com |
+|  7521 | WARD   | SALESMAN  | WAAN@knowit.com |
+|  7566 | JONES  | MANAGER   | JOER@knowit.com |
+|  7654 | MARTIN | SALESMAN  | MAAN@knowit.com |
+|  7698 | BLAKE  | MANAGER   | BLER@knowit.com |
+|  7782 | CLARK  | MANAGER   | CLER@knowit.com |
+|  7788 | SCOTT  | ANALYST   | SCST@knowit.com |
+|  7839 | KING   | PRESIDENT | KINT@knowit.com |
+|  7844 | TURNER | SALESMAN  | TUAN@knowit.com |
+|  7876 | ADAMS  | CLERK     | ADRK@knowit.com |
+|  7900 | JAMES  | CLERK     | JARK@knowit.com |
+|  7902 | FORD   | ANALYST   | FOST@knowit.com |
+|  7934 | MILLER | CLERK     | MIRK@knowit.com |
+|  7950 | RAHUL  | SALESMAN  | RAAN@knowit.com |
+|  7950 | RAHUL  | SALESMAN  | RAAN@knowit.com |
+|  7950 | RAHUL  | SALESMAN  | RAAN@knowit.com |
+|  8888 | Mahesh | Analyst   | Mast@knowit.com |
++-------+--------+-----------+-----------------+
+
+3.Write a procedure which accepts job as a 'in' parameter, and display maximunm salary for that job.
+Write a function cal_sal() which calculates maximum salary for the job. Function should return maximum salary to the procedure. Print max sal in the procedure.
+-->
+mysql> DELIMITER //
+mysql>
+mysql> CREATE FUNCTION cal_sal(job_param VARCHAR(50))
+    -> RETURNS DECIMAL(10,2) DETERMINISTIC
+    -> BEGIN
+    ->     DECLARE max_salary DECIMAL(10,2);
+    ->     SELECT MAX(sal) INTO max_salary
+    ->     FROM emp
+    ->     WHERE job = job_param;
+    ->     RETURN max_salary;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+--------------------------------------------------------------------------------
+mysql> DELIMITER //
+mysql>
+mysql> CREATE PROCEDURE get_max_salary_by_job(IN job_param VARCHAR(50))
+    -> BEGIN
+    ->     DECLARE max_sal DECIMAL(10,2);
+    ->     SET max_sal = cal_sal(job_param);
+    ->     SELECT CONCAT('The maximum salary for job ', job_param, ' is: ', max_sal) AS result;
+    -> end //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> CALL get_max_salary_by_job('MANAGER');
++------------------------------------------------+
+| result                                         |
++------------------------------------------------+
+| The maximum salary for job MANAGER is: 2975.00 |
++------------------------------------------------+
+
+1.Write a cursor which will handle all rows having deptno 20;
+-->
+mysql> DELIMITER //
+mysql>
+mysql> CREATE PROCEDURE handle_dept_20()
+    -> BEGIN
+    ->     DECLARE v_empno INT;
+    ->     DECLARE v_ename VARCHAR(50);
+    ->     DECLARE v_job VARCHAR(50);
+    ->     DECLARE v_sal DECIMAL(10,2);
+    ->
+    ->     DECLARE dept_cursor CURSOR FOR
+    ->     SELECT empno, ename, job, sal FROM emp WHERE deptno = 20;
+    ->
+    ->     DECLARE CONTINUE HANDLER FOR NOT FOUND SET @done = 1;
+    ->
+    ->     OPEN dept_cursor;
+    ->
+    ->     read_loop: LOOP
+    ->         FETCH dept_cursor INTO v_empno, v_ename, v_job, v_sal;
+    ->
+    ->         IF @done THEN
+    ->             LEAVE read_loop;
+    ->         END IF;
+    ->
+    ->         SELECT CONCAT('Emp No: ', v_empno, ', Name: ', v_ename, ', Job: ', v_job, ', Salary: ', v_sal) AS EmployeeDetails;
+    ->     END LOOP;
+    ->
+    ->     CLOSE dept_cursor;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> DELIMITER ;
+mysql> CALL handle_dept_20();
++-------------------------------------------------------+
+| EmployeeDetails                                       |
++-------------------------------------------------------+
+| Emp No: 7369, Name: SMITH, Job: CLERK, Salary: 800.00 |
++-------------------------------------------------------+
+1 row in set (0.01 sec)
+
++----------------------------------------------------------+
+| EmployeeDetails                                          |
++----------------------------------------------------------+
+| Emp No: 7566, Name: JONES, Job: MANAGER, Salary: 2975.00 |
++----------------------------------------------------------+
+1 row in set (0.01 sec)
+
++----------------------------------------------------------+
+| EmployeeDetails                                          |
++----------------------------------------------------------+
+| Emp No: 7788, Name: SCOTT, Job: ANALYST, Salary: 3000.00 |
++----------------------------------------------------------+
+1 row in set (0.02 sec)
+
++--------------------------------------------------------+
+| EmployeeDetails                                        |
++--------------------------------------------------------+
+| Emp No: 7876, Name: ADAMS, Job: CLERK, Salary: 1100.00 |
++--------------------------------------------------------+
+1 row in set (0.02 sec)
+
++---------------------------------------------------------+
+| EmployeeDetails                                         |
++---------------------------------------------------------+
+| Emp No: 7902, Name: FORD, Job: ANALYST, Salary: 3000.00 |
++---------------------------------------------------------+
+1 row in set (0.02 sec)
+
+Query OK, 0 rows affected (0.03 sec)
+
+2.Write a cursor to increment salary as follows
+     Clerk 10 % rise
+     Manager 5% rise
+     Analyst 7% rise.
+    No rise given for other jobs. 
+-->
+mysql> DELIMITER //
+mysql>
+mysql> CREATE PROCEDURE update_salary()
+    -> BEGIN
+    ->     DECLARE v_empno INT;
+    ->     DECLARE v_job VARCHAR(50);
+    ->     DECLARE v_sal DECIMAL(10,2);
+    ->
+    ->     DECLARE done INT DEFAULT 0;
+    ->
+    ->     DECLARE emp_cursor CURSOR FOR
+    ->     SELECT empno, job, sal FROM emp WHERE job IN ('CLERK', 'MANAGER', 'ANALYST');
+    ->
+    ->     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+    ->
+    ->     OPEN emp_cursor;
+    ->
+    ->     read_loop: LOOP
+    ->         FETCH emp_cursor INTO v_empno, v_job, v_sal;
+    ->
+    ->         IF done THEN
+    ->             LEAVE read_loop;
+    ->         END IF;
+    ->
+    ->         IF v_job = 'CLERK' THEN
+    ->             UPDATE emp SET sal = sal * 1.10 WHERE empno = v_empno;
+    ->         ELSEIF v_job = 'MANAGER' THEN
+    ->             UPDATE emp SET sal = sal * 1.05 WHERE empno = v_empno;
+    ->         ELSEIF v_job = 'ANALYST' THEN
+    ->             UPDATE emp SET sal = sal * 1.07 WHERE empno = v_empno;
+    ->         END IF;
+    ->     END LOOP;
+    ->
+    ->     CLOSE emp_cursor;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> DELIMITER ;
+mysql> CALL update_salary();
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> SELECT empno, ename, job, sal FROM emp WHERE job IN ('CLERK', 'MANAGER', 'ANALYST');
++-------+--------+---------+----------+
+| empno | ename  | job     | sal      |
++-------+--------+---------+----------+
+|  7369 | SMITH  | CLERK   |   880.00 |
+|  7566 | JONES  | MANAGER |  3123.75 |
+|  7698 | BLAKE  | MANAGER |  2992.50 |
+|  7782 | CLARK  | MANAGER |  2572.50 |
+|  7788 | SCOTT  | ANALYST |  3210.00 |
+|  7876 | ADAMS  | CLERK   |  1210.00 |
+|  7900 | JAMES  | CLERK   |  1045.00 |
+|  7902 | FORD   | ANALYST |  3210.00 |
+|  7934 | MILLER | CLERK   |  1430.00 |
+|  8888 | Mahesh | Analyst | 64200.00 |
++-------+--------+---------+----------+
+
+3.Pass job as a parameter to procedure and display all employees working
+​​​​​​​    for the specified job using cursor.
+-->
+mysql> DELIMITER //
+mysql>
+mysql> CREATE PROCEDURE get_employees_by_job(IN job_title VARCHAR(50))
+    -> BEGIN
+    ->     DECLARE v_empno INT;
+    ->     DECLARE v_ename VARCHAR(50);
+    ->     DECLARE v_sal DECIMAL(10,2);
+    ->
+    ->     DECLARE done INT DEFAULT 0;
+    ->
+    ->     DECLARE emp_cursor CURSOR FOR
+    ->     SELECT empno, ename, sal FROM emp WHERE job = job_title;
+    ->
+    ->     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+    ->
+    ->     OPEN emp_cursor;
+    ->
+    ->     read_loop: LOOP
+    ->         FETCH emp_cursor INTO v_empno, v_ename, v_sal;
+    ->
+    ->         IF done THEN
+    ->             LEAVE read_loop;
+    ->         END IF;
+    ->
+    ->         SELECT CONCAT('Emp No: ', v_empno, ', Name: ', v_ename, ', Salary: ', v_sal) AS EmployeeDetails;
+    ->     END LOOP;
+    ->
+    ->     CLOSE emp_cursor;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> DELIMITER ;
+mysql> CALL get_employees_by_job('MANAGER');
++--------------------------------------------+
+| EmployeeDetails                            |
++--------------------------------------------+
+| Emp No: 7566, Name: JONES, Salary: 3123.75 |
++--------------------------------------------+
+1 row in set (0.00 sec)
+
++--------------------------------------------+
+| EmployeeDetails                            |
++--------------------------------------------+
+| Emp No: 7698, Name: BLAKE, Salary: 2992.50 |
++--------------------------------------------+
+1 row in set (0.00 sec)
+
++--------------------------------------------+
+| EmployeeDetails                            |
++--------------------------------------------+
+| Emp No: 7782, Name: CLARK, Salary: 2572.50 |
++--------------------------------------------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)

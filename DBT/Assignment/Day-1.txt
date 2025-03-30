@@ -1,0 +1,299 @@
+
+
+create insert and basic select
+---->
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| id    | int          | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(50)  | YES  |     | NULL    |                |
+| email | varchar(100) | YES  |     | NULL    |                |
+| age   | int          | YES  |     | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+4 rows in set (0.02 sec)
+
+mysql> insert into user(name,email,age) values('John doe','shanthi@gmail.com',25);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from user;
++----+----------+-------------------+------+
+| id | name     | email             | age  |
++----+----------+-------------------+------+
+|  1 | John doe | shanthi@gmail.com |   25 |
++----+----------+-------------------+------+
+1 row in set (0.01 sec)
+
+------------------------------------------------------------------------------------------------------------------------
+
+Create  following Tables. Use appropriate datatypes. Insert given rows in the tables.
+
+create table vehicle(  vid int,  vname varchar(20),  price int,  discount int,  milage int,  details varchar(70));
+
+1.vehicle
+
+vid   vname          price       discount        milage           details
+-------------------------------------------------------------------------------------------------
+1     Activa         80000         10            35              Two  wheeler. Sturdy.Milage 30 km
+2     Santro         95000         20            20              Product of Hyandai.
+3     Yamaha         160000        5             70              Sturdy and good milage 
+4     i-10           300000        8             18              Good small car
+5     WaganR         250000        10            25              Good milage car
+6     Hero Splendor  75000         9             65              Best bike
+7     Royal Enfild   190000        5             40              a royal bike
+
+Note :discount is given in percentage.
+
+---->
+
+mysql> create table vehicle(
+    -> vid int primary key,
+    -> vname varchar(20),
+    -> price int,
+    -> discount int,
+    -> milage int,
+    -> details varchar(70)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> describe vehicle;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| vid      | int         | NO   | PRI | NULL    |       |
+| vname    | varchar(20) | YES  |     | NULL    |       |
+| price    | int         | YES  |     | NULL    |       |
+| discount | int         | YES  |     | NULL    |       |
+| milage   | int         | YES  |     | NULL    |       |
+| details  | varchar(70) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> INSERT INTO vehicle (vid, vname, price, discount, milage, details) VALUES
+    -> (1, 'Activa', 80000, 10, 35, 'Two wheeler. Sturdy. Milage 30 km'),
+    -> (2, 'Santro', 95000, 20, 20, 'Product of Hyundai.'),
+    -> (3, 'Yamaha', 160000, 5, 70, 'Sturdy and good milage'),
+    -> (4, 'i-10', 300000, 8, 18, 'Good small car'),
+    -> (5, 'WaganR', 250000, 10, 25, 'Good milage car'),
+    -> (6, 'Hero Splendor', 75000, 9, 65, 'Best bike'),
+    -> (7, 'Royal Enfild', 190000, 5, 40, 'A royal bike');
+Query OK, 7 rows affected (0.01 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> select * from vehicle;
++-----+---------------+--------+----------+--------+-----------------------------------+
+| vid | vname         | price  | discount | milage | details
+           |
++-----+---------------+--------+----------+--------+-----------------------------------+
+|   1 | Activa        |  80000 |       10 |     35 | Two wheeler. Sturdy. Milage 30 km |
+|   2 | Santro        |  95000 |       20 |     20 | Product of Hyundai.               |
+|   3 | Yamaha        | 160000 |        5 |     70 | Sturdy and good milage            |
+|   4 | i-10          | 300000 |        8 |     18 | Good small car
+           |
+|   5 | WaganR        | 250000 |       10 |     25 | Good milage car                   |
+|   6 | Hero Splendor |  75000 |        9 |     65 | Best bike
+           |
+|   7 | Royal Enfild  | 190000 |        5 |     40 | A royal bike
+           |
++-----+---------------+--------+----------+--------+-----------------------------------+
+7 rows in set (0.00 sec)
+------------------------------------------------------------------------------------------------------
+
+2. customer  
+
+create table customer(custid int, cname varchar(15), location varchar(12))
+
+
+custid    cname          location 
+----------------------------------
+1         Nilima         Pimpri
+2         Ganesh         Pune
+3         Kishor         Kothrud
+4         Priya          Aundh
+
+
+3. salesman
+
+create table salesman(sid int, sname varchar(12), city varchar(12), experience int)
+
+sid    sname         city           experience
+----------------------------------------------
+10      Rajesh       mumbai           5
+11      Seema        Pune             8 
+12      Shailesh     Nagpur           7 
+13      Rakhi        Pune             2
+
+--->
+
+mysql> create table customer(
+    -> custid int primary key,
+    -> cname varchar(20),
+    -> location varchar(12)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO customer (custid, cname, location) VALUES
+    -> (1, 'Nilima', 'Pimpri'),
+    -> (2, 'Ganesh', 'Pune'),
+    -> (3, 'Kishor', 'Kothrud'),
+    -> (4, 'Priya', 'Aundh');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE salesman (
+    ->     sid INT PRIMARY KEY,
+    ->     sname VARCHAR(12),
+    ->     city VARCHAR(12),
+    ->     experience INT
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO salesman (sid, sname, city, experience) VALUES
+    -> (10, 'Rajesh', 'Mumbai', 5),
+    -> (11, 'Seema', 'Pune', 8),
+    -> (12, 'Shailesh', 'Nagpur', 7),
+    -> (13, 'Rakhi', 'Pune', 2);
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+
+1. Display names of salesmen who work in Pune.   
+-->
+mysql> SELECT sname FROM salesman WHERE city = 'Pune';
++-------+
+| sname |
++-------+
+| Seema |
+| Rakhi |
++-------+
+
+2. Delete customer from Pimpri area.
+-->
+DELETE FROM customer WHERE location = 'Pimpri';
+
+3. Add some new customers 
+ 'Geeta' with custid 5 and area as 'Pimpri'. 
+ 'Raj'   with custid 6 and area as 'Aundh'  
+ 'Yash'  with custid 7 and area as 'Aundh'
+-->
+INSERT INTO customer (custid, cname, location) VALUES
+(5, 'Geeta', 'Pimpri'),
+(6, 'Raj', 'Aundh'),
+(7, 'Yash', 'Aundh');
+
+4. Delete customer from area Aundh whose name is Priya. 
+--->
+DELETE FROM customer WHERE location = 'Aundh' AND cname = 'Priya';
+
+5. Display information of vehicle , Royal Enfild.
+--->
+mysql> SELECT * FROM vehicle WHERE vname = 'Royal Enfild';
++-----+--------------+--------+----------+--------+--------------+
+| vid | vname        | price  | discount | milage | details      |
++-----+--------------+--------+----------+--------+--------------+
+|   7 | Royal Enfild | 190000 |        5 |     40 | A royal bike |
++-----+--------------+--------+----------+--------+--------------+
+1 row in set (0.00 sec)
+
+6. Display information of all Bikes.
+--->
+SELECT * FROM vehicle WHERE details LIKE '%bike%';
++-----+---------------+--------+----------+--------+--------------+
+| vid | vname         | price  | discount | milage | details      |
++-----+---------------+--------+----------+--------+--------------+
+|   6 | Hero Splendor |  75000 |        9 |     65 | Best bike    |
+|   7 | Royal Enfild  | 190000 |        5 |     40 | A royal bike |
++-----+---------------+--------+----------+--------+--------------+
+
+7. If buying price of the vehicle is 75000 then change it to 80000.
+--->
+UPDATE vehicle SET price = 80000 WHERE price = 75000;
+ 
+8. Display information of vehicle i-10.
+--->
+
+mysql> SELECT * FROM vehicle WHERE vname = 'i-10';
++-----+-------+--------+----------+--------+----------------+
+| vid | vname | price  | discount | milage | details        |
++-----+-------+--------+----------+--------+----------------+
+|   4 | i-10  | 300000 |        8 |     18 | Good small car |
++-----+-------+--------+----------+--------+----------------+
+
+9. Display all vehicles whose price is less than 100000.
+--->
+ mysql> SELECT * FROM vehicle WHERE price < 100000;
++-----+---------------+-------+----------+--------+-----------------------------------+
+| vid | vname         | price | discount | milage | details
+          |
++-----+---------------+-------+----------+--------+-----------------------------------+
+|   1 | Activa        | 80000 |       10 |     35 | Two wheeler. Sturdy. Milage 30 km |
+|   2 | Santro        | 95000 |       20 |     20 | Product of Hyundai.               |
+|   6 | Hero Splendor | 80000 |        9 |     65 | Best bike
+          |
++-----+---------------+-------+----------+--------+-----------------------------------+
+
+10. Display all the information of salesmen having experience more than 5 years.
+--->
+ SELECT * FROM salesman WHERE experience > 5;
++-----+----------+--------+------------+
+| sid | sname    | city   | experience |
++-----+----------+--------+------------+
+|  11 | Seema    | Pune   |          8 |
+|  12 | Shailesh | Nagpur |          7 |
++-----+----------+--------+------------+
+ 
+11. For the given schema, create the table and solve following queries
+--->
+
+employee(eno, ename, basic, incentives)  
+
+eno    ename      basic        incentives
+------------------------------------------
+1      Rajesh     20000         1500
+2      Sarita     25000         1000
+3      Meera      15000         3000
+4      Jitesh     30000         500
+5      Ramesh     12000         3000
+
+ 1. List all employees having basic>15000
+--->
+
+mysql> SELECT * FROM employee WHERE basic > 15000;
++-----+--------+-------+------------+
+| eno | ename  | basic | incentives |
++-----+--------+-------+------------+
+|   1 | Rajesh | 20000 |       1500 |
+|   2 | Sarita | 25000 |       1000 |
+|   4 | Jitesh | 30000 |        500 |
+|   5 | Ramesh | 60000 |       3000 |
++-----+--------+-------+------------+ 
+ 2. Change incentive of Jitesh to 1000.
+--->
+ UPDATE employee SET incentives = 1000 WHERE ename = 'Jitesh';
+
+ 3. Meera leaves the company. Make necessary changes in table.
+--->
+DELETE FROM employee WHERE ename = 'Meera';
+ 
+ 4. Ramesh is promoted as Head Clerk and now earns salary as 60000. Write a query.    
+--->
+UPDATE employee SET basic = 60000 WHERE ename = 'Ramesh';
+
+ 5. List all employees having basic salary more than 15000 and incentives more than 1200
+--->
+SELECT * FROM employee WHERE basic > 15000 AND incentives > 1200;
++-----+--------+-------+------------+
+| eno | ename  | basic | incentives |
++-----+--------+-------+------------+
+|   1 | Rajesh | 20000 |       1500 |
++-----+--------+-------+------------+
+ 6. List all ename and incentives having incentives more than 1200
+--->
+mysql> SELECT ename, incentives FROM employee WHERE incentives > 1200;
++--------+------------+
+| ename  | incentives |
++--------+------------+
+| Rajesh |       1500 |
+| Meera  |       3000 |
+| Ramesh |       3000 |
++--------+------------+
+ 

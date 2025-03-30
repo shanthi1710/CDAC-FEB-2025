@@ -1,0 +1,178 @@
+student(roll,name,degree)
+trainer(tid,tname,exp,module)
+product(pid,pname,qty.price)
+book(bno,bname,price,author)
+--------------------------------------
+create table-----clause to create table
+syntax
+
+CREATE TABLE table_name
+ (
+    column_name1 datatype,
+    column_name2  datatype,
+    :
+    column_namen  datatype
+);
+
+data types
+------------
+int  +ve and -ve  values
+roll_no int
+
+float
+per float(5,2)
+price float(6,2)  9999.99
+float(9,4)
+
+varchar() char data
+name varchar(20)
+
+char() static
+name char(20)
+
+data ----- ‘yyyy-mm-dd’
+doj date
+
+student(roll,sname,per,pass_year)
+
+C:program files\mysql\bin select path
+type cmd
+>mysql -u user_name -p
+password :
+mysql>create table student
+           ( roll int,
+             sname varchar(15),
+             per float(5,2),
+             pass_year date
+            );
+query ok
+
+
+
+
+
+book(bno,bname,aname,pub_dat)
+mysql>create table book
+           (bno int,
+             bname varchar(50),
+             aname varchar(20),
+             pub_dat date
+            );
+
+INSERT CLAUSE
+----------------------
+will insert data in the table
+
+INSERT INTO table_name
+VALUES(column1,column2,cloumn3....);
+
+e.g
+insert into student
+values(1,’Raj’,89.73,’2022-06-30’);
+
+INSERT multiple rows
+---------------------------
+INSERT INTO table_name
+VALUES(column1,column2,cloumn3....),
+                (column1,column2,cloumn3....),
+                (column1,column2,cloumn3....);
+
+insert into student
+values(2,’Rajesh’,79.73,’2023-06-30’)
+          (3,’Seema’,56.73,’2021-07-28’),
+           (4,’Smita’,79.73,’2022-06-15’);
+
+
+SELECT Clause
+--------------------
+displays all rows and columns from tqable
+
+SELECT *
+FROM table_name;
+
+* -- all columns
+
+select * from student;
+
+select * from product;
+
+select roll,sname
+from student;
+
+select pid,pname,price
+from product;
+
+
+ 
+
+WHERE CLAUSE---to filter the rows
+
+SELECT column_list
+FROM table_name
+WHERE condition on column;
+
+student(roll,sname,per,pass_year)
+display student with roll no 10
+select *
+from student
+where roll=10;
+
+display students with per>80
+select *
+from student
+where per>80;
+
+operators
+-----------
+=
+<=
+>=
+!= same as <>
+
+and , or, not, in, is, between..and
+
+display per,roll of Raj
+select roll,per,sname
+from student
+where sname=’Raj’;
+
+dispay stud passed in the year 2021
+
+select *
+from student
+where pass_year>=’2021-01-01’ and pass_year<=’2021-12-31’ ;
+
+DELETE --- deletes the row from the table
+------------------------------------------------------
+
+DELETE
+FROM table_name
+[WHERE condi on col;]
+
+delet smita from table
+
+delete
+from student
+where sname=’Smita’;
+update clause ----changes in current data
+---------------
+
+UPDATE table_name
+SET column_name=new_value;
+[WHERE condi on col]
+
+update student
+set per=91
+where sname=’Raj’;
+
+update student
+set per=70, pass_year=’2021-03-28’
+where sname=’Raj’;
+
+
+display stu passed in year 2021 and having per >90
+
+select *
+from student
+where pass_year>=’2021-1-1’ and pass_year<=’2021-12-31’ and per>90;
+

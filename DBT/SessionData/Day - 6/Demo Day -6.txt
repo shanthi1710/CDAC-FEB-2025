@@ -1,0 +1,450 @@
+-correlated subquery
+-partition by
+-Index in DBMS
+-Joins
+-views
+
+select * 
+from emp
+where deptno=(select deptno
+	      from emp
+	      where ename='smith');
+
+disp all employees earning sal> avg sal
+
+select * 
+from emp
+where sal>(select avg(sal)
+	   from emp);
+
+disp all emps earning sal>avg(sal) in the dept they work
+
+ select *
+ from emp e1
+ where e1.sal >(select avg(e2.sal)
+                from emp e2
+                where e1.deptno=e2.deptno);
+
+emp e1
+----
+smith 20 1000 +
+         ----
+martin 20 1000
+          ----
+jones 10 800
+         ---
+ford 30 1000
+miller 20 2000
+king 10 4000
+
+emp e2
+----
+smith 20 1000  
+martin 20 1000  
+jones 10 800   +
+ford 30 1000
+miller 20 2000  
+king 10 4000   +
+
+mysql> select *
+    ->  from emp e1
+    ->  where e1.sal >(select avg(e2.sal)
+    ->                 from emp e2
+    ->                 where e1.deptno=e2.deptno);
++-------+-------+-----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+-------+-----------+------+------------+---------+--------+--------+
+|  7499 | ALLEN | SALESMAN  | 7698 | 1981-02-20 | 1600.00 | 300.00 |     30 |
+|  7566 | JONES | MANAGER   | 7839 | 1981-04-02 | 2975.00 |   NULL |     20 |
+|  7698 | BLAKE | MANAGER   | 7839 | 1981-05-01 | 2850.00 |   NULL |     30 |
+|  7788 | SCOTT | ANALYST   | 7566 | 1982-12-09 | 3000.00 |   NULL |     20 |
+|  7839 | KING  | PRESIDENT | NULL | 1981-11-17 | 5000.00 |   NULL |     10 |
+|  7902 | FORD  | ANALYST   | 7566 | 1981-12-03 | 3000.00 |   NULL |     20 |
++-------+-------+-----------+------+------------+---------+--------+--------+
+6 rows in set (0.00 sec)
+
+create table product
+(pid int auto_increment,
+ pname varchar(20),
+ price float(8,2),
+ cid int,
+ constraint pk_pid primary key(pid)
+);
+
+insert into product(pname,price,cid)
+values('pen',5,100),('crayons',120,100),('pencil',5,100),('dairy milk',150,200),('pepsi',70,200),('t-shirt',350,300);
+
+display all products having price < avg price of their cat
+
+select *
+from product p1
+where p1.price <(select avg(p2.price)
+                 from product p2
+                 where p1.cid=p2.cid);
+
+mysql> select * from product;
++-----+------------+--------+------+
+| pid | pname      | price  | cid  |
++-----+------------+--------+------+
+|   1 | pen        |   5.00 |  100 |
+|   2 | crayons    | 120.00 |  100 |
+|   3 | pencil     |   5.00 |  100 |
+|   4 | dairy milk | 150.00 |  200 |
+|   5 | pepsi      |  70.00 |  200 |
+|   6 | t-shirt    | 350.00 |  300 |
++-----+------------+--------+------+
+6 rows in set (0.00 sec)
+
+mysql> select *
+    -> from product p1
+    -> where p1.price <(select avg(p2.price)
+    ->                  from product p2
+    ->                  where p1.cid=p2.cid);
++-----+--------+-------+------+
+| pid | pname  | price | cid  |
++-----+--------+-------+------+
+|   1 | pen    |  5.00 |  100 |
+|   3 | pencil |  5.00 |  100 |
+|   5 | pepsi  | 70.00 |  200 |
++-----+--------+-------+------+
+3 rows in set (0.00 sec)
+
+mysql> select cid,avg(price)
+    -> from product
+    -> group by cid;
++------+------------+
+| cid  | avg(price) |
++------+------------+
+|  100 |  43.333333 |
+|  200 | 110.000000 |
+|  300 | 350.000000 |
++------+------------+
+
+operators in correlated query
+exists 
+not exists
+
+list all depts in which there are no emps
+select deptno
+from dept
+where deptno not in(select deptno from emp);
+
+select deptno
+from dept d
+where not exists(select e.deptno
+		 from emp e
+                 where d.deptno = e.deptno);
+
+emp
+   smith 20
+   martin 30
+  allen 10
+  ford 10
+
+dept
+10
+20
+30
+40
+                 
++--------+
+| deptno |
++--------+
+|     40 |
++--------+
+1 row in set (0.00 sec)
+
+list all depts where emps are working
+select deptno
+from dept
+where deptno in(select deptno from emp);
+
+select deptno
+from dept d
+where exists(select e.deptno
+		 from emp e
+                 where d.deptno = e.deptno);
+
+
+Over() Function 
+
+Over() Function on un-partitioned data
+              select empno,ename,deptno,avg(sal) over()
+              from emp;
+
+Over() Function on partitioned data
+              select empno,ename,deptno,avg(sal) over(partition by deptno)
+              from emp;
+
+ 
+
+select deptno,avg(sal),min(sal),sum(sal)
+from emp
+group by deptno;
+ 
+
+ 
+display ename deptno sal job of emp earning max sal
+ 
+select ename,deptno,sal,job,max(sal)
+from emp;
+
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'cdac.emp.ENAME'; this is incompatible with sql_mode=only_full_group_by
+
+
+hence partition by clause
+over() function
+
+select ename,deptno,sal,avg(sal) over()
+from emp;
+
+select ename,deptno,sal,avg(sal) over(),max(sal) over(),min(sal) over()
+from emp;
+
+select deptno,avg(sal)
+from emp 
+group by deptno;
+
+select ename,sal,deptno,avg(sal) over(partition by deptno)
+from emp;
+
+max sal fro all jobs
+select ename,sal,job,max(sal)over(partition by job)
+from emp;
+
+
+Multiple functions and Over() clause
+select empno,ename,deptno,avg(sal) over(partition by deptno)avg_sal,
+min(sal) over(partition by deptno)min_sal,job,max(sal) over(partition by job) max_sal
+from emp;
+
+Indexes in RDBMS
+----------------
+created for faster searching
+index table is ctreated for eaxh index
+
+clustered index
+  ---created by system
+  ---when unique constraint is used or PK is used
+
+non clustered index
+  ---created by users
+
+emp(eno-pk,adhar_no-unique,passportno-uniqu,acc_no-unique,name,sal)
+
+select*
+from emp where adnar_no='    ';
+
+emp
+adhar_no index table
+passport_no index table
+
+syntax
+CREATE INDEX index_name
+ON table_name(column_name);
+
+student(idno-pk,marks)
+
+create index idx
+on student(marks);
+
+select * 
+from student
+where marks>90;
+
+
+delete index
+DROP INDEX index_name;
+drop index idx;
+
+to see index created
+
+show indexes from table_name;
+
+show indexes from student;
+
+create table student
+(id int primary key,
+ mobile varchar(10) unique,
+ per float(5,2)
+);
+
+create index idx
+on student(per);
+
+=================================
+JOINS in RDBMS
+
+used to fetch the data from multiple tables
+
+types
+-------
+1. natural join
+2. cross join
+3. inner join
+     -equi join
+     -non equi join
+     -self join
+4. outer join
+     -left outer join
+     -right outer join
+     -full outer join
+
+1. natural join
+   -lot of limits
+   -used only when the tables have same column name
+
+2. cross join
+   -cross product
+   -Cartesian product
+
+ select column_list
+ from table1
+ join table 2;
+
+ select e.empno,e.ename,e.deptno,d.deptno,d.dname
+ from emp e
+ join dept d;
+
+ select * 
+ from emp e
+ join dept d;
+
+inner equi join
+-fetches common data from both the tables
+empno,ename,deptno,dname,loc
+------------------ ---------
+emp			dept
+
+syntax
+
+select column_list
+ from table1
+ join table 2
+on column;
+
+select e.empno,e.ename,e.deptno,d.deptno,d.dname,d.loc
+from emp e
+join dept d
+on e.deptno=d.deptno;
+
+select e.empno,e.ename,e.deptno,d.deptno,d.dname,d.loc
+from emp e, dept d
+where e.deptno=d.deptno;
+
+= so it called as equi join
+>
+<>
+
+non equi join
+ename,sal,grade
+
+select e.ename,e.sal,s.grade
+from emp e,salgrade s
+where e.sal between s.losal and s.hisal;
+
+select e.ename,e.sal,s.grade
+from emp e
+join salgrade s
+on e.sal between s.losal and s.hisal;
+
+self join 
+ -data fetched is from same table
+
+display empno,ename,mgr,manager_name
+
+select e.empno,e.ename,e.mgr,m.ename manager
+from emp e
+join emp m
+on e.mgr=m.empno;
+
+e
+----
+empno ename  mrg
+111   smith  113
+112   miller 111
+113   allen  112
+
+m
+----
+empno  ename  mrg
+111    smith  113
+112    miller 111
+113    allen  112
+
+select e.empno,e.ename,e.mrg,m.ename
+from emp e
+join emp m
+on e.mgr=m.empno;
+
+product(pid,pname,sid)
+
+create table product
+(pid int,
+ pname varchar(15),
+ sid int
+);
+
+insert into product
+values(1,'oil',2),
+       (2,'sugar',4),
+       (3,'lays',1),
+       (4,'salt',3);
+
+pid,pname,sid,sname
+
+select p.pid,p.pname,p.sid,s.pname
+from product p
+join product s
+on p.sid=s.pid;
+
+outer join
+----------
+--give common data+left data/rt data
+
+Left join
+comm+extra date from left table
+
+select e.empno,e.ename,e.deptno,d.dname
+from emp e
+left join dept d
+on e.deptno = d.deptno;
+
+Right join
+comm+extra fro rt table
+
+select e.empno,e.ename,e.deptno,d.deptno,d.dname
+from emp e
+right join dept d
+on e.deptno = d.deptno;
+
+full outer join
+comm+extra fro rt table+extra date from left table
+
+select e.empno,e.ename,e.deptno,d.deptno,d.dname
+from emp e
+left join dept d
+on e.deptno = d.deptno 
+union  
+select e.empno,e.ename,e.deptno,d.deptno,d.dname
+from emp e
+right join dept d
+on e.deptno = d.deptno;
+
+
+Views in database
+================
+emp(eno,ename,deptno,sal,comm,hiredate,adh_no,project_no,incentives,exp)
+virtual tables
+
+syntax
+
+create view view_name
+as
+  select query;
+
+
+
+
+
+

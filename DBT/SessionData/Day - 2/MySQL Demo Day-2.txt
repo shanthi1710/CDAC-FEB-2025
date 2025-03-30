@@ -1,0 +1,399 @@
+-operators
+- ifnull
+-distinct
+-order by
+-copy table
+-case statement
+-regular expression
+
+
+
+is not in between..and
+mysql> describe emp;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| EMPNO    | int          | NO   |     | NULL    |       |
+| ENAME    | varchar(12)  | YES  |     | NULL    |       |
+| JOB      | varchar(9)   | YES  |     | NULL    |       |
+| MGR      | int          | YES  |     | NULL    |       |
+| HIREDATE | date         | YES  |     | NULL    |       |
+| SAL      | decimal(7,2) | YES  |     | NULL    |       |
+| COMM     | decimal(7,2) | YES  |     | NULL    |       |
+| DEPTNO   | int          | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+
+display emps earning sal betw 1600 and 3000
+select *
+from emp
+where sal >=1600 and sal<=3000;
+
+
+select ename,sal,deptno
+from emp
+where sal between 1600 and 3000;
+
+IN operator
+------------
+disp emps who are analyst or salesman
+select ename,job,deptno
+from emp
+where job='analyst' or job='salesman' or job='manager';
+
+select ename,job,deptno
+from emp
+where job IN('analyst','salesman','manager');
+
+select ename,sal
+from emp
+where sal in(1600,3000,5000);
+
+select ename,sal
+from emp
+where sal between 1600 and 5000;
+
+
+NOT operator
+-----------
+select ename,sal
+from emp
+where sal not in(1600,3000,5000);
+
+select ename,sal
+from emp
+where sal not between 1600 and 5000;
+
+IS operator
+-----------
+used with null values
+ null means no value in the column
+
+disp all ems with null comm
+select ename,sal,comm
+from emp
+where comm=null; dose not work
+
+select ename,sal,comm
+from emp
+where comm is null;
+
+disp all ems earning comm
+select ename,sal,comm
+from emp
+where comm is not null;
+
+select ename,sal,comm
+from emp
+where comm is not null and comm<>0;
+
+LIKE operator
+-------------
+used for pattern matching
+% multiple characters
+_ single character
+
+disp all emps whose name start with J
+select ename
+from emp
+where ename like 'J%';
+
+select ename
+from emp
+where ename not like 'J%';
+
+ending with r
+select ename
+from emp
+where ename like '%r';
+
+a in between
+select ename
+from emp
+where ename like '%a%';
+
+names with 4 letters
+select ename
+from emp
+where ename like '____';
+
+---------------------------------------------
+regular expressions
+regexp_like(column_name,'pattern')
+^ beginning letter
+[] set of letters
+. single letter
+.* multiple letters
+| or operator in regexp
+$ last letter
+
+disp all name starting with a
+select ename,sal 
+from emp
+where regexp_like(ename,'^a.*');
+
+disp all name starting with a and ending with s
+select ename,sal 
+from emp
+where regexp_like(ename,'^a.*s$');
+
+disp all name starting with a or m or f and ending with s
+select ename,sal 
+from emp
+where regexp_like(ename,'^[amf].*');
+
+disp all name starting with a or m or f and ending with s
+and ending with n
+select ename,sal 
+from emp
+where regexp_like(ename,'^[amf].*n$');
+
+not starting with amf
+select ename,sal 
+from emp
+where regexp_like(ename,'^[^amf].*');
+
+mysql> select ename,sal
+    -> from emp
+    -> where regexp_like(ename,'^[^amf].*');
++--------+---------+
+| ename  | sal     |
++--------+---------+
+| SMITH  |  800.00 |
+| WARD   | 1250.00 |
+| JONES  | 2975.00 |
+| BLAKE  | 2850.00 |
+| CLARK  | 2450.00 |
+| SCOTT  | 3000.00 |
+| KING   | 5000.00 |
+| TURNER | 1500.00 |
+| JAMES  |  950.00 |
++--------+---------+
+9 rows in set (0.00 sec)
+
+names staeting with a and ending with s or starting with f and ending with d or starting with j and ending with s
+
+select ename,sal 
+from emp
+where regexp_like(ename,'^a.*s$|^f.*d$|^j.*s$');
+
+n in between
+select ename,sal 
+from emp
+where regexp_like(ename,'^.*n.*$');
+
+l at third pos
+select ename,sal 
+from emp
+where regexp_like(ename,'^..l.*');
+
+select ename,sal 
+from emp
+where regexp_like(ename,'^.*[^n]$');
+
+not ending with n
+mysql> select ename,sal
+    -> from emp
+    -> where regexp_like(ename,'^.*[^n]$');
++--------+---------+
+| ename  | sal     |
++--------+---------+
+| SMITH  |  800.00 |
+| WARD   | 1250.00 |
+| JONES  | 2975.00 |
+| BLAKE  | 2850.00 |
+| CLARK  | 2450.00 |
+| SCOTT  | 3000.00 |
+| KING   | 5000.00 |
+| TURNER | 1500.00 |
+| ADAMS  | 1100.00 |
+| JAMES  |  950.00 |
+| FORD   | 3000.00 |
+| MILLER | 1300.00 |
++--------+---------+
+12 rows in set (0.00 sec)
+
+column heading in MySQL
+---------------------
+select ename "Employee Name", sal Salary, comm as Commission, deptno as "Department No"
+from emp
+where deptno=10;
+
+mysql> select ename "Employee Name", sal Salary, comm as Commission, deptno as "Department No"
+    -> from emp
+    -> where deptno=10;
++---------------+---------+------------+---------------+
+| Employee Name | Salary  | Commission | Department No |
++---------------+---------+------------+---------------+
+| CLARK         | 2450.00 |       NULL |            10 |
+| KING          | 5000.00 |       NULL |            10 |
+| MILLER        | 1300.00 |       NULL |            10 |
++---------------+---------+------------+---------------+
+3 rows in set (0.00 sec)
+
+operators in select
+-------------------
+select ename,deptno,job,sal,sal+5000 "Total Sal"
+from emp
+where job='clerk';
+
+2% inc to managers
+select ename,sal,sal*1.02 "Increment"
+from emp
+where job='manager';
+------
+case statement
+
+inc sal manger =2%, clk =5%, analyst =6%
+
+select ename,sal,job,case  job when 'manager' then sal*1.02
+                          when 'clerk' then sal*1.05
+                          when 'analyst' then sal*1.06
+                      else 'no inc'  
+                 end "increment"
+from emp;
+
+
+if comm >1000 best performance
+comm <=1000 and comm >500 good performance
+comm <=500 must perform
+else must improve
+
+select ename,sal,comm,case when comm>1000 then 'best'              when comm<=1000 and comm>500 then 'good'
+when comm<=500 then "must perform"
+else 'must improve'
+end "Remark"
+from emp;
+ 
+------------------
+copy table
+
+create table new_table_name
+as
+  select column_list 
+  from table_name;
+
+create table new_emp
+as
+   select * 
+   from emp;
+
+create table new_emp2
+as
+  select ename,sal,deptno
+  from emp;
+
+create table new_emp3
+as 
+  select * 
+  from emp
+  where 3 =2;
+ 
+------------------------------------
+ifnull()
+
+ifnull(column,value to be replaced)
+
+select ename,sal,comm,sal+comm
+from emp;
+
+select ename,sal,comm,sal+ifnull(comm,0)
+from emp;
+
+select ename,sal,comm,sal+ifnull(comm,500) "Total Salary"
+from emp;
+-------------------------------
+distinct
+used to supress duplicate data
+
+mysql> select distinct deptno from emp;
++--------+
+| deptno |
++--------+
+|     20 |
+|     30 |
+|     10 |
++--------+
+3 rows in set (0.00 sec)
+
+select distinct deptno,job
+from emp;
+ 
+----------------------------------------- 
+sorting 
+order by caluse
+default asc
+
+SELECT column_list --------------7
+FROM table ----------------1
+[WHERE condi on column---------2
+GROUP BY column_name-----------------3
+HAVING condition on aggregate function------4
+ORDER BY column_name -------5
+LIMIT int value];-------6
+
+select ename,sal
+from emp
+order by sal;
+
+select ename,sal
+from emp
+order by sal desc;
+
+select ename,job
+from emp
+order by job;
+
+select ename,job,sal
+from emp
+order by job,sal;
+
+select ename,job,sal
+from emp
+order by job,sal desc;
+
+
+-----------------------------------------
+limit
+
+select ename,sal,deptno
+from emp
+limit 5;
+
+select ename,sal,deptno
+from emp
+order by sal desc
+limit 3;
+
+select ename,sal,deptno
+from emp
+limit 3 offset 2;
+
+select ename,sal,deptno
+from emp
+limit 4 offset 7;
+
+select ename,sal,deptno
+from emp
+limit 4,7;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,672 @@
+-ACID properties
+-Group by clause
+-autocommit
+-subquery
+-correlated query
+-Index
+
+
+Read :: data redundancy, inconsistency, integrity, ACID properties
+
+emp(eno,ename,deptno,dname)
+
+7777 smith 10 sales
+6754 martin 60
+
+dept(deptno,dname)
+
+10	R&D
+20 	sales
+
+A : Atomicity 
+either entire tran takes place or nothing
+
+A    			b
+5000	->		3000             ------ 8000
+------			-------
+1. read amt from A      read amt from B
+2. sub 1000 from A      Add 1000 to B's acc
+3. update amt in A      update in B
+ 
+4000			4000            --------- 8000
+
+C: consistency
+data repflected in all the tables should be same
+
+t1(cid fees tid)
+t1(cid cname fees duration) 
+
+I: isolation
+Data isolation implies that the changes made by any transaction will not be reflected unless entire transaction is completed successfully and other transactions are kep aside.
+
+D:durability
+Last successful transaction should be reflected even if the system fails
+
+Group By clause
+---------------
+
+select column list
+from table list
+where condi on column
+group by column
+having condi on agg fun
+order by column/agg fun asc/desc
+limit int;
+
+used to group the data
+
+select sum(sal)
+from emp;
+
+all rows in the table will be considered
+
+
+select sum(sal)
+from emp
+where deptno=10;
+
+all rows with dept 10 will be considered
+
+e1 10
+e2 20
+e3 10
+e4 30
+e5 60
+e6 20
+
+select sum(sal)
+from emp
+group by deptno;
+
+select deptno,sum(sal)
+from emp
+group by deptno;
+
+mysql> select deptno,sum(sal)
+    -> from emp
+    -> group by deptno;
++--------+----------+
+| deptno | sum(sal) |
++--------+----------+
+|     20 | 10875.00 |
+|     30 |  9400.00 |
+|     10 |  8750.00 |
++--------+----------+
+3 rows in set (0.00 sec)
+
+select job,avg(sal)
+from emp
+group by job;
+
+mysql> select job,avg(sal)
+    -> from emp
+    -> group by job;
++-----------+-------------+
+| job       | avg(sal)    |
++-----------+-------------+
+| CLERK     | 1037.500000 |
+| SALESMAN  | 1400.000000 |
+| MANAGER   | 2758.333333 |
+| ANALYST   | 3000.000000 |
+| PRESIDENT | 5000.000000 |
++-----------+-------------+
+5 rows in set (0.00 sec)
+
+select deptno,avg(sal)
+from emp
+group by job;
+
+max sal for each job
+select job,max(sal)
+from emp
+group by job;
+mysql> select job,max(sal)
+    -> from emp
+    -> group by job;
++-----------+----------+
+| job       | max(sal) |
++-----------+----------+
+| CLERK     |  1300.00 |
+| SALESMAN  |  1600.00 |
+| MANAGER   |  2975.00 |
+| ANALYST   |  3000.00 |
+| PRESIDENT |  5000.00 |
++-----------+----------+
+5 rows in set (0.00 sec)
+
+select job,count(*)
+from emp
+group by job;
+
+
+mysql> select job,count(*),max(sal),min(sal),avg(sal),sum(sal)
+    -> from emp
+    -> group by job;
++-----------+----------+----------+----------+-------------+----------+
+| job       | count(*) | max(sal) | min(sal) | avg(sal)    | sum(sal) |
++-----------+----------+----------+----------+-------------+----------+
+| CLERK     |        4 |  1300.00 |   800.00 | 1037.500000 |  4150.00 |
+| SALESMAN  |        4 |  1600.00 |  1250.00 | 1400.000000 |  5600.00 |
+| MANAGER   |        3 |  2975.00 |  2450.00 | 2758.333333 |  8275.00 |
+| ANALYST   |        2 |  3000.00 |  3000.00 | 3000.000000 |  6000.00 |
+| PRESIDENT |        1 |  5000.00 |  5000.00 | 5000.000000 |  5000.00 |
++-----------+----------+----------+----------+-------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select job,count(*),max(sal),min(sal),avg(sal),sum(sal)
+    -> from emp
+    -> group by job
+    -> order by job;
++-----------+----------+----------+----------+-------------+----------+
+| job       | count(*) | max(sal) | min(sal) | avg(sal)    | sum(sal) |
++-----------+----------+----------+----------+-------------+----------+
+| ANALYST   |        2 |  3000.00 |  3000.00 | 3000.000000 |  6000.00 |
+| CLERK     |        4 |  1300.00 |   800.00 | 1037.500000 |  4150.00 |
+| MANAGER   |        3 |  2975.00 |  2450.00 | 2758.333333 |  8275.00 |
+| PRESIDENT |        1 |  5000.00 |  5000.00 | 5000.000000 |  5000.00 |
+| SALESMAN  |        4 |  1600.00 |  1250.00 | 1400.000000 |  5600.00 |
++-----------+----------+----------+----------+-------------+----------+
+5 rows in set (0.00 sec)
+
+
+select job,count(*),max(sal),min(sal),avg(sal),sum(sal)
+from emp
+group by job
+order by count(*);
+
+mysql> select job,count(*),max(sal),min(sal),avg(sal),sum(sal)
+    -> from emp
+    -> group by job
+    -> order by count(*);
++-----------+----------+----------+----------+-------------+----------+
+| job       | count(*) | max(sal) | min(sal) | avg(sal)    | sum(sal) |
++-----------+----------+----------+----------+-------------+----------+
+| PRESIDENT |        1 |  5000.00 |  5000.00 | 5000.000000 |  5000.00 |
+| ANALYST   |        2 |  3000.00 |  3000.00 | 3000.000000 |  6000.00 |
+| MANAGER   |        3 |  2975.00 |  2450.00 | 2758.333333 |  8275.00 |
+| CLERK     |        4 |  1300.00 |   800.00 | 1037.500000 |  4150.00 |
+| SALESMAN  |        4 |  1600.00 |  1250.00 | 1400.000000 |  5600.00 |
++-----------+----------+----------+----------+-------------+----------+
+5 rows in set (0.00 sec)
+
+having----is used if condition is on aggregate function
+where-----is used if condition is on th column of the table
+
+display all jobs with avg(sal)>2500
+
+select job,avg(sal)
+from emp
+group by job
+having avg(sal)>2500;
+
+display all jobs if no of employees is more than 2
+
+select job,count(*)
+from emp
+group by job
+having count(*)>2;
+
+select job,count(*)
+from emp
+group by job
+having count(*)>2
+order by count(*);
+
+select count(*)
+from emp;
+
+display all depts if no of employees in the dept is more than 3
+
+select deptno,count(*)
+from emp
+group by deptno
+having count(*)>3;
+ 
+diplay count of all jobs for deptno 20
+
+select job,count(*)
+from emp
+where deptno=20
+group by job;
+
+mysql> select job,count(*)
+    -> from emp
+    -> where deptno=20
+    -> group by job;
++---------+----------+
+| job     | count(*) |
++---------+----------+
+| CLERK   |        2 |
+| MANAGER |        1 |
+| ANALYST |        2 |
++---------+----------+
+3 rows in set (0.00 sec)
+
+
+diplay count of all jobs for deptno 20 if count of job is >1
+
+select job,count(*)
+from emp 
+where deptno=20
+group by job
+having count(*)>1;
+
+
+mysql> select job,count(*)
+    -> from emp
+    -> where deptno=20
+    -> group by job
+    -> having count(*)>1;
++---------+----------+
+| job     | count(*) |
++---------+----------+
+| CLERK   |        2 |
+| ANALYST |        2 |
++---------+----------+
+2 rows in set (0.00 sec)
+
+select avg(sal),deptno,job
+from emp
+where deptno=20
+group by job;
+
+mysql> select avg(sal),deptno,job
+    -> from emp
+    -> where deptno=20
+    -> group by job;
++-------------+--------+---------+
+| avg(sal)    | deptno | job     |
++-------------+--------+---------+
+|  950.000000 |     20 | CLERK   |
+| 2975.000000 |     20 | MANAGER |
+| 3000.000000 |     20 | ANALYST |
++-------------+--------+---------+
+3 rows in set (0.00 sec)
+ 
+Transaction Control Language(TCL)
+----------------------------------
+autocommit
+commit
+rollback
+savepoint
+
+
+set autocommit=0
+
+commit---commit the data, writes the data on harddisk to make it permanemt
+ram-->hd
+committed transactions cannot be rolled backed
+
+rollback
+will rollback all transactions from RAM.
+all transactions which are not committed can be rolled backed.
+
+savepoint A;
+insert into emp(empno,ename)
+values(3333,'Smita');
+insert into emp(empno,ename)
+values(4444,'Geeta');
+savepoint B;
+delete from emp where empno=2222;
+savepoint C;
+update emp
+set job='manager'
+where empno=1111;
+
+rollback to C;
+
+*we can rollback only DML commands
+
+insert update delete
+
+insert into emp(empno,ename)
+values(5555,'Sumit');
+insert into emp(empno,ename)
+values(6666,'RAmesh');
+
+create table new
+(no int);
+
+DDL
+create, alter, drop, truncate
+
+*any DDL command will commit all DML commands
+
+
+Subquery
+-------
+-nested query
+-inner query will execute first
+-queries are independent of eachother
+-execution of query is bottom -up approach
+
+create table trial ------- outer query
+as
+  select * from emp; ------- inner query
+
+subquery to insert the data
+----------------------------
+insert into empTemp
+  (
+     select empno,ename,sal
+     from emp
+     where deptno =20
+  );
+
+empTemp is already existing
+
+display deptno for smith
+select deptno
+from emp
+where ename='smith';
+
+
+Single Row Subquery
+--------------------
+inner query will always fetch a single row
+
+
+display all employes working in smith's dept
+
+select ename,deptno
+from emp
+where deptno=(select deptno    
+              from emp
+              where ename='smith');
+
+mysql> select ename,deptno
+    -> from emp
+    -> where deptno=(select deptno
+    ->               from emp
+    ->               where ename='smith');
++-------+--------+
+| ename | deptno |
++-------+--------+
+| SMITH |     20 |
+| JONES |     20 |
+| SCOTT |     20 |
+| ADAMS |     20 |
+| FORD  |     20 |
++-------+--------+
+5 rows in set (0.00 sec)
+ 
+display all employees earning more than Jones
+select * 
+from emp
+where sal>(select sal
+           from emp 
+           where ename='Jones');
+
+display all employees working in research dept
+select * 
+from emp
+where deptno=(select deptno
+	     from dept
+             where dname='research');
+
+
+display all employees earning more than Allen and less than scott
+
+select * 
+from emp
+where sal>(select sal 
+           from emp 
+           where ename='Allen') and
+      sal<(select sal 
+           from emp 
+           where ename='Scott')
+    -> ;
++-------+-------+---------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+---------+------+------------+---------+------+--------+
+|  7566 | JONES | MANAGER | 7839 | 1981-04-02 | 2975.00 | NULL |     20 |
+|  7698 | BLAKE | MANAGER | 7839 | 1981-05-01 | 2850.00 | NULL |     30 |
+|  7782 | CLARK | MANAGER | 7839 | 1981-06-09 | 2450.00 | NULL |     10 |
++-------+-------+---------+------+------------+---------+------+--------+
+3 rows in set (0.00 sec)
+
+
+select * 
+from emp
+where sal between(select sal 
+                  from emp 
+                  where ename='Allen') and
+                  (select sal 
+                   from emp 
+                   where ename='Scott');
++-------+-------+----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME | JOB      | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+-------+----------+------+------------+---------+--------+--------+
+|  7499 | ALLEN | SALESMAN | 7698 | 1981-02-20 | 1600.00 | 300.00 |     30 |
+|  7566 | JONES | MANAGER  | 7839 | 1981-04-02 | 2975.00 |   NULL |     20 |
+|  7698 | BLAKE | MANAGER  | 7839 | 1981-05-01 | 2850.00 |   NULL |     30 |
+|  7782 | CLARK | MANAGER  | 7839 | 1981-06-09 | 2450.00 |   NULL |     10 |
+|  7788 | SCOTT | ANALYST  | 7566 | 1982-12-09 | 3000.00 |   NULL |     20 |
+|  7902 | FORD  | ANALYST  | 7566 | 1981-12-03 | 3000.00 |   NULL |     20 |
++-------+-------+----------+------+------------+---------+--------+--------+
+
+multi row subquery
+------------------
+inner query returns multiple rows
+
+operators ---- any all
+>any
+<any
+>all
+<all
+=any
+=all
+
+
+disp all emp earning same as scott or martin
+
+select *
+from emp
+where sal=(select sal 
+           from emp
+           where ename in ('scott','martin'));
+ERROR 1242 (21000): Subquery returns more than 1 row
+
+select *
+from emp
+where sal=any(select sal 
+           from emp
+           where ename in ('scott','martin'));
+
++-------+--------+----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+----------+------+------------+---------+---------+--------+
+|  7521 | WARD   | SALESMAN | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7788 | SCOTT  | ANALYST  | 7566 | 1982-12-09 | 3000.00 |    NULL |     20 |
+|  7902 | FORD   | ANALYST  | 7566 | 1981-12-03 | 3000.00 |    NULL |     20 |
++-------+--------+----------+------+------------+---------+---------+--------+
+4 rows in set (0.00 sec)
+
+
+select *
+from emp
+where sal in (select sal 
+           from emp
+           where ename in ('scott','martin'));
+
++-------+--------+----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+----------+------+------------+---------+---------+--------+
+|  7521 | WARD   | SALESMAN | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7788 | SCOTT  | ANALYST  | 7566 | 1982-12-09 | 3000.00 |    NULL |     20 |
+|  7902 | FORD   | ANALYST  | 7566 | 1981-12-03 | 3000.00 |    NULL |     20 |
++-------+--------+----------+------+------------+---------+---------+--------+
+4 rows in set (0.00 sec)
+
+select *
+from emp
+where sal not in (select sal 
+           from emp
+           where ename in ('scott','martin'));
+
++-------+--------+-----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+--------+-----------+------+------------+---------+--------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800.00 |   NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600.00 | 300.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975.00 |   NULL |     20 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 |   NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 |   NULL |     10 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |   NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 |   0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1100.00 |   NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 |   NULL |     30 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 |   NULL |     10 |
++-------+--------+-----------+------+------------+---------+--------+--------+
+10 rows in set (0.00 sec)
+
+>any
+-----
+select *
+from emp
+where sal >any(select sal 
+           from emp
+           where ename in ('scott','martin'));
+
+
+select *
+from emp
+where sal >all(select sal 
+           from emp
+           where ename in ('scott','martin'));
+
+
+display all employees to whom  deptno is allocated
+emp(10,20,30,50)
+dept(10,20,30,40)
+
+select *
+from emp 
+where deptno in(select deptno
+                from dept);
+
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3000.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1100.00 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+14 rows in set (0.00 sec)
+select *
+from emp 
+where deptno not in(select deptno
+                    from dept);
+
++-------+-------+------+------+----------+------+------+--------+
+| EMPNO | ENAME | JOB  | MGR  | HIREDATE | SAL  | COMM | DEPTNO |
++-------+-------+------+------+----------+------+------+--------+
+|  1111 | Amit  | NULL | NULL | NULL     | NULL | NULL |     50 |
++-------+-------+------+------+----------+------+------+--------+
+1 row in set (0.00 sec)
+
+display depts to which emps are not assigned
+select * 
+from dept
+where deptno not in (select deptno
+from emp
+where deptno is not null);
+
+delete using subquery
+----------------------
+delete all employees working in smith's dept 
+
+delete
+from new_emp2
+where deptno=(select deptno
+              from new_emp2
+	      where ename='smith');
+
+ERROR 1093 (HY000): You can't specify target table 'new_emp2' for update in FROM clause
+
+dose not allow read/write operations simultaneously to be performrd
+
+solution
+delete 
+from new_emp2
+where deptno=(select deptno
+              from(select deptno
+                   from new_emp2
+                   where ename='smith') x
+             );
+
+
+
+update subquery
+----------------
+change deptno of all emps to allen's dept
+
+update new_emp2
+set deptno = (select deptno
+              from new_emp2
+	      where ename='allen');
+
+ERROR 1093 (HY000): You can't specify target table 'new_emp2' for update in FROM clause
+
+dose not allow read/write operations simultaneously to be performrd
+
+solution
+ update new_emp2
+ set deptno=(select deptno
+             from(select deptno
+                  from new_emp2
+	          where ename='allen')tmp
+            );
+===============================================
+ 
+
+ 
+
+ 
+
+  
+
+ 
+ 
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

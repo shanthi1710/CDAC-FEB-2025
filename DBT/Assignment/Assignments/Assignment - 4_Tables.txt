@@ -1,0 +1,44 @@
+Constraints in RDBMS
+
+1. Create new table dept100 having same structure and data as that of dept table.
+1.Create new table emp100 having same structure and data as that of emp table.
+
+2.Add primary key constraint on deptno for dept100 table.
+
+3.Add primary key constraint on empno for emp100 table. Check structure of both the tables.
+ 
+
+================================================================================================
+2. Create following tables for given schema. Apply constraints as mentioned in the schema.
+trainer(tid PK, tname not null , cid fk, salary default 20000,experience in years check >10 )
+tid     tname            cid        salary      experience
+----------------------------------------------------------------
+t1      Amit             c2          your   own   data 
+t2      Rajan            c1          your   own   data  
+t3      Shruti           c2          your   own   data
+t4      Arti             c2          your   own   data 
+t5      Sameer           c3          your   own   data 
+t6      Sanjay           null        your   own   data 
+t7      Soha             null        your   own   data	
+
+Use  on  delete set null clause on cid while creating table.
+
+course(cid pk, cname unique not null, fees default500)
+
+cid         cname                         fees
+----------------------------------------------------      
+ c1          Core                         7000 
+ c2          Linux                        8000 
+ c3          Data Structure              10000 
+ c4          Python                      12000    
+ c5          Dot Net                       null
+
+Try adding following data in the trainer table
+ (t2,'Mahesh',null,16000,12)
+ (t8,'Meena',c3,25000,11)
+ (t9,null,c2,30000,10)
+ (t10,'Soham',c2,35000,8)
+ (t11,'Anil',c3,null,11)
+Try on delete set null.
+Drop table trainer and create it again with on delete cascade clause
+Try on delete  cascade on trainer table.

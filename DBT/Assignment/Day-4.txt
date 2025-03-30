@@ -1,0 +1,413 @@
+Assignment – 4
+---------------------------------------------------------------------------------------------------------------------------
+1. Display tid,custid,customer name and buy_price.
+mysql> select cv.tid,cv.custid,c.cname,cv.buy_price
+    -> from cust_vehicle cv, customer c
+    -> where cv.custid = c.custid;
++-----+--------+--------+-----------+
+| tid | custid | cname  | buy_price |
++-----+--------+--------+-----------+
+|   1 |      1 | Ganesh |  75000.00 |
+|   2 |      1 | Ganesh |  79000.00 |
+|   3 |      2 | Kishor |  80000.00 |
+|   4 |      3 | Geeta  |  75000.00 |
+|   5 |      3 | Geeta  |  80000.00 |
++-----+--------+--------+-----------+
+5 rows in set (0.00 sec)
+
+2.Display tid,custid,customer name,vid,vehicle name, sid, salesmen name and buy_price for vehicle.
+mysql> select cv.tid, cv.custid, cv.sid, cv.vid, cv.buy_price,
+    ->          c.cname,
+    ->          v.vname,
+    ->          s.sname
+    -> from cust_vehicle cv, customer c, vehicle v, salesman s
+    -> where cv.custid=c.custid and
+    ->          cv.sid=s.sid and
+    ->          cv.vid=v.vid;
++-----+--------+------+------+-----------+--------+--------+--------+
+| tid | custid | sid  | vid  | buy_price | cname  | vname  | sname  |
++-----+--------+------+------+-----------+--------+--------+--------+
+|   1 |      1 |   10 |    1 |  75000.00 | Ganesh | Activa | Rajesh |
+|   2 |      1 |   10 |    2 |  79000.00 | Ganesh | Santro | Rajesh |
+|   5 |      3 |   10 |    2 |  80000.00 | Geeta  | Santro | Rajesh |
+|   3 |      2 |   11 |    3 |  80000.00 | Kishor | Yamaha | Seema  |
+|   4 |      3 |   11 |    3 |  75000.00 | Geeta  | Yamaha | Seema  |
++-----+--------+------+------+-----------+--------+--------+--------+
+5 rows in set (0.00 sec)
+
+Consider emp, dept and salgrade tables to answer following queries.
+
+1.List details of employees as ename,deptno,dname,sal,comm. 
+mysql> select e.ename,e.sal,e.comm,d.deptno,d.dname
+    -> from emp e, dept d
+    -> where e.deptno=d.deptno;
++--------+---------+---------+--------+------------+
+| ename  | sal     | comm    | deptno | dname      |
++--------+---------+---------+--------+------------+
+| CLARK  | 2450.00 |    NULL |     10 | ACCOUNTING |
+| KING   | 5000.00 |    NULL |     10 | ACCOUNTING |
+| MILLER | 1300.00 |    NULL |     10 | ACCOUNTING |
+| SMITH  |  800.00 |    NULL |     20 | RESEARCH   |
+| JONES  | 2975.00 |    NULL |     20 | RESEARCH   |
+| SCOTT  | 3000.00 |    NULL |     20 | RESEARCH   |
+| ADAMS  | 1100.00 |    NULL |     20 | RESEARCH   |
+| FORD   | 3000.00 |    NULL |     20 | RESEARCH   |
+| ALLEN  | 1600.00 |  300.00 |     30 | SALES      |
+| WARD   | 1250.00 |  500.00 |     30 | SALES      |
+| MARTIN | 1250.00 | 1400.00 |     30 | SALES      |
+| BLAKE  | 2850.00 |    NULL |     30 | SALES      |
+| TURNER | 1500.00 |    0.00 |     30 | SALES      |
+| JAMES  |  950.00 |    NULL |     30 | SALES      |
++--------+---------+---------+--------+------------+
+14 rows in set (0.00 sec)
+
+2. Display details of employees as empno,ename,sal,job, deptno and dept name for all employees working as a clerk or salesman and earning more than 2000 .
+mysql> select e.empno,e.ename,e.sal,e.job,e.deptno,d.dname
+    -> from emp e, dept d
+    -> where job in('clerk','salesman') and sal>=1000 and e.deptno = d.deptno;
++-------+--------+---------+----------+--------+------------+
+| empno | ename  | sal     | job      | deptno | dname      |
++-------+--------+---------+----------+--------+------------+
+|  7934 | MILLER | 1501.50 | CLERK    |     10 | ACCOUNTING |
+|  7876 | ADAMS  | 1270.50 | CLERK    |     20 | RESEARCH   |
+|  7900 | JAMES  | 1097.25 | CLERK    |     30 | SALES      |
+|  7844 | TURNER | 1732.50 | SALESMAN |     30 | SALES      |
+|  7654 | MARTIN | 1443.75 | SALESMAN |     30 | SALES      |
+|  7521 | WARD   | 1443.75 | SALESMAN |     30 | SALES      |
+|  7499 | ALLEN  | 1848.00 | SALESMAN |     30 | SALES      |
++-------+--------+---------+----------+--------+------------+
+7 rows in set (0.00 sec)
+
+3. List details of employees as ename,deptno,dname,sal,comm working in dept 20 and 30 who did not get any commission.   
+mysql> select e.ename, d.deptno, e.sal, e.comm,
+    ->          d.dname
+    -> from emp e, dept d
+    -> where e.deptno = d.deptno
+    ->  and d.deptno in (20,30)
+    ->  and (e.comm is null or e.comm=0);
++--------+--------+---------+------+----------+
+| ename  | deptno | sal     | comm | dname    |
++--------+--------+---------+------+----------+
+| SMITH  |     20 |  800.00 | NULL | RESEARCH |
+| JONES  |     20 | 2975.00 | NULL | RESEARCH |
+| BLAKE  |     30 | 2850.00 | NULL | SALES    |
+| SCOTT  |     20 | 3000.00 | NULL | RESEARCH |
+| TURNER |     30 | 1500.00 | 0.00 | SALES    |
+| ADAMS  |     20 | 1100.00 | NULL | RESEARCH |
+| JAMES  |     30 |  950.00 | NULL | SALES    |
+| FORD   |     20 | 3000.00 | NULL | RESEARCH |
++--------+--------+---------+------+----------+
+8 rows in set (0.00 sec)
+
+4. Display ename,sal and grade of employee(use salgrade table).
+mysql> select e.ename,e.sal,s.grade
+    -> from emp e, salgrade s
+    -> where e.sal between s.losal and s.hisal;
++--------+---------+-------+
+| ename  | sal     | grade |
++--------+---------+-------+
+| SMITH  |  924.00 |     1 |
+| ALLEN  | 1848.00 |     3 |
+| WARD   | 1443.75 |     3 |
+| JONES  | 3272.50 |     5 |
+| MARTIN | 1443.75 |     3 |
+| BLAKE  | 3135.00 |     5 |
+| CLARK  | 2695.00 |     4 |
+| SCOTT  | 3300.00 |     5 |
+| KING   | 5500.00 |     5 |
+| TURNER | 1732.50 |     3 |
+| ADAMS  | 1270.50 |     2 |
+| JAMES  | 1097.25 |     1 |
+| FORD   | 3300.00 |     5 |
+| MILLER | 1501.50 |     3 |
++--------+---------+-------+
+14 rows in set (0.00 sec)
+
+5. Display the information of department i.e deptno, dname and loc in which clerks are working. 
+mysql> select d.deptno,d.dname,d.loc
+    -> from dept d, emp e
+    -> where e.deptno=d.deptno and e.job='clerk';
++--------+------------+----------+
+| deptno | dname      | loc      |
++--------+------------+----------+
+|     10 | ACCOUNTING | NEW YORK |
+|     20 | RESEARCH   | DALLAS   |
+|     20 | RESEARCH   | DALLAS   |
+|     30 | SALES      | CHICAGO  |
++--------+------------+----------+
+4 rows in set (0.00 sec)
+
+6. Try out all set operators as per the demo
+mysql> SELECT FIRST_NAME, LAST_NAME, DEPARTMENT
+    -> FROM EMPLOYEES
+    -> UNION
+    -> SELECT FIRST_NAME, LAST_NAME, DEPARTMENT
+    -> FROM CONTRACTORS;
++------------+-----------+------------+
+| FIRST_NAME | LAST_NAME | DEPARTMENT |
++------------+-----------+------------+
+| John       | Doe       | HR         |
+| Jane       | Smith     | IT         |
+| Alice      | Johnson   | Finance    |
+| Bob        | Brown     | IT         |
+| Charlie    | Davis     | HR         |
+| Eve        | White     | Marketing  |
+| Frank      | Green     | Finance    |
+| Grace      | Black     | IT         |
++------------+-----------+------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT FIRST_NAME, LAST_NAME, DEPARTMENT
+    -> FROM EMPLOYEES
+    -> UNION ALL
+    -> SELECT FIRST_NAME, LAST_NAME, DEPARTMENT
+    -> FROM CONTRACTORS;
++------------+-----------+------------+
+| FIRST_NAME | LAST_NAME | DEPARTMENT |
++------------+-----------+------------+
+| John       | Doe       | HR         |
+| Jane       | Smith     | IT         |
+| Alice      | Johnson   | Finance    |
+| Bob        | Brown     | IT         |
+| Charlie    | Davis     | HR         |
+| John       | Doe       | HR         |
+| Jane       | Smith     | IT         |
+| Eve        | White     | Marketing  |
+| Frank      | Green     | Finance    |
+| Grace      | Black     | IT         |
++------------+-----------+------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT FIRST_NAME, LAST_NAME, DEPARTMENT
+    -> FROM EMPLOYEES
+    -> INTERSECT
+    -> SELECT FIRST_NAME, LAST_NAME, DEPARTMENT
+    -> FROM CONTRACTORS;
++------------+-----------+------------+
+| FIRST_NAME | LAST_NAME | DEPARTMENT |
++------------+-----------+------------+
+| John       | Doe       | HR         |
+| Jane       | Smith     | IT         |
++------------+-----------+------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT FIRST_NAME, LAST_NAME, DEPARTMENT
+    -> FROM EMPLOYEES
+    -> EXCEPT
+    -> SELECT FIRST_NAME, LAST_NAME, DEPARTMENT
+    -> FROM CONTRACTORS;
++------------+-----------+------------+
+| FIRST_NAME | LAST_NAME | DEPARTMENT |
++------------+-----------+------------+
+| Alice      | Johnson   | Finance    |
+| Bob        | Brown     | IT         |
+| Charlie    | Davis     | HR         |
++------------+-----------+------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT FIRST_NAME, LAST_NAME, DEPARTMENT
+    -> FROM CONTRACTORS
+    -> EXCEPT
+    -> SELECT FIRST_NAME, LAST_NAME, DEPARTMENT
+    -> FROM EMPLOYEES;
++------------+-----------+------------+
+| FIRST_NAME | LAST_NAME | DEPARTMENT |
++------------+-----------+------------+
+| Eve        | White     | Marketing  |
+| Frank      | Green     | Finance    |
+| Grace      | Black     | IT         |
++------------+-----------+------------+
+3 rows in set (0.00 sec)
+
+7. Try out on delete set null/ cascade
+    On update set null/cascade
+
+ delete set null :
+mysql> select * from course;
++-----+----------------+-------+
+| CID | CNAME          | FEES  |
++-----+----------------+-------+
+| C1  | CORE           |  7000 |
+| C2  | LINUX          |  8000 |
+| C3  | DATA STRUCTURE | 10000 |
+| C4  | PYTHON         | 12000 |
+| C5  | DOT NET        |  NULL |
++-----+----------------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from trainer;
++-----+--------+------+--------+------------+
+| tid | tname  | cid  | salary | experience |
++-----+--------+------+--------+------------+
+| T1  | AMIT   | C2   |  36476 |         12 |
+| T2  | RAJAN  | C1   |  32106 |         18 |
+| T3  | SHRUTI | C2   | 123636 |         11 |
+| T4  | ARTI   | C2   |  32336 |         13 |
+| T5  | SAMEER | C3   |  53236 |         11 |
+| T7  | SOHA   | NULL |  86236 |         12 |
++-----+--------+------+--------+------------+
+6 rows in set (0.00 sec)
+mysql> delete from course
+    -> where cid ='c2';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from trainer;
++-----+--------+------+--------+------------+
+| tid | tname  | cid  | salary | experience |
++-----+--------+------+--------+------------+
+| T1  | AMIT   | NULL |  36476 |         12 |
+| T2  | RAJAN  | C1   |  32106 |         18 |
+| T3  | SHRUTI | NULL | 123636 |         11 |
+| T4  | ARTI   | NULL |  32336 |         13 |
+| T5  | SAMEER | C3   |  53236 |         11 |
+| T7  | SOHA   | NULL |  86236 |         12 |
++-----+--------+------+--------+------------+
+6 rows in set (0.00 sec)
+
+ delete cascade :
+select * from course;
++-----+----------------+-------+
+| CID | CNAME          | FEES  |
++-----+----------------+-------+
+| C1  | CORE           |  7000 |
+| C3  | DATA STRUCTURE | 10000 |
+| C4  | PYTHON         | 12000 |
+| C5  | DOT NET        |  NULL |
++-----+----------------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from trainer;
++-----+--------+------+--------+------------+
+| tid | tname  | cid  | salary | experience |
++-----+--------+------+--------+------------+
+| T1  | AMIT   | C5   |  36476 |         12 |
+| T2  | RAJAN  | C1   |  32106 |         18 |
+| T3  | SHRUTI | C5   | 123636 |         11 |
+| T4  | ARTI   | C5   |  32336 |         13 |
+| T5  | SAMEER | C3   |  53236 |         11 |
+| T6  | AMIT   | C5   |  36476 |         12 |
+| T7  | SOHA   | NULL |  86236 |         12 |
++-----+--------+------+--------+------------+
+7 rows in set (0.00 sec)
+
+mysql> delete from course
+    -> where cid= 'c5';
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  select * from course;
++-----+----------------+-------+
+| CID | CNAME          | FEES  |
++-----+----------------+-------+
+| C1  | CORE           |  7000 |
+| C3  | DATA STRUCTURE | 10000 |
+| C4  | PYTHON         | 12000 |
++-----+----------------+-------+
+3 rows in set (0.00 sec)
+
+mysql>  select * from trainer;
++-----+--------+------+--------+------------+
+| tid | tname  | cid  | salary | experience |
++-----+--------+------+--------+------------+
+| T2  | RAJAN  | C1   |  32106 |         18 |
+| T5  | SAMEER | C3   |  53236 |         11 |
+| T7  | SOHA   | NULL |  86236 |         12 |
++-----+--------+------+--------+------------+
+3 rows in set (0.00 sec)
+
+Update set null
+mysql> update course
+    -> set cid = 'c6'
+    -> where cid = 'c1';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from course;
++-----+----------------+-------+
+| CID | CNAME          | FEES  |
++-----+----------------+-------+
+| C2  | LINUX          |  8000 |
+| C3  | DATA STRUCTURE | 10000 |
+| C4  | PYTHON         | 12000 |
+| C5  | DOT NET        |  NULL |
+| c6  | CORE           |  7000 |
++-----+----------------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from trainer;
++-----+--------+------+--------+------------+
+| tid | tname  | cid  | salary | experience |
++-----+--------+------+--------+------------+
+| T2  | RAJAN  | NULL |  32106 |         18 |
+| T3  | SHRUTI | C5   | 123636 |         11 |
+| T4  | ARTI   | C5   |  32336 |         13 |
+| T5  | SAMEER | C3   |  53236 |         11 |
+| T6  | AMIT   | C5   |  36476 |         12 |
+| T7  | SOHA   | NULL |  86236 |         12 |
++-----+--------+------+--------+------------+
+6 rows in set (0.00 sec)
+
+Update cascade
+mysql> update course
+    -> set cid = 'c6'
+    -> where cid = 'C1';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from course;
++-----+----------------+-------+
+| CID | CNAME          | FEES  |
++-----+----------------+-------+
+| C2  | LINUX          |  8000 |
+| C3  | DATA STRUCTURE | 10000 |
+| C4  | PYTHON         | 12000 |
+| C5  | DOT NET        |  NULL |
+| c6  | CORE           |  7000 |
++-----+----------------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from trainer;
++-----+--------+------+--------+------------+
+| tid | tname  | cid  | salary | experience |
++-----+--------+------+--------+------------+
+| T2  | RAJAN  | c6   |  32106 |         18 |
+| T3  | SHRUTI | C5   | 123636 |         11 |
+| T4  | ARTI   | C5   |  32336 |         13 |
+| T5  | SAMEER | C3   |  53236 |         11 |
+| T6  | AMIT   | C5   |  36476 |         12 |
+| T7  | SOHA   | NULL |  86236 |         12 |
++-----+--------+------+--------+------------+
+6 rows in set (0.00 sec)
+
+8. Try all the constraints
+mysql> INSERT INTO TRAINER VALUES
+    -> ('T1', 'AMIT', 'C2', 36476, 7);
+ERROR 3819 (HY000): Check constraint 'trainer_chk_1' is violated.
+
+
+mysql> INSERT INTO TRAINER VALUES
+    -> ('T1', NULL, 'C2', 36476, 7);
+ERROR 1048 (23000): Column 'TNAME' cannot be null
+
+
+mysql> INSERT INTO TRAINER VALUES
+    -> ('T8','Vaibhav','C3', DEFAULT,12);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM TRAINER;
++-----+---------+------+--------+------------+
+| TID | TNAME   | CID  | SALARY | EXPERIENCE |
++-----+---------+------+--------+------------+
+| T1  | AMIT    | C2   |  36476 |         12 |
+| T2  | RAJAN   | C1   |  32106 |         18 |
+| T3  | SHRUTI  | C2   | 123636 |         11 |
+| T4  | ARTI    | C2   |  32336 |         13 |
+| T5  | SAMEER  | C3   |  53236 |         11 |
+| T6  | SANJAY  | NULL |  98236 |         19 |
+| T7  | SOHA    | NULL |  86236 |         12 |
+| T8  | Vaibhav | C3   |  20000 |         12 |
++-----+---------+------+--------+------------+
+8 rows in set (0.00 sec)
+
+
+
+

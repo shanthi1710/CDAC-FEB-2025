@@ -1,0 +1,488 @@
+-stored procedure
+-stored functions
+-cursor
+
+ 
+Stored Procedures
+-----------------
+Syntax
+
+CREATE PROCEDURE procedure_name
+BEGIN
+  statement;
+  statement;
+END;
+
+procedure to insert row in emp table
+
+delimiter //
+create procedure insert_row()
+begin
+  insert into emp
+  values(8888,'Mahesh','Analyst',7902,'2025-1-1',60000,null,30);
+end //
+delimiter ;
+mysql>call insert_row;
+
+procedure to insert row in dept table and display in the procedure
+
+delimiter $$
+drop  procedure if exists insert_row2;
+create procedure insert_row2()
+begin 
+  insert into dept
+  values(80,'Training','Pune'),(90,'HR','Mumbai');
+  select * 
+  from dept;
+end $$
+delimiter ;
+
+mysql>call insert_row2;
+
+mysql>drop procedure procedure_name;
+
+procedure to find sum of sal from emp and print it in procedure using var
+
+delimiter //
+drop procedure if exists tot_sal;
+create procedure tot_sal()
+begin
+   declare x decimal(9,2);
+   select sum(sal) into x
+   from emp;
+   select x;
+end //
+delimiter ; 
+
+types of parameter in MySQL
+----------------------------
+IN parameter ---- gives input to the procedure
+                  default parameter type
+OUT parameter ---- used to bring value out of the procedure
+INOUT parameter ---- works like in and out
+
+pass deptno to procedure and display all employes working in that dept
+
+delimiter //
+drop procedure if exists disp_emp;
+create procedure disp_emp(in x int)
+begin
+  select * 
+  from emp
+  where deptno=x;
+end //
+delimiter ;
+
+mysql>call disp_emp(20);
+or assign any value to the bind variable.
+to assign value set is used
+
+mysql> set @p=30;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call disp_emp(@p);    --calling of procedure
+
+pass ename,empno,sal,dept to the procedure and insert thes values in the table
+delimiter //
+create procedure insert_row3(in mname varchar(10),in mno int,
+in msal decimal(7,2), in mdno int)
+begin
+  insert into emp(ename,empno,sal,deptno)
+  values(mname,mno,msal,mdno);
+  select * from emp;
+end //
+delimiter ;
+
+mysql>call insert_row3('Sameer',9999,20000,10);
+mysql> set @p='Sarita';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> set @q=6666;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> set @r=17000;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> set @s=60;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call insert_row3(@p,@q,@r,@s);
+ 
+ 
+OUT Parameter
+-------------
+procedure to count no of employees working in dept 30 and
+display the count out of procedure
+
+delimiter //
+drop procedure if exists cnt_emp;
+create procedure cnt_emp(out p int)
+begin
+  select count(*) into p
+  from emp
+  where deptno=30;
+end //
+delimiter ;
+
+mysql>call cnt_emp(@k);
+mysql>select @k;
+
+procedure to pass deptno as a in parameter and display avg(sal)
+out of the procedure
+
+delimiter //
+create procedure disp_cnt1(in p1 int,out k1 decimal(8,2))
+begin
+ select avg(sal) into k1
+ from emp
+ where deptno=p1;
+end //
+delimiter ;
+
+mysql>set @p=10;
+mysal>call disp_cnt1(@p,@k);
+mysql>select @p,@k;
+
+INOUT parameter
+---------------
+pass deptno to procedure and disp max(sal) for the deptn
+out of the procedure
+
+delimiter //
+create procedure find_max(inout x decimal(7,2))
+begin
+  select max(sal) into x
+  from emp
+  where deptno=x; 
+end //
+delimiter ;
+
+MySQL>call find_max(@p);
+mysql>select @p;
+
+-----------------------------------------------
+conditional statements
+
+if....else
+
+if condition
+then 
+   statement;
+else
+   statement;
+end if;
+
+elseif
+
+if condition
+then
+  statement;
+elseif condition
+  ststement;
+else
+  statement;
+end if;
+
+pass 2 nos and find bigger no
+
+delimiter //
+create procedure find(x int, y int)
+begin
+  if x>y
+  then
+     select x;
+  else
+     select y;
+  end if;
+end //
+delimiter ;
+
+mysql>call find(6,5);
+
+complete in the lab
+delimiter //
+create procedure find2(x int, y int, z int)
+begin
+  if x>y
+  then
+     
+  else
+     select y;
+  end if;
+end //
+delimiter ;
+mysql>call find2(7,2,5);
+
+============================
+iterative statements
+
+while..do
+while condi
+do
+  statements;
+end while;
+
+procedure to print 1 to 5 nos.
+
+delimiter //
+create procedure display()
+begin
+  declare i int default 1;
+  while i<=5
+  do 
+    select i;
+    set i = i +1;
+  end while;
+end //
+delimiter ;
+
+--------------------------
+repeat...until
+works till condi is false
+repeat
+   statement;
+until condition
+end repeat;
+
+delimiter //
+drop procedure if exists display2;
+create procedure display2()
+begin
+  declare n int default 1;
+  repeat
+   select n;
+   set n=n+1;
+  until n>5
+  end repeat;
+end //
+delimiter ;
+----------------------
+Loop
+used to write infinite loop
+label_name:LOOP
+   statements;
+   if condition
+   then 
+      leave label_name;
+   end if;
+end loop lable_name;
+
+i=1;
+while(1)
+{
+ printf("%d",i);
+ if(i>5)
+  {break;}
+ i++;
+}
+
+delimiter //
+create procedure display3()
+begin
+  declare no int default 1;
+  print:LOOP  
+   if no>5
+   then 
+      leave print;
+   end if;
+  select no;
+  set no=no+1;
+end loop print;
+end //
+delimiter ;
+
+write a procedure to pass empno and display ename,sal and deptno of that emp out of the procedure.
+delimiter //
+create procedure display_info(p1 int,out q1 varchar(15),out r1 decimal(7,2),out s1 int)
+begin
+  select ename,sal,deptno into q1,r1,s1
+  from emp
+  where empno=p1;
+end //
+delimiter ;
+
+mysql>display_info(@p,@q,@r,@s); 
+mysql> set @p=7844;
+mysql> call display_info(@p,@q,@r,@s)
+mysql> select @p,@q,@r,@s;
++------+--------+---------+------+
+| @p   | @q     | @r      | @s   |
++------+--------+---------+------+
+| 7844 | TURNER | 1500.00 |   30 |
++------+--------+---------+------+
+1 row in set (0.00 sec)
+
+----------------------------------------------------
+Functions in MySQL
+
+			functions
+			   |
+    -----------------------------------------------
+    |						  |
+library finctions			user defined functions
+(built in functions)
+     |
+-------------------------
+|			|
+single row        aggregate 
+(scalar fun)      (group fun)
+    |
+-------------------
+|	|	   |
+string numeric    date
+
+User defined functions
+---------------------
+--set of logical lines can return the value.
+--there are no parameter type in function 
+--we can call the functions in select clause
+
+syntax
+
+CREATE FUNCTION function_name(parameter list) returns datatype
+BEGIN
+END ;
+
+set global log_bin_trust_function_creators=1;
+
+function to find total sal of employee.
+total sal=sal+comm
+delimiter //
+create function calculate(msal decimal(7,2), mcomm decimal(7,2))
+returns decimal(7,2)
+begin
+   declare x decimal(7,2);
+   set x=msal+ifnull(mcomm,0);
+   return x;   
+end //
+delimiter ;
+
+mysql>select length(ename) from emp;
+
+mysql>select ename,sal,comm,calculate(sal,comm)
+      from emp;
+
+function to give salary rise by 5%
+delimiter //
+create function calculate1(msal decimal(7,2)) returns decimal(7,2)
+begin
+   declare y decimal(7,2);
+   set y=(msal*1.05);
+   return y;
+end //
+delimiter ;
+
+
+mysql>select ename,sal,calculate1(sal)
+      from emp
+
+write a procedure which calls a function 'check' to check if the number passed is even or odd. Pass number as a in parameter to procedure
+delimiter //
+create procedure proc1(p1 int)
+begin
+  declare result int;
+  set result=check1(p1);
+  select result;
+end //
+delimiter ;
+
+ 
+
+----------
+delimiter //
+create function check1(no int) returns int
+begin 
+  declare z int;
+  if no%2=0
+  then
+    set z=1;
+  else
+    set z=0;
+  end if;
+return z;
+end //
+delimiter ; 
+
+
+mysql>set @p=8;
+mysql>call proc1(@p)
+----------------------------
+CURSURS in MYSQL
+
+ -used to a result set row by row 
+ -implicit cursur
+    implementd by system
+ -explicit cursor
+    used by userd
+ -Asensitive cursor
+    points to actual data(used in mysql)
+ -Insensitive cursur
+    points to the temp copy of data
+ 
+syntax
+------
+1. declare cursor
+2. open cursor
+3. fetch data in to the cursor
+4. close cursor
+
+DECLARE cursor_name CURSOR FOR
+   select query;
+
+delimiter //
+drop procedure if exists proc_cursor1;
+create procedure proc_cursor1()
+begin
+  declare i int;
+  declare n varchar(15);
+  declare cur cursor for
+    select deptno,ename 
+    from emp;
+  open cur;
+  fetch cur into i,n;
+  select i,n;
+  close cur;
+end //
+delimiter ;
+
+mysql>call proc_cursor1;
+
+will display only 1 row
+===========================
+to display multiple rows we need a handler.
+handler works like a incremental variable in the loop.
+it throws an exception one it reaches end of table.
+the exception is NOT FOUND exception.
+
+delimiter //
+create procedure cursor_proc2()
+begin
+  declare a int;
+  declare b varchar(15);
+  declare c int;
+  declare f int default 0;
+  declare cur cursor for
+    select empno,ename,deptno
+    from emp
+    where deptno=20;
+  declare continue handler for
+  not found set f=1; 
+  open cur;
+  print:loop
+    fetch cur into a,b,c;
+    select a,b,c;
+    if f=1
+    then 
+      leave print;
+    end if;
+   end loop print;
+  close cur;
+end //
+delimiter ;
+
+
+
+
+
+ 
+

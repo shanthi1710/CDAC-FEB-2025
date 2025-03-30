@@ -1,0 +1,400 @@
+-multiple joins
+-Views
+-MySQL Engine
+-user permission
+-Normalization
+
+-stored procedure
+-stored functions
+-cursor
+-trigger
+-mongodb
+
+multiple joins
+-------------
+emp(empno,ename,deptno,sal) e
+dept1(deptno,dname,locid) d
+salgrade(grade,losal,hisal) s
+location(lid,lname) l
+
+select e.empno,e.ename,e.deptno,d.dname,e.sal,s.grade
+from emp e
+join dept d
+on e.deptno=d.deptno
+join salgrade s
+on e.sal between s.losal and s.hisal;
+
+create table dept2
+as
+  select deptno,dname
+  from dept;
+
+alter table dept2
+add locid int;
+
+create table location
+(locid int,
+ lname varchar(15));
+
+insert into location 
+values(100,'Pune'),(300,'Chennai'),(400,'Delhi'),(800,'Bhopal');
+
+select e.empno,e.ename,e.deptno,d.dname,d.locid,l.lname
+from emp e
+join dept2 d
+on e.deptno=d.deptno
+join location l
+on d.locid=l.locid;
+
+Views in RDBMS
+--------------
+--virtual tables
+--we can see tha table structure but it will hold the data only when a query is executed
+--modify the data,insert and delete data from view. but changes are done on base table
+--help maintain data security
+--we can alter the views
+
+Syntax
+
+CREATE VIEW view_name
+AS
+  SELECT query;
+
+create view v1
+as
+  select empno,ename,sal,deptno
+  from emp;
+
+emp ---- base table on which a view is created
+
+display data FRO VIEW
+select * from view_name;
+
+create view v2
+as
+  select empno "employee no",ename name,sal salary,deptno department 
+  from emp;
+
+insert into v2
+values(9999,'kkkk',40000,70);
+
+create view v3
+as
+select e.empno,e.ename,e.deptno,d.dname,d.locid,l.lname
+from emp e
+join dept2 d
+on e.deptno=d.deptno
+join location l
+on d.locid=l.locid;
+
+
+
+Types of views
+---------------
+1. read only views
+   we cannot insert/update the data 
+
+create view view_name
+as  
+   select  *
+   from table_name
+   [where condition]
+   with read only;
+
+2. materialized view
+-if server is at remote location these views are created
+-transactions will be updated after specific time slice.
+-this helps in maintaining the speed of network
+
+create materialized view view_name 
+as
+     select  *
+     from emp
+     [where condition];
+
+constraint for view
+-------------------
+create view v4
+as
+  select empno "employee no",ename name,deptno department
+  from emp
+  where deptno=20;
+
+with check option ----constraint on view which checks is the condition is satisfied.
+
+create view v5
+as
+  select empno "employee no",ename name,deptno department
+  from emp
+  where deptno=20
+  with check option;
+
+simple views---views created on 1 table
+complex views----views created on multiple tables
+
+==================================================
+user permissions
+
+GRANT
+-used to give permission to user
+
+REVOKE 
+-used to remove the permission from user
+
+permissions given are called as privilege
+
+privilege		description
+---------		-----------
+select			can perform select operation
+insert			can insert data in table
+delete			can delete data from table
+update			can modify data from the table
+references		FK..can refer the another table
+alter			can make structure change
+index			create index
+all			all privileges on table
+
+GRANT privilege_name
+ON object_name
+TO user_name
+[with grant option];
+
+with grant option
+the user has a privilege to grant the privileges to other user
+
+grant select
+on emp
+to user1;
+
+grant update
+on dept
+to user5;
+
+grant all
+on salgrade
+to seema
+with grant option;
+
+REVOKE privilage_name
+ON object_name
+FROM user_name;
+
+revoke all
+on emp
+from sumit;
+===================================================
+Normalization
+
+--used to control data redundancy
+
+Anamolies
+1. insertion anamoly
+2. deletion 
+3. updation 
+
+sid sname cid cname fees tid tname
+-----------------------------
+s1 amit   c1  CPP   2500 t1  Sujay
+s2 smita  c1  cpp   2500 t1  Sujay
+s3 geeta  c2  wp    8000 t2  asawari
+
+9 NORMAL FORMS
+
+1NF:First normal form
+---------------------
+-column in the table will contain only single value
+ no multiple values in the column
+
+sid sname     cname        marks
+--------------------------------  
+ 1  amit      CPP,Linux    90,70    wrong
+ 2  smita     cpp,DBMS   
+ 3  geeta     wp,DBMS
+ 4  sita      C,Linux
+ 5  raj       wp,Adv Java
+
+solution -1 
+
+sid sname     cname1    cname2         
+--------------------------------  
+ 1  amit      CPP        Linux     
+ 2  smita     cpp         null
+ 3  geeta     wp         DBMS
+ 4  sita      C           null
+ 5  raj       wp         Adv Java
+
+PK-sid
+
+solution -2
+sid sname     cname1         
+----------------------- 
+ 1  amit      CPP           
+ 2  smita     cpp          
+ 3  geeta     wp          
+ 4  sita      C            
+ 5  raj       wp 
+ 1  amit      Linux      
+ 3  geeta     DBMS
+ 5  raj       Adv Java
+
+ pK - sid+cname1
+
+2NF:Second normal form
+----------------------
+All non-prime attributes should full functionally dependent
+on prime attribute
+
+1.table should be in 1NF
+2.there should not be any partial dependency
+-composite key
+t1(A,B,C,D)
+PK - A+B
+C->A+B
+D->A+B
+ 
+custid   store-id  location mobile add
+---------------------------
+  1       10        delhi
+  1       30        Mumbai
+  2       10        delhi
+  3       20        Hydrabad
+  4       30        Mumbai
+
+pk->(custid + store_id)
+
+customer                 store 
+--------		------------
+cid cname ph		sid  sname add
+ 2			10   asasa
+ 3			20   bhfgf
+ 1			30   klklk
+ 4
+pk-cid                  pk=sid
+  customer_store
+-------------------
+cid    sid
+1      30
+2      10
+3      20
+1      20
+2      40
+pk=cid+sid
+
+3NF : Third normal form
+----------------------
+-Table must be in 1NF
+-Table must be in 2NF
+- No transitive dependency
+
+
+A->B->C
+C->A
+
+t2(A,B,C,D,F)
+PK - A
+
+emp(empno,ename,deptno,sal,hiredate)
+pk - empno
+
+3and half normal form:BCNF
+--------------------------
+Boyce code normal form
+
+Relationships in tables
+-----------------------
+1. one-to-one relationship
+
+person-adhar_no
+person-passport_no
+
+person & passport
+-----------------
+person
+-----
+id pname adhar_no add   phno
+------------------------------
+1  amit   1234    pune  78778
+2  smita  6533    Mumbai 090909
+3  ajay   2344    hydrabad  7878787
+
+pk- id
+
+passport
+------------------------
+ppno issue_date  ex_date
+0001  11/11/2004  -
+0002   -          -
+0003   -           -
+
+pk-ppno
+     
+-any PK can go in any table
+
+either
+person(id,pname, adhar_no,add,phno,ppno-fk)
+
+or
+passport(ppno,issue_date,ex_date,id-fk)
+
+one-to-many relationship
+------------------------
+-one dept many employees
+-one course many students
+-one institute may trainers
+many                   one
+emp			dept
+----			-----
+eno ename             dno dname  
+1   Sameer            10         
+2   geeta             20
+3   Sarika            30
+4   raj     
+5   Sujay   
+pk-eno                pk-dno
+key of 1 goes to many
+emp(eno,name,deptno)
+    pk        fk
+
+3. Many-to-many relationship
+-----------------------------
+-many members many books
+-many courses may students
+-many courses many trainers
+
+student			course
+--------		-------
+sid sname       	cid  cname 
+s1  raj                 c1   Cpp
+s2  yash                c2   wp
+s3  amay     
+s4  smita                
+
+pk-sid                cid
+
+third table
+-------------
+sid cid
+s1  c2
+s2  c1
+s1  c1
+
+==========================================
+ER Diagram
+
+Library management system
+
+autor(aid,aname)
+      ---
+books(bid,bname,aid,price)
+      ----      ===
+members(mid,mname,idate,rdate,pid)
+        ---
+plans(pid,pname,fees)
+
+issue return(tid,bid,mid,idate,rdate)
+             ----=== === 
+ 
+
+
+
+

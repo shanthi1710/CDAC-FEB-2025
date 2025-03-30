@@ -1,0 +1,1307 @@
+
+--------------------------------------------------------------------------------------- Restricting and Sorting Data----------------------------------------------------------------------------------------------
+The HR department needs your assistance in creating some queries.
+1.Because of budget issues, the HR department needs a report that displays the last name and salary of employees earning more than $12,000.
+-->
+mysql> select Last_Name,Salary from employees where salary >12000;
++-----------+----------+
+| Last_Name | Salary   |
++-----------+----------+
+| King      | 24000.00 |
+| Kochhar   | 17000.00 |
+| De Haan   | 17000.00 |
+| Russell   | 14000.00 |
+| Partners  | 13500.00 |
+| Hartstein | 13000.00 |
++-----------+----------+
+
+2.Open a new SQL Worksheet. Create a report that displays the last name and department number for employee number 176.
+-->
+
+3.The HR department needs to find high-salary and low-salary employees. Modify lab_03_01.sql to display the last name and salary for all employees whose salary is not in the range $5,000 through $12,000.
+-->
+
+4.Modify above query  to list the last name and salary of employees who earn between
+$5,000 and $12,000, and are in department 20 or 50. Label the columns Employee and Monthly Salary, respectively.
+-->
+
+6.Modify lab_03_03.sql to list the last name and salary of employees who earn between
+$5,000 and $12,000, and are in department 20 or 50. Label the columns Employee and Monthly Salary, respectively.
+-->
+
+5.Create a report to display the last name, job ID, and hire date for employees with the last names of Matos and Taylor. Order the query in ascending order by hire date.
+-->
+
+6.Display the last name and department ID of all employees in departments 20 or 50 in ascending alphabetical order by last_name.
+-->
+
+7.The HR department needs a report that displays the last name and hire date of all employees who were hired in 2006.
+-->
+
+8.Create a report to display the last name and job title of all employees who do not have a manager.
+-->
+
+9.Create a report to display the last name, salary, and commission for all employees who earn commissions. Sort data in descending order of salary and commissions. Use the column’s numeric position in the ORDER BY clause.
+-->
+
+10.Display the last names of all employees where the third letter of the name is “a.”
+-->
+
+
+11.Display the last names of all employees who have both an “a” and an “e” in their last name.
+-->
+
+
+12.Display the last name, job, and salary for all employees whose job is that of a sales representative or a stock clerk, and whose salary is not equal to $2,500, $3,500, or $7,000.
+-->
+
+13.Display the last name, salary, and commission for all employees whose commission amount is 20%. 
+-->
+
+
+--------------------------------------------------------------------------------------- Aggregate Function -------------------------------------------------------------------------------------------------------
+The HR department needs the following reports:
+14.Find the highest, lowest, sum, and average salary of all employees. Label the columns Maximum, Minimum, Sum, and Average, respectively. Round your results to the nearest whole number.
+-->
+
+
+15.Create a query that displays employees’ last names, and indicates the amounts of their salaries with asterisks. Each asterisk signifies a thousand dollars. Sort the data in descending order of salary. Label the column EMPLOYEES_AND_THEIR_SALARIES.
+-->
+
+-------------------------------------------------------------------------------------------- Joins ---------------------------------------------------------------------------------------------------------------
+
+16.Write a query for the HR department to produce the addresses of all the departments. Use the LOCATIONS and COUNTRIES tables. Show the location ID, street address, city, state or province, and country in the output. 
+-->
+mysql> SELECT
+    ->     d.department_id AS "deptId",
+    ->     d.location_id AS "location",
+    ->     l.street_address AS "Street Address",
+    ->     l.city AS "City",
+    ->     l.state_province AS "State or Province",
+    ->     c.country_name AS "Country"
+    -> FROM
+    ->     departments d
+    -> Left JOIN
+    ->     locations l ON d.location_id = l.location_id
+    -> LEFT JOIN
+    ->     countries c ON l.country_id = c.country_id;
++--------+----------+------------------------------------------+---------------------+-------------------+--------------------------+
+| deptId | location | Street Address                           | City                | State or Province | Country                  |
++--------+----------+------------------------------------------+---------------------+-------------------+--------------------------+
+|     60 |     1400 | 2014 Jabberwocky Rd                      | Southlake           | Texas             | United States of America |
+|     50 |     1500 | 2011 Interiors Blvd                      | South San Francisco | California        | United States of America |
+|     10 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|     30 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|     90 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|    100 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|    110 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|    120 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|    130 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|    140 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|    150 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|    160 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|    170 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|    180 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|    190 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|    200 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|    210 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|    220 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|    230 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|    240 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|    250 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|    260 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|    270 |     1700 | 2004 Charade Rd                          | Seattle             | Washington        | United States of America |
+|     20 |     1800 | 147 Spadina Ave                          | Toronto             | Ontario           | Canada                   |
+|     40 |     2400 | 8204 Arthur St                           | London              | NULL              | United Kingdom           |
+|     80 |     2500 | Magdalen Centre, The Oxford Science Park | Oxford              | Oxford            | United Kingdom           |
+|     70 |     2700 | Schwanthalerstr. 7031                    | Munich              | Bavaria           | Germany                  |
++--------+----------+------------------------------------------+---------------------+-------------------+--------------------------+
+
+17.The HR department needs a report of all employees with corresponding departments. Write a query to display the last name, department number, and department name for all the employees.
+-->
+mysql> SELECT
+    ->     e.last_name AS "Last Name",
+    ->     e.department_id AS "Department Number",
+    ->     d.department_name AS "Department Name"
+    -> FROM
+    ->     employees e
+    ->     JOIN
+    ->     departments d ON e.department_id = d.department_id;
++-------------+-------------------+------------------+
+| Last Name   | Department Number | Department Name  |
++-------------+-------------------+------------------+
+| Whalen      |                10 | Administration   |
+| Hartstein   |                20 | Marketing        |
+| Fay         |                20 | Marketing        |
+| Raphaely    |                30 | Purchasing       |
+| Khoo        |                30 | Purchasing       |
+| Baida       |                30 | Purchasing       |
+| Tobias      |                30 | Purchasing       |
+| Himuro      |                30 | Purchasing       |
+| Colmenares  |                30 | Purchasing       |
+| Mavris      |                40 | Human Resources  |
+| Weiss       |                50 | Shipping         |
+| Fripp       |                50 | Shipping         |
+| Kaufling    |                50 | Shipping         |
+| Vollman     |                50 | Shipping         |
+| Mourgos     |                50 | Shipping         |
+| Nayer       |                50 | Shipping         |
+| Mikkilineni |                50 | Shipping         |
+| Landry      |                50 | Shipping         |
+| Markle      |                50 | Shipping         |
+| Bissot      |                50 | Shipping         |
+| Atkinson    |                50 | Shipping         |
+| Marlow      |                50 | Shipping         |
+| Olson       |                50 | Shipping         |
+| Mallin      |                50 | Shipping         |
+| Rogers      |                50 | Shipping         |
+| Gee         |                50 | Shipping         |
+| Philtanker  |                50 | Shipping         |
+| Ladwig      |                50 | Shipping         |
+| Stiles      |                50 | Shipping         |
+| Seo         |                50 | Shipping         |
+| Patel       |                50 | Shipping         |
+| Rajs        |                50 | Shipping         |
+| Davies      |                50 | Shipping         |
+| Matos       |                50 | Shipping         |
+| Vargas      |                50 | Shipping         |
+| Taylor      |                50 | Shipping         |
+| Fleaur      |                50 | Shipping         |
+| Sullivan    |                50 | Shipping         |
+| Geoni       |                50 | Shipping         |
+| Sarchand    |                50 | Shipping         |
+| Bull        |                50 | Shipping         |
+| Dellinger   |                50 | Shipping         |
+| Cabrio      |                50 | Shipping         |
+| Chung       |                50 | Shipping         |
+| Dilly       |                50 | Shipping         |
+| Gates       |                50 | Shipping         |
+| Perkins     |                50 | Shipping         |
+| Bell        |                50 | Shipping         |
+| Everett     |                50 | Shipping         |
+| McCain      |                50 | Shipping         |
+| Jones       |                50 | Shipping         |
+| Walsh       |                50 | Shipping         |
+| Feeney      |                50 | Shipping         |
+| OConnell    |                50 | Shipping         |
+| Grant       |                50 | Shipping         |
+| Hunold      |                60 | IT               |
+| Ernst       |                60 | IT               |
+| Austin      |                60 | IT               |
+| Pataballa   |                60 | IT               |
+| Lorentz     |                60 | IT               |
+| Baer        |                70 | Public Relations |
+| Russell     |                80 | Sales            |
+| Partners    |                80 | Sales            |
+| Errazuriz   |                80 | Sales            |
+| Cambrault   |                80 | Sales            |
+| Zlotkey     |                80 | Sales            |
+| Tucker      |                80 | Sales            |
+| Bernstein   |                80 | Sales            |
+| Hall        |                80 | Sales            |
+| Olsen       |                80 | Sales            |
+| Cambrault   |                80 | Sales            |
+| Tuvault     |                80 | Sales            |
+| King        |                80 | Sales            |
+| Sully       |                80 | Sales            |
+| McEwen      |                80 | Sales            |
+| Smith       |                80 | Sales            |
+| Doran       |                80 | Sales            |
+| Sewall      |                80 | Sales            |
+| Vishney     |                80 | Sales            |
+| Greene      |                80 | Sales            |
+| Marvins     |                80 | Sales            |
+| Lee         |                80 | Sales            |
+| Ande        |                80 | Sales            |
+| Banda       |                80 | Sales            |
+| Ozer        |                80 | Sales            |
+| Bloom       |                80 | Sales            |
+| Fox         |                80 | Sales            |
+| Smith       |                80 | Sales            |
+| Bates       |                80 | Sales            |
+| Kumar       |                80 | Sales            |
+| Abel        |                80 | Sales            |
+| Hutton      |                80 | Sales            |
+| Taylor      |                80 | Sales            |
+| Livingston  |                80 | Sales            |
+| Johnson     |                80 | Sales            |
+| King        |                90 | Executive        |
+| Kochhar     |                90 | Executive        |
+| De Haan     |                90 | Executive        |
+| Greenberg   |               100 | Finance          |
+| Faviet      |               100 | Finance          |
+| Chen        |               100 | Finance          |
+| Sciarra     |               100 | Finance          |
+| Urman       |               100 | Finance          |
+| Popp        |               100 | Finance          |
+| Higgins     |               110 | Accounting       |
+| Gietz       |               110 | Accounting       |
++-------------+-------------------+------------------+
+
+
+18.The HR department needs a report of employees in Toronto. Display the last name, job, department number, and department name for all employees who work in Toronto.
+-->
+mysql> SELECT
+    ->     e.last_name AS "Last Name",
+    ->     j.job_title AS "Job",
+    ->     d.department_id AS "Department Number",
+    ->     d.department_name AS "Department Name"
+    -> FROM
+    ->     employees e
+    -> JOIN
+    ->     departments d ON e.department_id = d.department_id
+    -> JOIN
+    ->     locations l ON d.location_id = l.location_id
+    -> JOIN
+    ->     jobs j ON e.job_id = j.job_id
+    -> WHERE
+    ->     l.city = 'Toronto';
++-----------+--------------------------+-------------------+-----------------+
+| Last Name | Job                      | Department Number | Department Name |
++-----------+--------------------------+-------------------+-----------------+
+| Hartstein | Marketing Manager        |                20 | Marketing       |
+| Fay       | Marketing Representative |                20 | Marketing       |
++-----------+--------------------------+-------------------+-----------------+
+
+19.Create a report to display employees’ last names and employee numbers along with their managers’ last names and manager numbers. Label the columns Employee, Emp#, Manager, and Mgr#, respectively. 
+-->
+select e.employee_id as "Emp#", 
+	e.last_name  as "employee last name",
+	e.manager_id as "Mgr#",
+	e1.last_name as "manager last name"
+from employees e join employees e1
+on e.manager_id = e1.employee_id;
++------+--------------------+------+-------------------+
+| Emp# | employee last name | Mgr# | manager last name |
++------+--------------------+------+-------------------+
+|  101 | Kochhar            |  100 | King              |
+|  102 | De Haan            |  100 | King              |
+|  103 | Hunold             |  102 | De Haan           |
+|  104 | Ernst              |  103 | Hunold            |
+|  105 | Austin             |  103 | Hunold            |
+|  106 | Pataballa          |  103 | Hunold            |
+|  107 | Lorentz            |  103 | Hunold            |
+|  108 | Greenberg          |  101 | Kochhar           |
+|  109 | Faviet             |  108 | Greenberg         |
+|  110 | Chen               |  108 | Greenberg         |
+|  111 | Sciarra            |  108 | Greenberg         |
+|  112 | Urman              |  108 | Greenberg         |
+|  113 | Popp               |  108 | Greenberg         |
+|  114 | Raphaely           |  100 | King              |
+|  115 | Khoo               |  114 | Raphaely          |
+|  116 | Baida              |  114 | Raphaely          |
+|  117 | Tobias             |  114 | Raphaely          |
+|  118 | Himuro             |  114 | Raphaely          |
+|  119 | Colmenares         |  114 | Raphaely          |
+|  120 | Weiss              |  100 | King              |
+|  121 | Fripp              |  100 | King              |
+|  122 | Kaufling           |  100 | King              |
+|  123 | Vollman            |  100 | King              |
+|  124 | Mourgos            |  100 | King              |
+|  125 | Nayer              |  120 | Weiss             |
+|  126 | Mikkilineni        |  120 | Weiss             |
+|  127 | Landry             |  120 | Weiss             |
+|  128 | Markle             |  120 | Weiss             |
+|  129 | Bissot             |  121 | Fripp             |
+|  130 | Atkinson           |  121 | Fripp             |
+|  131 | Marlow             |  121 | Fripp             |
+|  132 | Olson              |  121 | Fripp             |
+|  133 | Mallin             |  122 | Kaufling          |
+|  134 | Rogers             |  122 | Kaufling          |
+|  135 | Gee                |  122 | Kaufling          |
+|  136 | Philtanker         |  122 | Kaufling          |
+|  137 | Ladwig             |  123 | Vollman           |
+|  138 | Stiles             |  123 | Vollman           |
+|  139 | Seo                |  123 | Vollman           |
+|  140 | Patel              |  123 | Vollman           |
+|  141 | Rajs               |  124 | Mourgos           |
+|  142 | Davies             |  124 | Mourgos           |
+|  143 | Matos              |  124 | Mourgos           |
+|  144 | Vargas             |  124 | Mourgos           |
+|  145 | Russell            |  100 | King              |
+|  146 | Partners           |  100 | King              |
+|  147 | Errazuriz          |  100 | King              |
+|  148 | Cambrault          |  100 | King              |
+|  149 | Zlotkey            |  100 | King              |
+|  150 | Tucker             |  145 | Russell           |
+|  151 | Bernstein          |  145 | Russell           |
+|  152 | Hall               |  145 | Russell           |
+|  153 | Olsen              |  145 | Russell           |
+|  154 | Cambrault          |  145 | Russell           |
+|  155 | Tuvault            |  145 | Russell           |
+|  156 | King               |  146 | Partners          |
+|  157 | Sully              |  146 | Partners          |
+|  158 | McEwen             |  146 | Partners          |
+|  159 | Smith              |  146 | Partners          |
+|  160 | Doran              |  146 | Partners          |
+|  161 | Sewall             |  146 | Partners          |
+|  162 | Vishney            |  147 | Errazuriz         |
+|  163 | Greene             |  147 | Errazuriz         |
+|  164 | Marvins            |  147 | Errazuriz         |
+|  165 | Lee                |  147 | Errazuriz         |
+|  166 | Ande               |  147 | Errazuriz         |
+|  167 | Banda              |  147 | Errazuriz         |
+|  168 | Ozer               |  148 | Cambrault         |
+|  169 | Bloom              |  148 | Cambrault         |
+|  170 | Fox                |  148 | Cambrault         |
+|  171 | Smith              |  148 | Cambrault         |
+|  172 | Bates              |  148 | Cambrault         |
+|  173 | Kumar              |  148 | Cambrault         |
+|  174 | Abel               |  149 | Zlotkey           |
+|  175 | Hutton             |  149 | Zlotkey           |
+|  176 | Taylor             |  149 | Zlotkey           |
+|  177 | Livingston         |  149 | Zlotkey           |
+|  178 | Grant              |  149 | Zlotkey           |
+|  179 | Johnson            |  149 | Zlotkey           |
+|  180 | Taylor             |  120 | Weiss             |
+|  181 | Fleaur             |  120 | Weiss             |
+|  182 | Sullivan           |  120 | Weiss             |
+|  183 | Geoni              |  120 | Weiss             |
+|  184 | Sarchand           |  121 | Fripp             |
+|  185 | Bull               |  121 | Fripp             |
+|  186 | Dellinger          |  121 | Fripp             |
+|  187 | Cabrio             |  121 | Fripp             |
+|  188 | Chung              |  122 | Kaufling          |
+|  189 | Dilly              |  122 | Kaufling          |
+|  190 | Gates              |  122 | Kaufling          |
+|  191 | Perkins            |  122 | Kaufling          |
+|  192 | Bell               |  123 | Vollman           |
+|  193 | Everett            |  123 | Vollman           |
+|  194 | McCain             |  123 | Vollman           |
+|  195 | Jones              |  123 | Vollman           |
+|  196 | Walsh              |  124 | Mourgos           |
+|  197 | Feeney             |  124 | Mourgos           |
+|  198 | OConnell           |  124 | Mourgos           |
+|  199 | Grant              |  124 | Mourgos           |
+|  200 | Whalen             |  101 | Kochhar           |
+|  201 | Hartstein          |  100 | King              |
+|  202 | Fay                |  201 | Hartstein         |
+|  203 | Mavris             |  101 | Kochhar           |
+|  204 | Baer               |  101 | Kochhar           |
+|  205 | Higgins            |  101 | Kochhar           |
+|  206 | Gietz              |  205 | Higgins           |
++------+--------------------+------+-------------------+|
+
+20.Modify above to display all employees, including King, who has no manager. Order the results by employee number.
+-->
+mysql> SELECT
+    ->     e.employee_id AS "Emp#",
+    ->     e.last_name AS "Employee Last Name",
+    ->     CASE
+    ->         WHEN e.manager_id IS NULL THEN 'No Manager'
+    ->         ELSE CAST(e.manager_id AS CHAR)
+    ->     END AS "Mgr#",
+    ->     CASE
+    ->         WHEN e.manager_id IS NULL THEN 'N/A'
+    ->         ELSE e1.last_name
+    ->     END AS "Manager Last Name"
+    -> FROM
+    ->     employees e
+    -> LEFT JOIN
+    ->     employees e1 ON e.manager_id = e1.employee_id
+    -> ORDER BY
+    ->     e.employee_id;
++------+--------------------+------------+-------------------+
+| Emp# | Employee Last Name | Mgr#       | Manager Last Name |
++------+--------------------+------------+-------------------+
+|  100 | King               | No Manager | N/A               |
+|  101 | Kochhar            | 100        | King              |
+|  102 | De Haan            | 100        | King              |
+|  103 | Hunold             | 102        | De Haan           |
+|  104 | Ernst              | 103        | Hunold            |
+|  105 | Austin             | 103        | Hunold            |
+|  106 | Pataballa          | 103        | Hunold            |
+|  107 | Lorentz            | 103        | Hunold            |
+|  108 | Greenberg          | 101        | Kochhar           |
+|  109 | Faviet             | 108        | Greenberg         |
+|  110 | Chen               | 108        | Greenberg         |
+|  111 | Sciarra            | 108        | Greenberg         |
+|  112 | Urman              | 108        | Greenberg         |
+|  113 | Popp               | 108        | Greenberg         |
+|  114 | Raphaely           | 100        | King              |
+|  115 | Khoo               | 114        | Raphaely          |
+|  116 | Baida              | 114        | Raphaely          |
+|  117 | Tobias             | 114        | Raphaely          |
+|  118 | Himuro             | 114        | Raphaely          |
+|  119 | Colmenares         | 114        | Raphaely          |
+|  120 | Weiss              | 100        | King              |
+|  121 | Fripp              | 100        | King              |
+|  122 | Kaufling           | 100        | King              |
+|  123 | Vollman            | 100        | King              |
+|  124 | Mourgos            | 100        | King              |
+|  125 | Nayer              | 120        | Weiss             |
+|  126 | Mikkilineni        | 120        | Weiss             |
+|  127 | Landry             | 120        | Weiss             |
+|  128 | Markle             | 120        | Weiss             |
+|  129 | Bissot             | 121        | Fripp             |
+|  130 | Atkinson           | 121        | Fripp             |
+|  131 | Marlow             | 121        | Fripp             |
+|  132 | Olson              | 121        | Fripp             |
+|  133 | Mallin             | 122        | Kaufling          |
+|  134 | Rogers             | 122        | Kaufling          |
+|  135 | Gee                | 122        | Kaufling          |
+|  136 | Philtanker         | 122        | Kaufling          |
+|  137 | Ladwig             | 123        | Vollman           |
+|  138 | Stiles             | 123        | Vollman           |
+|  139 | Seo                | 123        | Vollman           |
+|  140 | Patel              | 123        | Vollman           |
+|  141 | Rajs               | 124        | Mourgos           |
+|  142 | Davies             | 124        | Mourgos           |
+|  143 | Matos              | 124        | Mourgos           |
+|  144 | Vargas             | 124        | Mourgos           |
+|  145 | Russell            | 100        | King              |
+|  146 | Partners           | 100        | King              |
+|  147 | Errazuriz          | 100        | King              |
+|  148 | Cambrault          | 100        | King              |
+|  149 | Zlotkey            | 100        | King              |
+|  150 | Tucker             | 145        | Russell           |
+|  151 | Bernstein          | 145        | Russell           |
+|  152 | Hall               | 145        | Russell           |
+|  153 | Olsen              | 145        | Russell           |
+|  154 | Cambrault          | 145        | Russell           |
+|  155 | Tuvault            | 145        | Russell           |
+|  156 | King               | 146        | Partners          |
+|  157 | Sully              | 146        | Partners          |
+|  158 | McEwen             | 146        | Partners          |
+|  159 | Smith              | 146        | Partners          |
+|  160 | Doran              | 146        | Partners          |
+|  161 | Sewall             | 146        | Partners          |
+|  162 | Vishney            | 147        | Errazuriz         |
+|  163 | Greene             | 147        | Errazuriz         |
+|  164 | Marvins            | 147        | Errazuriz         |
+|  165 | Lee                | 147        | Errazuriz         |
+|  166 | Ande               | 147        | Errazuriz         |
+|  167 | Banda              | 147        | Errazuriz         |
+|  168 | Ozer               | 148        | Cambrault         |
+|  169 | Bloom              | 148        | Cambrault         |
+|  170 | Fox                | 148        | Cambrault         |
+|  171 | Smith              | 148        | Cambrault         |
+|  172 | Bates              | 148        | Cambrault         |
+|  173 | Kumar              | 148        | Cambrault         |
+|  174 | Abel               | 149        | Zlotkey           |
+|  175 | Hutton             | 149        | Zlotkey           |
+|  176 | Taylor             | 149        | Zlotkey           |
+|  177 | Livingston         | 149        | Zlotkey           |
+|  178 | Grant              | 149        | Zlotkey           |
+|  179 | Johnson            | 149        | Zlotkey           |
+|  180 | Taylor             | 120        | Weiss             |
+|  181 | Fleaur             | 120        | Weiss             |
+|  182 | Sullivan           | 120        | Weiss             |
+|  183 | Geoni              | 120        | Weiss             |
+|  184 | Sarchand           | 121        | Fripp             |
+|  185 | Bull               | 121        | Fripp             |
+|  186 | Dellinger          | 121        | Fripp             |
+|  187 | Cabrio             | 121        | Fripp             |
+|  188 | Chung              | 122        | Kaufling          |
+|  189 | Dilly              | 122        | Kaufling          |
+|  190 | Gates              | 122        | Kaufling          |
+|  191 | Perkins            | 122        | Kaufling          |
+|  192 | Bell               | 123        | Vollman           |
+|  193 | Everett            | 123        | Vollman           |
+|  194 | McCain             | 123        | Vollman           |
+|  195 | Jones              | 123        | Vollman           |
+|  196 | Walsh              | 124        | Mourgos           |
+|  197 | Feeney             | 124        | Mourgos           |
+|  198 | OConnell           | 124        | Mourgos           |
+|  199 | Grant              | 124        | Mourgos           |
+|  200 | Whalen             | 101        | Kochhar           |
+|  201 | Hartstein          | 100        | King              |
+|  202 | Fay                | 201        | Hartstein         |
+|  203 | Mavris             | 101        | Kochhar           |
+|  204 | Baer               | 101        | Kochhar           |
+|  205 | Higgins            | 101        | Kochhar           |
+|  206 | Gietz              | 205        | Higgins           |
++------+--------------------+------------+-------------------+
+
+21.Create a report for the HR department that displays employee last names, department numbers, and all employees who work in the same department(colleague) as a given employee. Give each column an appropriate label.
+-->
+mysql> SELECT
+    ->     e1.LAST_NAME AS Employee_Last_Name,
+    ->     e1.DEPARTMENT_ID AS Department_Number,
+    ->     e2.LAST_NAME AS Colleague_Last_Name
+    -> FROM
+    ->     EMPLOYEES e1
+    -> JOIN
+    ->     EMPLOYEES e2
+    -> ON
+    ->     e1.DEPARTMENT_ID = e2.DEPARTMENT_ID
+    -> WHERE
+    ->     e1.EMPLOYEE_ID != e2.EMPLOYEE_ID;
+
+22.The HR department needs a report on job grades and salaries. To familiarize yourself with the JOB_GRADES table, first show the structure of the JOB_GRADES table. Then create a query that displays the name, job, department name, salary, and grade for all employees.
+DESC JOB_GRADES;
+-->
+SELECT
+    e.last_name AS "Last Name",
+    j.job_title AS "Job",
+    d.department_name AS "Department",
+    e.salary AS "Salary",
+    g.grade_level AS "Grade"
+FROM
+    employees e
+JOIN
+    jobs j ON e.job_id = j.job_id
+LEFT JOIN
+    departments d ON e.department_id = d.department_id
+JOIN
+    job_grades g ON e.salary BETWEEN g.lowest_sal AND g.highest_sal
+ORDER BY
+    g.grade_level, e.salary DESC;
++-------------+---------------------------------+------------------+----------+-------+
+| Last Name   | Job                             | Department       | Salary   | Grade |
++-------------+---------------------------------+------------------+----------+-------+
+| Baida       | Purchasing Clerk                | Purchasing       |  2900.00 | A     |
+| Rogers      | Stock Clerk                     | Shipping         |  2900.00 | A     |
+| Gates       | Shipping Clerk                  | Shipping         |  2900.00 | A     |
+| Atkinson    | Stock Clerk                     | Shipping         |  2800.00 | A     |
+| Geoni       | Shipping Clerk                  | Shipping         |  2800.00 | A     |
+| Jones       | Shipping Clerk                  | Shipping         |  2800.00 | A     |
+| Tobias      | Purchasing Clerk                | Purchasing       |  2800.00 | A     |
+| Seo         | Stock Clerk                     | Shipping         |  2700.00 | A     |
+| Mikkilineni | Stock Clerk                     | Shipping         |  2700.00 | A     |
+| Grant       | Shipping Clerk                  | Shipping         |  2600.00 | A     |
+| OConnell    | Shipping Clerk                  | Shipping         |  2600.00 | A     |
+| Himuro      | Purchasing Clerk                | Purchasing       |  2600.00 | A     |
+| Matos       | Stock Clerk                     | Shipping         |  2600.00 | A     |
+| Patel       | Stock Clerk                     | Shipping         |  2500.00 | A     |
+| Marlow      | Stock Clerk                     | Shipping         |  2500.00 | A     |
+| Sullivan    | Shipping Clerk                  | Shipping         |  2500.00 | A     |
+| Perkins     | Shipping Clerk                  | Shipping         |  2500.00 | A     |
+| Colmenares  | Purchasing Clerk                | Purchasing       |  2500.00 | A     |
+| Vargas      | Stock Clerk                     | Shipping         |  2500.00 | A     |
+| Gee         | Stock Clerk                     | Shipping         |  2400.00 | A     |
+| Landry      | Stock Clerk                     | Shipping         |  2400.00 | A     |
+| Philtanker  | Stock Clerk                     | Shipping         |  2200.00 | A     |
+| Markle      | Stock Clerk                     | Shipping         |  2200.00 | A     |
+| Olson       | Stock Clerk                     | Shipping         |  2100.00 | A     |
+| Mourgos     | Stock Manager                   | Shipping         |  5800.00 | B     |
+| Austin      | promote                         | IT               |  4800.00 | B     |
+| Pataballa   | promote                         | IT               |  4800.00 | B     |
+| Whalen      | Administration Assistant        | Administration   |  4400.00 | B     |
+| Lorentz     | promote                         | IT               |  4200.00 | B     |
+| Sarchand    | Shipping Clerk                  | Shipping         |  4200.00 | B     |
+| Bull        | Shipping Clerk                  | Shipping         |  4100.00 | B     |
+| Bell        | Shipping Clerk                  | Shipping         |  4000.00 | B     |
+| Everett     | Shipping Clerk                  | Shipping         |  3900.00 | B     |
+| Chung       | Shipping Clerk                  | Shipping         |  3800.00 | B     |
+| Dilly       | Shipping Clerk                  | Shipping         |  3600.00 | B     |
+| Ladwig      | Stock Clerk                     | Shipping         |  3600.00 | B     |
+| Rajs        | Stock Clerk                     | Shipping         |  3500.00 | B     |
+| Dellinger   | Shipping Clerk                  | Shipping         |  3400.00 | B     |
+| Mallin      | Stock Clerk                     | Shipping         |  3300.00 | B     |
+| Bissot      | Stock Clerk                     | Shipping         |  3300.00 | B     |
+| Nayer       | Stock Clerk                     | Shipping         |  3200.00 | B     |
+| Stiles      | Stock Clerk                     | Shipping         |  3200.00 | B     |
+| McCain      | Shipping Clerk                  | Shipping         |  3200.00 | B     |
+| Taylor      | Shipping Clerk                  | Shipping         |  3200.00 | B     |
+| Fleaur      | Shipping Clerk                  | Shipping         |  3100.00 | B     |
+| Khoo        | Purchasing Clerk                | Purchasing       |  3100.00 | B     |
+| Walsh       | Shipping Clerk                  | Shipping         |  3100.00 | B     |
+| Davies      | Stock Clerk                     | Shipping         |  3100.00 | B     |
+| Cabrio      | Shipping Clerk                  | Shipping         |  3000.00 | B     |
+| Feeney      | Shipping Clerk                  | Shipping         |  3000.00 | B     |
+| Hunold      | promote                         | IT               |  9900.00 | C     |
+| Fox         | Sales Representative            | Sales            |  9600.00 | C     |
+| Greene      | Sales Representative            | Sales            |  9500.00 | C     |
+| Sully       | Sales Representative            | Sales            |  9500.00 | C     |
+| Bernstein   | Sales Representative            | Sales            |  9500.00 | C     |
+| Faviet      | Accountant                      | Finance          |  9000.00 | C     |
+| McEwen      | Sales Representative            | Sales            |  9000.00 | C     |
+| Hall        | Sales Representative            | Sales            |  9000.00 | C     |
+| Hutton      | Sales Representative            | Sales            |  8800.00 | C     |
+| Taylor      | Sales Representative            | Sales            |  8600.00 | C     |
+| Livingston  | Sales Representative            | Sales            |  8400.00 | C     |
+| Gietz       | Public Accountant               | Accounting       |  8300.00 | C     |
+| Chen        | Accountant                      | Finance          |  8200.00 | C     |
+| Fripp       | Stock Manager                   | Shipping         |  8200.00 | C     |
+| Weiss       | Stock Manager                   | Shipping         |  8000.00 | C     |
+| Olsen       | Sales Representative            | Sales            |  8000.00 | C     |
+| Smith       | Sales Representative            | Sales            |  8000.00 | C     |
+| Kaufling    | Stock Manager                   | Shipping         |  7900.00 | C     |
+| Urman       | Accountant                      | Finance          |  7800.00 | C     |
+| Sciarra     | Accountant                      | Finance          |  7700.00 | C     |
+| Doran       | Sales Representative            | Sales            |  7500.00 | C     |
+| Cambrault   | Sales Representative            | Sales            |  7500.00 | C     |
+| Smith       | Sales Representative            | Sales            |  7400.00 | C     |
+| Bates       | Sales Representative            | Sales            |  7300.00 | C     |
+| Marvins     | Sales Representative            | Sales            |  7200.00 | C     |
+| Sewall      | Sales Representative            | Sales            |  7000.00 | C     |
+| Grant       | Sales Representative            | NULL             |  7000.00 | C     |
+| Tuvault     | Sales Representative            | Sales            |  7000.00 | C     |
+| Popp        | Accountant                      | Finance          |  6900.00 | C     |
+| Lee         | Sales Representative            | Sales            |  6800.00 | C     |
+| Mavris      | Human Resources Representative  | Human Resources  |  6500.00 | C     |
+| Vollman     | Stock Manager                   | Shipping         |  6500.00 | C     |
+| Ande        | Sales Representative            | Sales            |  6400.00 | C     |
+| Banda       | Sales Representative            | Sales            |  6200.00 | C     |
+| Johnson     | Sales Representative            | Sales            |  6200.00 | C     |
+| Kumar       | Sales Representative            | Sales            |  6100.00 | C     |
+| Ernst       | promote                         | IT               |  6000.00 | C     |
+| Fay         | Marketing Representative        | Marketing        |  6000.00 | C     |
+| Russell     | Sales Manager                   | Sales            | 14000.00 | D     |
+| Partners    | Sales Manager                   | Sales            | 13500.00 | D     |
+| Hartstein   | Marketing Manager               | Marketing        | 13000.00 | D     |
+| Errazuriz   | Sales Manager                   | Sales            | 12000.00 | D     |
+| Greenberg   | Finance Manager                 | Finance          | 12000.00 | D     |
+| Higgins     | Accounting Manager              | Accounting       | 12000.00 | D     |
+| Ozer        | Sales Representative            | Sales            | 11500.00 | D     |
+| Raphaely    | Purchasing Manager              | Purchasing       | 11000.00 | D     |
+| Abel        | Sales Representative            | Sales            | 11000.00 | D     |
+| Zlotkey     | Sales Manager                   | Sales            | 10500.00 | D     |
+| Vishney     | Sales Representative            | Sales            | 10500.00 | D     |
+| Bloom       | Sales Representative            | Sales            | 10000.00 | D     |
+| King        | Sales Representative            | Sales            | 10000.00 | D     |
+| Tucker      | Sales Representative            | Sales            | 10000.00 | D     |
+| Cambrault   | Sales Manager                   | Sales            | 10000.00 | D     |
+| Baer        | Public Relations Representative | Public Relations | 10000.00 | D     |
+| King        | President                       | Executive        | 24000.00 | E     |
+| Kochhar     | Administration Vice President   | Executive        | 17000.00 | E     |
+| De Haan     | Administration Vice President   | Executive        | 17000.00 | E     |
++-------------+---------------------------------+------------------+----------+-------+
+
+23.The HR department wants to determine the names of all employees who were hired after Davies. Create a query to display the name and hire date of any employee hired after employee Davies.
+-->
+select 
+	e.last_name as "Employee Name",
+	e.hire_date as "Hire Date",
+	e2.hire_date as "Davies hire Date"
+from 
+	employees e
+	join
+	employees e2 on e.hire_date > e2.hire_date
+where 	
+	e2.last_name = 'Davies';
+	
++---------------+------------+------------------+
+| Employee Name | Hire Date  | Davies hire Date |
++---------------+------------+------------------+
+| Austin        | 1997-06-25 | 1997-01-29       |
+| Pataballa     | 1998-02-05 | 1997-01-29       |
+| Lorentz       | 1999-02-07 | 1997-01-29       |
+| Chen          | 1997-09-28 | 1997-01-29       |
+| Sciarra       | 1997-09-30 | 1997-01-29       |
+| Urman         | 1998-03-07 | 1997-01-29       |
+| Popp          | 1999-12-07 | 1997-01-29       |
+| Baida         | 1997-12-24 | 1997-01-29       |
+| Tobias        | 1997-07-24 | 1997-01-29       |
+| Himuro        | 1998-11-15 | 1997-01-29       |
+| Colmenares    | 1999-08-10 | 1997-01-29       |
+| Fripp         | 1997-04-10 | 1997-01-29       |
+| Vollman       | 1997-10-10 | 1997-01-29       |
+| Mourgos       | 1999-11-16 | 1997-01-29       |
+| Nayer         | 1997-07-16 | 1997-01-29       |
+| Mikkilineni   | 1998-09-28 | 1997-01-29       |
+| Landry        | 1999-01-14 | 1997-01-29       |
+| Markle        | 2000-03-08 | 1997-01-29       |
+| Bissot        | 1997-08-20 | 1997-01-29       |
+| Atkinson      | 1997-10-30 | 1997-01-29       |
+| Marlow        | 1997-02-16 | 1997-01-29       |
+| Olson         | 1999-04-10 | 1997-01-29       |
+| Rogers        | 1998-08-26 | 1997-01-29       |
+| Gee           | 1999-12-12 | 1997-01-29       |
+| Philtanker    | 2000-02-06 | 1997-01-29       |
+| Stiles        | 1997-10-26 | 1997-01-29       |
+| Seo           | 1998-02-12 | 1997-01-29       |
+| Patel         | 1998-04-06 | 1997-01-29       |
+| Matos         | 1998-03-15 | 1997-01-29       |
+| Vargas        | 1998-07-09 | 1997-01-29       |
+| Errazuriz     | 1997-03-10 | 1997-01-29       |
+| Cambrault     | 1999-10-15 | 1997-01-29       |
+| Zlotkey       | 2000-01-29 | 1997-01-29       |
+| Tucker        | 1997-01-30 | 1997-01-29       |
+| Bernstein     | 1997-03-24 | 1997-01-29       |
+| Hall          | 1997-08-20 | 1997-01-29       |
+| Olsen         | 1998-03-30 | 1997-01-29       |
+| Cambrault     | 1998-12-09 | 1997-01-29       |
+| Tuvault       | 1999-11-23 | 1997-01-29       |
+| Smith         | 1997-03-10 | 1997-01-29       |
+| Doran         | 1997-12-15 | 1997-01-29       |
+| Sewall        | 1998-11-03 | 1997-01-29       |
+| Vishney       | 1997-11-11 | 1997-01-29       |
+| Greene        | 1999-03-19 | 1997-01-29       |
+| Marvins       | 2000-01-24 | 1997-01-29       |
+| Lee           | 2000-02-23 | 1997-01-29       |
+| Ande          | 2000-03-24 | 1997-01-29       |
+| Banda         | 2000-04-21 | 1997-01-29       |
+| Ozer          | 1997-03-11 | 1997-01-29       |
+| Bloom         | 1998-03-23 | 1997-01-29       |
+| Fox           | 1998-01-24 | 1997-01-29       |
+| Smith         | 1999-02-23 | 1997-01-29       |
+| Bates         | 1999-03-24 | 1997-01-29       |
+| Kumar         | 2000-04-21 | 1997-01-29       |
+| Hutton        | 1997-03-19 | 1997-01-29       |
+| Taylor        | 1998-03-24 | 1997-01-29       |
+| Livingston    | 1998-04-23 | 1997-01-29       |
+| Grant         | 1999-05-24 | 1997-01-29       |
+| Johnson       | 2000-01-04 | 1997-01-29       |
+| Taylor        | 1998-01-24 | 1997-01-29       |
+| Fleaur        | 1998-02-23 | 1997-01-29       |
+| Sullivan      | 1999-06-21 | 1997-01-29       |
+| Geoni         | 2000-02-03 | 1997-01-29       |
+| Bull          | 1997-02-20 | 1997-01-29       |
+| Dellinger     | 1998-06-24 | 1997-01-29       |
+| Cabrio        | 1999-02-07 | 1997-01-29       |
+| Chung         | 1997-06-14 | 1997-01-29       |
+| Dilly         | 1997-08-13 | 1997-01-29       |
+| Gates         | 1998-07-11 | 1997-01-29       |
+| Perkins       | 1999-12-19 | 1997-01-29       |
+| Everett       | 1997-03-03 | 1997-01-29       |
+| McCain        | 1998-07-01 | 1997-01-29       |
+| Jones         | 1999-03-17 | 1997-01-29       |
+| Walsh         | 1998-04-24 | 1997-01-29       |
+| Feeney        | 1998-05-23 | 1997-01-29       |
+| OConnell      | 1999-06-21 | 1997-01-29       |
+| Grant         | 2000-01-13 | 1997-01-29       |
+| Fay           | 1997-08-17 | 1997-01-29       |
++---------------+------------+------------------+
+
+24.The HR department needs to find the names and hire dates of all employees who were hired before their managers, along with their managers’ names and hire dates.
+-->
+SELECT 
+    e.last_name AS "Last name",
+    e.hire_date AS "Hire Date",
+    m.last_name AS "Manager Last Name",
+    m.hire_date AS "Manager Hire Date"
+FROM 
+    employees e JOIN employees m
+    ON e.manager_id = m.employee_id
+WHERE     
+    e.hire_date < m.hire_date;
+
++------------+------------+-------------------+-------------------+
+| Last name  | Hire Date  | Manager Last Name | Manager Hire Date |
++------------+------------+-------------------+-------------------+
+| Hunold     | 1990-01-03 | De Haan           | 1993-01-13        |
+| Faviet     | 1994-08-16 | Greenberg         | 1994-08-17        |
+| Marlow     | 1997-02-16 | Fripp             | 1997-04-10        |
+| Ladwig     | 1995-07-14 | Vollman           | 1997-10-10        |
+| Rajs       | 1995-10-17 | Mourgos           | 1999-11-16        |
+| Davies     | 1997-01-29 | Mourgos           | 1999-11-16        |
+| Matos      | 1998-03-15 | Mourgos           | 1999-11-16        |
+| Vargas     | 1998-07-09 | Mourgos           | 1999-11-16        |
+| King       | 1996-01-30 | Partners          | 1997-01-05        |
+| Sully      | 1996-03-04 | Partners          | 1997-01-05        |
+| McEwen     | 1996-08-01 | Partners          | 1997-01-05        |
+| Ozer       | 1997-03-11 | Cambrault         | 1999-10-15        |
+| Bloom      | 1998-03-23 | Cambrault         | 1999-10-15        |
+| Fox        | 1998-01-24 | Cambrault         | 1999-10-15        |
+| Smith      | 1999-02-23 | Cambrault         | 1999-10-15        |
+| Bates      | 1999-03-24 | Cambrault         | 1999-10-15        |
+| Abel       | 1996-05-11 | Zlotkey           | 2000-01-29        |
+| Hutton     | 1997-03-19 | Zlotkey           | 2000-01-29        |
+| Taylor     | 1998-03-24 | Zlotkey           | 2000-01-29        |
+| Livingston | 1998-04-23 | Zlotkey           | 2000-01-29        |
+| Grant      | 1999-05-24 | Zlotkey           | 2000-01-29        |
+| Johnson    | 2000-01-04 | Zlotkey           | 2000-01-29        |
+| Sarchand   | 1996-01-27 | Fripp             | 1997-04-10        |
+| Bull       | 1997-02-20 | Fripp             | 1997-04-10        |
+| Bell       | 1996-02-04 | Vollman           | 1997-10-10        |
+| Everett    | 1997-03-03 | Vollman           | 1997-10-10        |
+| Walsh      | 1998-04-24 | Mourgos           | 1999-11-16        |
+| Feeney     | 1998-05-23 | Mourgos           | 1999-11-16        |
+| OConnell   | 1999-06-21 | Mourgos           | 1999-11-16        |
+| Whalen     | 1987-09-17 | Kochhar           | 1989-09-21        |
++------------+------------+-------------------+-------------------+
+
+ -------------------------------------------------------------------------------------- Using Subqueries to Solve Queries ----------------------------------------------------------------------------------------
+ 
+
+25.The HR department needs a query the to display  the last name and hire date of any employee in the same department as the employee whose name the user supplies (excluding that employee). For example, if the user enters Zlotkey, find all employees who work with Zlotkey (excluding Zlotkey).
+-->
+
+26.Create a report that displays the employee number, last name, and salary of all employees who earn more than the average salary. Sort the results in ascending order by salary.
+-->
+
+27.Write a query that displays the employee number and last name of all employees who work in a department with any employee whose last name contains the letter “u.” 
+-->
+
+28.The HR department needs a report that displays the last name, department number, and job ID of all employees whose department location ID is 1700.
+-->
+
+29.Create a report for HR that displays the last name and salary of every employee who reports to King.
+-->
+
+
+30.Create a report for HR that displays the department number, last name, and job ID for every employee in the Executive department.
+-->
+
+31.Create a report that displays a list of all employees whose salary is more than the salary of any employee from department 60.
+-->
+
+32.Modify above query in display the employee number, last name, and salary of all employees who earn more than the average salary and who work in a department with any employee whose 
+-->
+
+-------------------------------------------------------------------------------------------: Using Set Operators :------------------------------------------------------------------------------------------------
+
+33.The HR department needs a list of department IDs for departments that do not contain the job ID ST_CLERK. Use the set operators to create this report.
+-->
+
+34.The HR department needs a list of countries that have no departments located in them. Display the country IDs and the names of the countries. Use the set operators to create this report.
+-->
+
+35.Produce a list of all the employees who work in departments 50 and 80. Display the employee ID, job ID, and department ID by using the set operators.
+-->
+
+36.Create a report that lists the detail of all employees who are sales representatives and are currently working in the sales department.
+-->
+
+----------------------------------------------------------------------------------Managing Tables by Using DML Statements-----------------------------------------------------------------------------------------
+Insert data into the MY_EMPLOYEE table.
+37.	Create a table called MY_EMPLOYEE.
+CREATE TABLE my_employee
+(id int CONSTRAINT my_employee_id_pk PRIMARY Key,
+ last_name VARCHAR(25),
+first_name VARCHAR(25),
+userid VARCHAR(8), salary decimal(9,2));
+-->
+
+38.	Create an INSERT statement to add the first row of data to the MY_EMPLOYEE table from the following sample data. Do not list the columns in the INSERT clause.
+ID	LAST_NAME	FIRST_NAME	USERID	SALARY
+1	Patel	Ralph	rpatel	895
+2	Dancs	Betty	bdancs	860
+3	Biri	Ben	bbiri	1100
+4	Newman	Chad	cnewman	750
+5	Ropeburn	Audrey	aropebur	1550
+pass values to id last_name,first_name and salary and generate userid as given
+-->
+
+------------------------------------- procedure ----------------------
+1. Retrieve Employees by Manager
+Objective: Create a stored procedure that retrieves all employees under a specific manager.
+
+Input: p_manager_id IN NUMBER (Manager's employee ID)
+Output: List of employees with their details (Employee ID, First Name, Last Name, Job Title, Salary)
+Business Logic: The procedure should return employees whose manager_id matches the given p_manager_id.
+-->
+mysql> delimiter //
+mysql> drop procedure if exists RetriveEmployeesByManager;
+    -> create procedure RetriveEmployeesByManager(in p_manager_id int)
+    -> begin
+    -> select e.employee_id,e.first_name,e.last_name,j.job_title,e.salary
+    -> from employees e
+    -> join jobs j
+    -> on e.job_id = j.job_id
+    -> where e.manager_id = p_manager_id;
+    -> end //
+Query OK, 0 rows affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call RetriveEmployeesByManager(100);
++-------------+------------+-----------+-------------------------------+----------+
+| employee_id | first_name | last_name | job_title                     | salary   |
++-------------+------------+-----------+-------------------------------+----------+
+|         101 | Neena      | Kochhar   | Administration Vice President | 17000.00 |
+|         102 | Lex        | De Haan   | Administration Vice President | 17000.00 |
+|         114 | Den        | Raphaely  | Purchasing Manager            | 11000.00 |
+|         120 | Matthew    | Weiss     | Stock Manager                 |  8000.00 |
+|         121 | Adam       | Fripp     | Stock Manager                 |  8200.00 |
+|         122 | Payam      | Kaufling  | Stock Manager                 |  7900.00 |
+|         123 | Shanta     | Vollman   | Stock Manager                 |  6500.00 |
+|         124 | Kevin      | Mourgos   | Stock Manager                 |  5800.00 |
+|         145 | John       | Russell   | Sales Manager                 | 14000.00 |
+|         146 | Karen      | Partners  | Sales Manager                 | 13500.00 |
+|         147 | Alberto    | Errazuriz | Sales Manager                 | 12000.00 |
+|         148 | Gerald     | Cambrault | Sales Manager                 | 11000.00 |
+|         149 | Eleni      | Zlotkey   | Sales Manager                 | 10500.00 |
+|         201 | Michael    | Hartstein | Marketing Manager             | 13000.00 |
++-------------+------------+-----------+-------------------------------+----------+
+
+
+2. Update Employee Salary
+Objective: Create a stored procedure that updates the salary of a given employee based on their employee ID.
+Input: p_employee_id IN NUMBER, p_new_salary IN NUMBER
+Output: Success message or error message if the employee is not found.
+Business Logic: The procedure should check if the employee exists and then update their salary. If the employee doesn't exist, return an error message.
+-->
+delimiter //
+DROP PROCEDURE IF EXISTS updateSal;
+create procedure updateSal(p_employee_id int,p_new_salary decimal(8,2))
+begin
+	if p_employee_id in (select employee_id from employees)
+	then 
+		update employees 
+		set salary = p_new_salary
+		where employee_id = p_employee_id;
+		select 'Success'AS Result;
+	else
+		select 'Employee ID not Found!'AS Result;
+	end if;
+end//
+delimiter ;
+
+call updateSal(148,10000);
+
++---------+
+| Result  |
++---------+
+| Success |
++---------+
+
+3. Employee Count by Department
+Objective: Create a stored procedure that returns the count of employees in a specific department.
+Input: p_department_id IN NUMBER
+Output: Count of employees in that department.
+Business Logic: The procedure should count the employees in the specified department and return the result.
+-->
+delimiter //
+drop procedure if exists CountByDepartment;
+create procedure CountByDepartment(in p_department_id int,out num int)
+begin
+	select count(*) into num from employees where department_id=p_department_id;
+end//
+delimiter ;
+call CountByDepartment(80,@num);
+select @num;
+mysql> select @num;
++------+
+| @num |
++------+
+|   34 |
++------+
+
+4. Employee Job Title and Salary Information
+Objective: Create a stored procedure that retrieves employees' job titles and salary information based on a specific job title.
+Input: p_job_id IN VARCHAR2
+Output: List of employees with job title and salary.
+Business Logic: The procedure should return the employee ID, first name, last name, and salary for employees with the specified job title.
+-->
+delimiter //
+drop procedure if exists Information;
+create procedure Information(in p_job_id varchar(20))
+begin
+	select e.employee_id,e.first_name,e.last_name,e.salary,j.job_title
+	from jobs j join employees e 
+	on j.job_id= e.job_id
+	where j.job_id = p_job_id;
+end //
+
+delimiter ;
+
+mysql> call Information('PU_MAN');
++-------------+------------+-----------+----------+--------------------+
+| employee_id | first_name | last_name | salary   | job_title          |
++-------------+------------+-----------+----------+--------------------+
+|         114 | Den        | Raphaely  | 11000.00 | Purchasing Manager |
++-------------+------------+-----------+----------+--------------------+
+
+5. Promote Employee
+Objective: Create a stored procedure to promote an employee by changing their job title and salary.
+Input: p_employee_id IN NUMBER, p_new_job_id IN VARCHAR2, p_salary_increase IN NUMBER
+Output: Success or failure message.
+Business Logic: The procedure should check if the employee exists, and then update the job_id and salary based on the provided values. Ensure salary increase is not less than a certain percentage (e.g., 10%).
+-->
+delimiter //
+drop procedure if exists promoteEmp;
+create procedure promoteEmp(pid int, jid varchar(10), insal decimal(8,2))
+begin
+		if pid not in (select employee_id from employees)
+		then 
+		select 'Failure';
+		else
+		update employees e
+		join jobs j
+		on e.job_id = j.job_id
+		set e.salary = salary * (100+insal)/100, j.job_title = 'promote'
+		where e.employee_id = pid;
+		select 'Success';
+		end if;
+
+end //
+delimiter ;
+
+call promoteEmp(103,'IT_PROG',10);
+mysql> call promoteEmp(103,'IT_PROG',10);
++---------+
+| Success |
++---------+
+| Success |
++---------+
+
+6. Employee Payroll Report
+Objective: Create a stored procedure that generates a payroll report for a specific date range.
+Input: p_start_date IN DATE, p_end_date IN DATE
+Output: A list of employees along with their payroll details (Employee ID, Name, Job Title, Salary, Bonus, Total Pay).
+Business Logic: The procedure should return payroll data (including salary and any bonuses) for employees who were active during the specified date range.
+-->
+delimiter //
+
+create procedure GeneratePayrollReport(in p_start_date date,in p_end_date date)
+begin
+	select 
+		e.employee_id as "Employee ID",
+		concat(first_name,' ',last_name)as "Employee Name",
+		j.job_title as "Job Title",
+		e.salary as "Base Salary",
+		e.salary + ifnull(e.salary*e.commission_pct,0) as "Total Pay",
+		e.hire_date as "Hire Date"
+	from 
+		employees e
+	join 	
+		jobs j on e.job_id = j.job_id
+	where 
+		e.hire_date <= p_end_date 
+		and
+		e.hire_date >= p_start_date;
+end //
+delimiter ;
+
+call GeneratePayrollReport('1987-06-17','1998-03-15');
+ +-------------+-------------------+---------------------------------+-------------+------------+------------+
+| Employee ID | Employee Name     | Job Title                       | Base Salary | Total Pay  | Hire Date  |
++-------------+-------------------+---------------------------------+-------------+------------+------------+
+|         100 | Steven King       | President                       |    24000.00 | 24000.0000 | 1987-06-17 |
+|         101 | Neena Kochhar     | Administration Vice President   |    17000.00 | 17000.0000 | 1989-09-21 |
+|         102 | Lex De Haan       | Administration Vice President   |    17000.00 | 17000.0000 | 1993-01-13 |
+|         103 | Alexander Hunold  | promote                         |     9900.00 |  9900.0000 | 1990-01-03 |
+|         104 | Bruce Ernst       | promote                         |     6000.00 |  6000.0000 | 1991-05-21 |
+|         105 | David Austin      | promote                         |     4800.00 |  4800.0000 | 1997-06-25 |
+|         106 | Valli Pataballa   | promote                         |     4800.00 |  4800.0000 | 1998-02-05 |
+|         108 | Nancy Greenberg   | Finance Manager                 |    12000.00 | 12000.0000 | 1994-08-17 |
+|         109 | Daniel Faviet     | Accountant                      |     9000.00 |  9000.0000 | 1994-08-16 |
+|         110 | John Chen         | Accountant                      |     8200.00 |  8200.0000 | 1997-09-28 |
+|         111 | Ismael Sciarra    | Accountant                      |     7700.00 |  7700.0000 | 1997-09-30 |
+|         112 | Jose Manuel Urman | Accountant                      |     7800.00 |  7800.0000 | 1998-03-07 |
+|         114 | Den Raphaely      | Purchasing Manager              |    11000.00 | 11000.0000 | 1994-12-07 |
+|         115 | Alexander Khoo    | Purchasing Clerk                |     3100.00 |  3100.0000 | 1995-05-18 |
+|         116 | Shelli Baida      | Purchasing Clerk                |     2900.00 |  2900.0000 | 1997-12-24 |
+|         117 | Sigal Tobias      | Purchasing Clerk                |     2800.00 |  2800.0000 | 1997-07-24 |
+|         120 | Matthew Weiss     | Stock Manager                   |     8000.00 |  8000.0000 | 1996-07-18 |
+|         121 | Adam Fripp        | Stock Manager                   |     8200.00 |  8200.0000 | 1997-04-10 |
+|         122 | Payam Kaufling    | Stock Manager                   |     7900.00 |  7900.0000 | 1995-05-01 |
+|         123 | Shanta Vollman    | Stock Manager                   |     6500.00 |  6500.0000 | 1997-10-10 |
+|         125 | Julia Nayer       | Stock Clerk                     |     3200.00 |  3200.0000 | 1997-07-16 |
+|         129 | Laura Bissot      | Stock Clerk                     |     3300.00 |  3300.0000 | 1997-08-20 |
+|         130 | Mozhe Atkinson    | Stock Clerk                     |     2800.00 |  2800.0000 | 1997-10-30 |
+|         131 | James Marlow      | Stock Clerk                     |     2500.00 |  2500.0000 | 1997-02-16 |
+|         133 | Jason Mallin      | Stock Clerk                     |     3300.00 |  3300.0000 | 1996-06-14 |
+|         137 | Renske Ladwig     | Stock Clerk                     |     3600.00 |  3600.0000 | 1995-07-14 |
+|         138 | Stephen Stiles    | Stock Clerk                     |     3200.00 |  3200.0000 | 1997-10-26 |
+|         139 | John Seo          | Stock Clerk                     |     2700.00 |  2700.0000 | 1998-02-12 |
+|         141 | Trenna Rajs       | Stock Clerk                     |     3500.00 |  3500.0000 | 1995-10-17 |
+|         142 | Curtis Davies     | Stock Clerk                     |     3100.00 |  3100.0000 | 1997-01-29 |
+|         143 | Randall Matos     | Stock Clerk                     |     2600.00 |  2600.0000 | 1998-03-15 |
+|         145 | John Russell      | Sales Manager                   |    14000.00 | 19600.0000 | 1996-10-01 |
+|         146 | Karen Partners    | Sales Manager                   |    13500.00 | 17550.0000 | 1997-01-05 |
+|         147 | Alberto Errazuriz | Sales Manager                   |    12000.00 | 15600.0000 | 1997-03-10 |
+|         150 | Peter Tucker      | Sales Representative            |    10000.00 | 13000.0000 | 1997-01-30 |
+|         151 | David Bernstein   | Sales Representative            |     9500.00 | 11875.0000 | 1997-03-24 |
+|         152 | Peter Hall        | Sales Representative            |     9000.00 | 11250.0000 | 1997-08-20 |
+|         156 | Janette King      | Sales Representative            |    10000.00 | 13500.0000 | 1996-01-30 |
+|         157 | Patrick Sully     | Sales Representative            |     9500.00 | 12825.0000 | 1996-03-04 |
+|         158 | Allan McEwen      | Sales Representative            |     9000.00 | 12150.0000 | 1996-08-01 |
+|         159 | Lindsey Smith     | Sales Representative            |     8000.00 | 10400.0000 | 1997-03-10 |
+|         160 | Louise Doran      | Sales Representative            |     7500.00 |  9750.0000 | 1997-12-15 |
+|         162 | Clara Vishney     | Sales Representative            |    10500.00 | 13125.0000 | 1997-11-11 |
+|         168 | Lisa Ozer         | Sales Representative            |    11500.00 | 14375.0000 | 1997-03-11 |
+|         170 | Tayler Fox        | Sales Representative            |     9600.00 | 11520.0000 | 1998-01-24 |
+|         174 | Ellen Abel        | Sales Representative            |    11000.00 | 14300.0000 | 1996-05-11 |
+|         175 | Alyssa Hutton     | Sales Representative            |     8800.00 | 11000.0000 | 1997-03-19 |
+|         180 | Winston Taylor    | Shipping Clerk                  |     3200.00 |  3200.0000 | 1998-01-24 |
+|         181 | Jean Fleaur       | Shipping Clerk                  |     3100.00 |  3100.0000 | 1998-02-23 |
+|         184 | Nandita Sarchand  | Shipping Clerk                  |     4200.00 |  4200.0000 | 1996-01-27 |
+|         185 | Alexis Bull       | Shipping Clerk                  |     4100.00 |  4100.0000 | 1997-02-20 |
+|         188 | Kelly Chung       | Shipping Clerk                  |     3800.00 |  3800.0000 | 1997-06-14 |
+|         189 | Jennifer Dilly    | Shipping Clerk                  |     3600.00 |  3600.0000 | 1997-08-13 |
+|         192 | Sarah Bell        | Shipping Clerk                  |     4000.00 |  4000.0000 | 1996-02-04 |
+|         193 | Britney Everett   | Shipping Clerk                  |     3900.00 |  3900.0000 | 1997-03-03 |
+|         200 | Jennifer Whalen   | Administration Assistant        |     4400.00 |  4400.0000 | 1987-09-17 |
+|         201 | Michael Hartstein | Marketing Manager               |    13000.00 | 13000.0000 | 1996-02-17 |
+|         202 | Pat Fay           | Marketing Representative        |     6000.00 |  6000.0000 | 1997-08-17 |
+|         203 | Susan Mavris      | Human Resources Representative  |     6500.00 |  6500.0000 | 1994-06-07 |
+|         204 | Hermann Baer      | Public Relations Representative |    10000.00 | 10000.0000 | 1994-06-07 |
+|         205 | Shelley Higgins   | Accounting Manager              |    12000.00 | 12000.0000 | 1994-06-07 |
+|         206 | William Gietz     | Public Accountant               |     8300.00 |  8300.0000 | 1994-06-07 |
++-------------+-------------------+---------------------------------+-------------+------------+------------+
+
+7. Employee Tenure
+Objective: Create a stored procedure that calculates and returns the tenure (in years) for an employee based on their hire date.
+Input: p_employee_id IN NUMBER
+Output: Employee's tenure in years.
+Business Logic: The procedure should calculate the difference between the current date and the employee's hire date, returning the number of years the employee has worked.
+-->
+
+delimiter //
+
+create procedure tenure(in p_employee_id int,out res int)
+begin 
+select timestampdiff(year,hire_date,curdate()) as "year of exp" into res from employees where employee_id = 100;
+end //
+delimiter ;
+
+call tenure(100,@res);
+
+select @res;
++------+
+| @res |
++------+
+|   37 |
++------+
+
+8. Department Budget Summary
+Objective: Create a stored procedure that calculates and returns the total salary expense for a department.
+Input: p_department_id IN NUMBER
+Output: Total salary expense for the department.
+Business Logic: The procedure should sum the salaries of all employees in the given department and return the total salary expense.
+-->
+delimiter //
+create procedure Budget(in p_department_id int)
+begin
+	select 
+		 
+	sum(e.salary + ifnull(e.salary*e.commission_pct,0)) as "Total salary"  
+	from employees  e
+	where e.department_id = p_department_id;
+end //
+delimiter ;
+
+call Budget(50);
+
++--------------+
+| Total salary |
++--------------+
+|  156400.0000 |
++--------------+
+
+9. Find Employees with No Manager
+Objective: Create a stored procedure that identifies employees who do not have a manager assigned.
+Input: None
+Output: List of employees without a manager (Employee ID, Name, Job Title).
+Business Logic: The procedure should return a list of employees whose manager_id is NULL.
+-->
+delimiter //
+create procedure NoManager() 
+begin
+	select e.employee_id,concat(e.first_name,' ',e.last_name) as Name,j.job_title 
+	from employees e join jobs j 
+	on e.job_id = j.job_id
+	where e.manager_id is null;
+ end //
+delimiter ;
+call NoManager;
++-------------+-------------+-----------+
+| employee_id | Name        | job_title |
++-------------+-------------+-----------+
+|         100 | Steven King | President |
++-------------+-------------+-----------+
+
+10. Employee Turnover Rate
+Objective: Create a stored procedure that calculates the turnover rate for a department within a given period.
+Input: p_department_id IN NUMBER, p_start_date IN DATE, p_end_date IN DATE
+Output: Turnover rate as a percentage of the total number of employees in that department who left during the specified period.
+Business Logic: The procedure should calculate the number of employees who left the department within the given date range and divide by the total number of employees in the department during that period.
+-->
+
+----------------------------- Function -----------------------
+1. Problem: "The finance department needs to calculate the average salary for each department to analyze salary distribution and budget planning."
+Function: GetAverageDepartmentSalary(dept_id INT)
+-->
+mysql> delimiter //
+mysql> create function getAvgSal1(dept_id int) returns decimal(8,2)
+    -> begin
+    -> declare x decimal(8,2);
+    -> select avg(salary) into x from employees where department_id = dept_id;
+    -> return x;
+    -> end //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> delimiter ;
+mysql>
+mysql> select getAvgSal(80);
++---------------+
+| getAvgSal(80) |
++---------------+
+|       8955.88 |
++---------------+
+
+2. Problem: "As an HR analyst, I need to quickly retrieve the full name of an employee given their employee ID for reporting purposes."
+Function: GetEmployeeFullName(emp_id INT)
+-->
+mysql> delimiter //
+mysql> create function GetFullName(emp_id int) returns varchar(60)
+    -> begin
+    -> declare name varchar(60);
+    -> select concat(first_name,' ',last_name) into name from employees where employee_id = emp_id;
+    -> return name;
+    -> end //
+mysql> delimiter ;
+mysql> select GetFullName(100);
++------------------+
+| GetFullName(100) |
++------------------+
+| Steven King      |
++------------------+
+
+3.Problem: "When reviewing employee information, I need to know the department name an employee belongs to, given their employee ID."
+Function: GetEmployeeDepartmentName(emp_id INT)
+-->
+mysql> delimiter //
+mysql> create function GetEmployeeDepartmentName(emp_id INT) returns varchar(60)
+    -> begin
+    -> declare name varchar(60);
+    -> select d.department_name into name from departments d,employees e where d.department_id =e.department_id and e.employee_id = emp_id;
+    -> return name;
+    -> end //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter ;
+mysql> select GetEmployeeDepartmentName(100);
++--------------------------------+
+| GetEmployeeDepartmentName(100) |
++--------------------------------+
+| Executive                      |
++--------------------------------+
+
+4.Problem: "The HR department requires a count of employees in each department for workforce planning and resource allocation."
+Function: CountEmployeesInDepartment(dept_id INT)
+-->
+mysql> delimiter //
+mysql> create function CountEmployeesInDepartment(dept_id INT) returns int
+    -> begin
+    -> declare num int;
+    -> select count(*) into num from employees where department_id = dept_id;
+    -> return num;
+    -> end //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter ;
+mysql> select CountEmployeesInDepartment(80);
++--------------------------------+
+| CountEmployeesInDepartment(80) |
++--------------------------------+
+|                             34 |
++--------------------------------+
+
+5.Problem: "The HR department needs to know the highest salary within each department for salary benchmarking and to identify potential pay disparities."
+Function: GetHighestSalaryInDepartment(dept_id INT)
+-->
+mysql> delimiter //
+mysql> create function GetHighestSalaryInDepartment(dept_id INT) returns int
+    -> begin
+    -> declare num int;
+    -> select max(salary) into num from employees where department_id = dept_id;
+    -> return num;
+    -> end //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> select GetHighestSalaryInDepartment(80);
++----------------------------------+
+| GetHighestSalaryInDepartment(80) |
++----------------------------------+
+|                            14000 |
++----------------------------------+
+
+
+
+
+
+
+
+
+
+
+
+

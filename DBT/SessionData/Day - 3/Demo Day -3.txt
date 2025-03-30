@@ -1,0 +1,821 @@
+-handling data from multiple tables
+  1.where clause
+  2. set operators
+-built in functions 
+-constraints
+
+insert clause revisit
+-------------------
+insert into emp(empno,ename,sal)
+values(1111,'Amit',20000.89);
+
+insert into emp
+values(2222,'Smita',null,null,null,2000,400,10);
+
+----------------------------------------------------
+emp(empno,ename,deptno)
+dept(deptno,dname,loc)
+salgrade(grade,losal,hisal)
+
+display empno,ename,deptno,dname,loc
+
+select emp.empno, emp.ename, emp.deptno, dept.deptno,dept.dname, dept.loc
+from emp,dept
+where emp.deptno=dept.deptno;
+
+mysql> select emp.empno, emp.ename, emp.deptno, dept.deptno,dept.dname, dept.loc
+    -> from emp,dept
+    -> where emp.deptno=dept.deptno;
++-------+--------+--------+--------+------------+----------+
+| empno | ename  | deptno | deptno | dname      | loc      |
++-------+--------+--------+--------+------------+----------+
+|  7369 | SMITH  |     20 |     20 | RESEARCH   | DALLAS   |
+|  7499 | ALLEN  |     30 |     30 | SALES      | CHICAGO  |
+|  7521 | WARD   |     30 |     30 | SALES      | CHICAGO  |
+|  7566 | JONES  |     20 |     20 | RESEARCH   | DALLAS   |
+|  7654 | MARTIN |     30 |     30 | SALES      | CHICAGO  |
+|  7698 | BLAKE  |     30 |     30 | SALES      | CHICAGO  |
+|  7782 | CLARK  |     10 |     10 | ACCOUNTING | NEW YORK |
+|  7788 | SCOTT  |     20 |     20 | RESEARCH   | DALLAS   |
+|  7839 | KING   |     10 |     10 | ACCOUNTING | NEW YORK |
+|  7844 | TURNER |     30 |     30 | SALES      | CHICAGO  |
+|  7876 | ADAMS  |     20 |     20 | RESEARCH   | DALLAS   |
+|  7900 | JAMES  |     30 |     30 | SALES      | CHICAGO  |
+|  7902 | FORD   |     20 |     20 | RESEARCH   | DALLAS   |
+|  7934 | MILLER |     10 |     10 | ACCOUNTING | NEW YORK |
++-------+--------+--------+--------+------------+----------+
+14 rows in set (0.00 sec)
+
+dip empno,ename,deptno,dname,loc,sal,grade
+
+select e.empno,e.ename,e.deptno,d.dname,d.loc,s.grade
+from emp e, dept d, salgrade s
+where e.deptno=d.deptno and e.sal between s.losal and s.hisal;
+
+cat(cid,cname)
+create table cat
+(cid int,
+ cname varchar(12)
+);
+
+create table product
+(pid int,
+ pname varchar(25),
+ cid int
+);
+
+create table prod_det
+(pid int,
+ qty int,
+ price float(9,2));
+
+insert into cat
+values(100,'Food'),
+      (200,'Clothes'),
+      (300,'Stationary'),
+       (400,'Electronics');
+
+insert into product
+values(1,'Dairy Milk',100),
+      (2,'charger',400),
+      (3,'jeans',200),
+      (4,'pen',300);
+
+insert into prod_det
+values(1,56,40),
+      (2,15,500),
+      (3,34,1200);
+
+disp pid,pname,cid,cname,qty,price
+
+select p.pid,p.pname,p.cid,c.cname,pd.qty,pd.price
+from product p,cat c,prod_det pd
+where p.cid=c.cid and p.pid=pd.pid;
+
+select p.pid,p.pname,p.cid,c.cname,pd.qty,pd.price
+from product p,cat c,prod_det pd
+where p.cid=c.cid and p.pid=pd.pid
+order by p.pid;
++------+------------+------+-------------+------+---------+
+| pid  | pname      | cid  | cname       | qty  | price   |
++------+------------+------+-------------+------+---------+
+|    1 | Dairy Milk |  100 | Food        |   56 |   40.00 |
+|    2 | charger    |  400 | Electronics |   15 |  500.00 |
+|    3 | jeans      |  200 | Clothes     |   34 | 1200.00 |
++------+------------+------+-------------+------+---------+
+3 rows in set (0.00 sec)
+
+set operators
+------------
+union
+a={10,20,30,40}
+      -- --
+b={20,30,50}
+   -- --
+a union b ={10,20,30,40,50}
+
+union all
+a={10,20,30,40}
+      -- --
+b={20,30,50}
+   -- --
+a union all b ={10,20,30,40,20,30,50}
+gives duplicate data
+
+intersect
+a={10,20,30,40}
+      -- --
+b={20,30,50}
+   -- --
+a intersect b ={20,30}
+common values
+
+minus(except) 
+a={10,20,30,40}
+      -- --
+b={20,30,50}
+   -- --
+a except b ={10,40}
+b except a ={50}
+
+create table t1
+(id int,
+ city varchar(20)
+);
+
+insert into t1
+values(1,'pune'),
+      (2,'nagpur'),
+      (3,'delhi'),
+       (4,'shimla'),
+       (5,'hydrabad');
+
+create table t2
+(id int,
+ city varchar(20)
+);
+ 
+insert into t2
+values(10,'pune'),
+      (20,'udaypur'),
+      (3,'delhi'),
+       (4,'shimla'),
+       (5,'ranchi');
+
+select * 
+from t1
+union
+select *
+from t2; 
+
+select * 
+from t2
+union
+select *
+from t1; 
+
+mysql> select *
+    -> from t1
+    -> union
+    -> select *
+    -> from t2;
++------+----------+
+| id   | city     |
++------+----------+
+|    1 | pune     |
+|    2 | nagpur   |
+|    3 | delhi    |
+|    4 | shimla   |
+|    5 | hydrabad |
+|   10 | pune     |
+|   20 | udaypur  |
+|    5 | ranchi   |
++------+----------+
+8 rows in set (0.00 sec)
+
+mysql> select *
+    -> from t2
+    -> union
+    -> select *
+    -> from t1;
++------+----------+
+| id   | city     |
++------+----------+
+|   10 | pune     |
+|   20 | udaypur  |
+|    3 | delhi    |
+|    4 | shimla   |
+|    5 | ranchi   |
+|    1 | pune     |
+|    2 | nagpur   |
+|    5 | hydrabad |
++------+----------+
+8 rows in set (0.00 sec)
+
+select * 
+from t1
+union all
+select *
+from t2; 
+
+select * 
+from t1
+intersect
+select *
+from t2;
+
+select * 
+from t1
+except
+select *
+from t2;
+-----------------------
+
+		Functions in MySQL
+        		 |
+user defined functions             built in functions       
+(stored functions)                 (library functions)
+					 |
+                          single row fun     aggregate fun
+                           (scalar fun)
+
+single row functions
+-------------------
+1 Numeric function
+round()
+mysql> select round(1234.567);
++-----------------+
+| round(1234.567) |
++-----------------+
+|            1235 |
++-----------------+
+1 row in set (0.00 sec)
+ 
+insert into emp(empno,ename,sal)
+values(1111,'Amit',20000.89);
+
+truncate()
+select truncate(1234.2222,3);
+mysql> select truncate(1234.8971,1);
++-----------------------+
+| truncate(1234.8971,1) |
++-----------------------+
+|                1234.8 |
++-----------------------+
+1 row in set (0.00 sec)
+
+ceil()
+select ceil(123.2222);
+mysql> select ceil(123.01);
++--------------+
+| ceil(123.01) |
++--------------+
+|          124 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select ceil(123.0);
++-------------+
+| ceil(123.0) |
++-------------+
+|         123 |
++-------------+
+1 row in set (0.00 sec)
+
+floor()
+select floor(123.333);
+mysql> select floor(123.333);
++----------------+
+| floor(123.333) |
++----------------+
+|            123 |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> select floor(123.5);
++--------------+
+| floor(123.5) |
++--------------+
+|          123 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select floor(123.9);
++--------------+
+| floor(123.9) |
++--------------+
+|          123 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select floor(123.1);
++--------------+
+| floor(123.1) |
++--------------+
+|          123 |
++--------------+
+1 row in set (0.00 sec)
+
+sqrt()
+select sqrt(sal) from emp;
+
+select sqrt(9);
+mysql> select sqrt(9);
++---------+
+| sqrt(9) |
++---------+
+|       3 |
++---------+
+1 row in set (0.00 sec)
+
+abs()
+select abs(-5);
+mysql> select abs(-5);
++---------+
+| abs(-5) |
++---------+
+|       5 |
++---------+
+1 row in set (0.00 sec)
+
+power()
+select power(3,4);
+mysql> select power(3,4);
++------------+
+| power(3,4) |
++------------+
+|         81 |
++------------+
+1 row in set (0.00 sec)
+
+mod()
+select mod(8,2);
+mysql> select mod(8,2);
++----------+
+| mod(8,2) |
++----------+
+|        0 |
++----------+
+1 row in set (0.00 sec)
+
+select mod(8,3);
+mysql> select mod(8,3);
++----------+
+| mod(8,3) |
++----------+
+|        2 |
++----------+
+1 row in set (0.00 sec)
+------------------------
+string functions/character functions
+upper()
+mysql> select upper('amit');
++---------------+
+| upper('amit') |
++---------------+
+| AMIT          |
++---------------+
+1 row in set (0.00 sec)
+
+lower()
+select ename,lower(ename)
+from emp;
+
+select ename,lower(ename),upper(lower(ename))
+from emp;
+
+concat(arg1,arg2,arg3....)
+select ename,job,concat(ename,job)
+from emp;
+select ename,job,concat(ename,':',job)
+from emp;
+select ename,job,concat(ename,5,job)
+from emp;
+
+concat_ws(separator,columnlist)
+select ename,job,concat_ws(':',ename,job,sal)
+from emp;
+select ename,job,concat_ws('%',ename,job,sal,comm)
+from emp;
+
+
+substr(string,pos,no of chars)
+select ename, substr(ename,2,3)
+from emp;
+select ename, substr(ename,-2,5)
+from emp;
+mysql> select ename, substr(ename,-2)
+    -> from emp;
++--------+------------------+
+| ename  | substr(ename,-2) |
++--------+------------------+
+| SMITH  | TH               |
+| ALLEN  | EN               |
+| WARD   | RD               |
+| JONES  | ES               |
+| MARTIN | IN               |
+
+mysql> select ename, substr(ename,-2,1)
+    -> from emp;
++--------+--------------------+
+| ename  | substr(ename,-2,1) |
++--------+--------------------+
+| SMITH  | T                  |
+| ALLEN  | E                  |
+| WARD   | R                  |
+
+firs 2 letters of name+last 2 letters ofjob+@cdac
+  concat(substr(ename,1,2),substr(job,-2),'@cdac')
+select ename,job,concat(substr(ename,1,2),substr(job,-2),'@cdac') email
+from emp;
+
+length(ename)
+select ename,length(ename) from emp;
+
+ltrim()
+insert into emp(empno,ename)
+values(2222,'   Geeta');
+
+select ename,length(ename),ltrim(ename),length(ltrim(ename))
+from emp;
+rtrim()
+insert into emp(empno,ename)
+values(3333,'Seeta     ');
+select ename,length(ename),rtrim(ename),length(rtrim(ename))
+from emp;
+
+trim()
+insert into emp(empno,ename)
+values(4444,'   Neeta    ');
+
+select trim(ename) 
+from emp;
+
+replace(arg,str1,str2)
+
+select replace('India is my country','my country','a big nation');
+mysql> select replace('India is my country','my country','a big nation');
+
++------------------------------------------------------------+
+| replace('India is my country','my country','a big nation') |
++------------------------------------------------------------+
+| India is a big nation                                      |
++------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+lpad()
+select ename,lpad(ename,8,'*') from emp;
+
+rpad()
+select ename,rpad(ename,8,'*') from emp;
+
+------------------------------------------
+
+date and time functions
+------------------------
+1. curdate()
+select curdate();
+mysql> select curdate();
++------------+
+| curdate()  |
++------------+
+| 2024-11-08 |
++------------+
+1 row in set (0.00 sec)
+
+
+2. now()
+select now();
+mysql> select now();
++---------------------+
+| now()               |
++---------------------+
+| 2024-11-08 09:35:24 |
++---------------------+
+1 row in set (0.00 sec)
+
+
+sysdate()
+mysql> select sysdate();
++---------------------+
+| sysdate()           |
++---------------------+
+| 2024-11-08 09:36:07 |
++---------------------+
+1 row in set (0.00 sec)
+
+date_format()
+select ename,hiredate,date_format(hiredate,'%y')
+from emp;
+
+select ename,hiredate
+from emp
+where date_format(hiredate,'%y')=81;
+mysql> select date_format('2024-11-8','%y');
++-------------------------------+
+| date_format('2024-11-8','%y') |
++-------------------------------+
+| 24                            |
++-------------------------------+
+1 row in set (0.00 sec)
+
+
+
+select ename,hiredate,date_format(hiredate,'%Y')
+from emp;
+ 
+select ename,hiredate,date_format(hiredate,'%Y')
+from emp;
+mysql> select date_format(curdate(),'%y');
++-----------------------------+
+| date_format(curdate(),'%y') |
++-----------------------------+
+| 24                          |
++-----------------------------+
+1 row in set (0.00 sec)
+
+mysql> select date_format('2024-11-8','%y');
++-------------------------------+
+| date_format('2024-11-8','%y') |
++-------------------------------+
+| 24                            |
++-------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select date_format(curdate(),'%y');
++-----------------------------+
+| date_format(curdate(),'%y') |
++-----------------------------+
+| 24                          |
++-----------------------------+
+1 row in set (0.00 sec)
+
+mysql> select date_format('2024-11-8','%y');
++-------------------------------+
+| date_format('2024-11-8','%y') |
++-------------------------------+
+| 24                            |
++-------------------------------+
+1 ro
+
+select date_format(hiredate,'%m') from emp;
+
+select date_format(hiredate,'%M') from emp;
+
+select date_format(hiredate,'%D') from emp;
+
+select date_format(hiredate,'%d') from emp;
+
+select date_format(hiredate,'%b') from emp;
+
+
+select date_format(now(),'%Y');
+
+hour()
+select hour(now());
+
+year()
+
+day()
+
+datediff()
+select ename,hiredate,datediff(curdate(),hiredate)
+from emp;
+
+select ename,hiredate,datediff(curdate(),hiredate)/365
+from emp;
+
+select ename,deptno,hiredate,floor(datediff(curdate(),hiredate)/365) exp
+from emp
+where floor(datediff(curdate(),hiredate)/365)>=43 and deptno=20;
+
+
+extract()
+select ename,hiredate,extract(year from hiredate) from emp;
+
+select ename,hiredate
+from emp
+where extract(year from hiredate)=1981;
+
+select ename,hiredate
+from emp
+where year(hiredate)=1981;
+
+select ename,hiredate
+from emp
+where extract(month from hiredate)=12;
+
+select ename,hiredate
+from emp
+where extract(day from hiredate)=11;
+
+date_add()
+
+select hiredate, date_add(hiredate, interval 15 day) from emp
+
+mysql> select hiredate, date_add(hiredate, interval 15 day) from emp;
++------------+-------------------------------------+
+| hiredate   | date_add(hiredate, interval 15 day) |
++------------+-------------------------------------+
+| 1980-12-17 | 1981-01-01                          |
+| 1981-02-20 | 1981-03-07                          |
+| 1981-02-22 | 1981-03-09                          |
+| 1981-04-02 | 1981-04-17                          |
+| 1981-09-28 | 1981-10-13                          |
+| 1981-05-01 | 1981-05-16                          |
+| 1981-06-09 | 1981-06-24                          |
+| 1982-12-09 | 1982-12-24                          |
+| 1981-11-17 | 1981-12-02                          |
+| 1981-09-08 | 1981-09-23                          |
+| 1983-01-12 | 1983-01-27                          |
+| 1981-12-03 | 1981-12-18                          |
+| 1981-12-03 | 1981-12-18                          |
+| 1982-01-23 | 1982-02-07                          |
++------------+-------------------------------------+
+14 rows in set (0.00 sec)
+
+
+select hiredate, date_add(hiredate, interval 3 month) from emp
+mysql> select hiredate, date_add(hiredate, interval 3 month) from emp;
++------------+--------------------------------------+
+| hiredate   | date_add(hiredate, interval 3 month) |
++------------+--------------------------------------+
+| 1980-12-17 | 1981-03-17                           |
+| 1981-02-20 | 1981-05-20                           |
+| 1981-02-22 | 1981-05-22                           |
+| 1981-04-02 | 1981-07-02                           |
+| 1981-09-28 | 1981-12-28                           |
+| 1981-05-01 | 1981-08-01                           |
+| 1981-06-09 | 1981-09-09                           |
+| 1982-12-09 | 1983-03-09                           |
+| 1981-11-17 | 1982-02-17                           |
+| 1981-09-08 | 1981-12-08                           |
+| 1983-01-12 | 1983-04-12                           |
+| 1981-12-03 | 1982-03-03                           |
+| 1981-12-03 | 1982-03-03                           |
+| 1982-01-23 | 1982-04-23                           |
++------------+--------------------------------------+
+14 rows in set (0.00 sec)
+
+select hiredate, date_add(hiredate, interval 3 year) from emp;
+
+mysql> select hiredate, date_add(hiredate, interval 3 year) from emp;
++------------+-------------------------------------+
+| hiredate   | date_add(hiredate, interval 3 year) |
++------------+-------------------------------------+
+| 1980-12-17 | 1983-12-17                          |
+| 1981-02-20 | 1984-02-20                          |
+| 1981-02-22 | 1984-02-22                          |
+| 1981-04-02 | 1984-04-02                          |
+| 1981-09-28 | 1984-09-28                          |
+| 1981-05-01 | 1984-05-01                          |
+| 1981-06-09 | 1984-06-09                          |
+| 1982-12-09 | 1985-12-09                          |
+| 1981-11-17 | 1984-11-17                          |
+| 1981-09-08 | 1984-09-08                          |
+| 1983-01-12 | 1986-01-12                          |
+| 1981-12-03 | 1984-12-03                          |
+| 1981-12-03 | 1984-12-03                          |
+| 1982-01-23 | 1985-01-23                          |
++------------+-------------------------------------+
+=============================
+
+Group (aggregate functions)
+sum()
+avg()
+min()
+max()
+count()
+
+select sum(sal)
+from emp;
+
+select sum(sal)
+from emp
+where deptno=30;
+
+select deptno,sum(sal)
+from emp
+where deptno=30;
+
+select deptno,sum(sal),avg(sal),min(sal),max(sal),count(*)
+from emp
+where deptno=30;
+
+select job,avg(sal)
+from emp
+where job='manager';
+
+select job,count(*)
+from emp
+where job='manager';
+
+select count(sal)
+from emp;
+
+select count(comm)
+from emp;
+
+select sum(comm)
+from emp;
+
+constraints in RDBMS
+---------------------
+unique
+not null
+check
+default
+primary key
+foreign key
+
+auto_increment
+
+
+unique - allow only unique values in the table
+not null - will not allow null values
+check - will check for the value entered
+
+create table student
+(roll int unique not null,
+ sname varchar(15) not null,
+ per float(5,2) check (per>=35.00),
+ city varchar(15) default 'Pune'
+);
+
+insert into student
+values(1,'Raj',76.90,'Mumbai');
+
+insert into student(sname,per,city)
+values('Rajesh',76.90,'Kanpur');
+
+mysql> insert into student(sname,per,city)
+    -> values('Rajesh',76.90,'Kanpur');
+ERROR 1364 (HY000): Field 'roll' doesn't have a default value
+
+insert into student 
+values(null,'Rajesh',76.90,'Kanpur');
+mysql> insert into student
+    -> values(null,'Rajesh',76.90,'Kanpur');
+ERROR 1048 (23000): Column 'roll' cannot be null
+
+insert into student 
+values(2,'Ramesh',16.90,'Kanpur');
+mysql> insert into student
+    -> values(2,'Ramesh',16.90,'Kanpur');
+ERROR 3819 (HY000): Check constraint 'student_chk_1' is violated.
+
+ 
+insert into student(roll,sname,per) 
+values(2,'Ramesh',76.90);
+
+Primary Key
+-----------
+only one PK for table
+emp(eno,ename,deptno,adhar_no,pass_port)
+    ---              -------  ---------
+eno uniq nn
+adhar_no unique nn
+pass_port unique nn
+
+eno int primary key
+
+create table employee
+(eno int primary key
+ ename varchar(20) not null,
+ deptno int not null,
+ adnr_no varchar(12) uique not null,
+ pass_port varchar(12) uique not null
+);
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

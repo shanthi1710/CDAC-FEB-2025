@@ -1,0 +1,1397 @@
+select clause in details
+=================================
+1. Display vid, vname, price and details from table vehicle with column heading as Vehicle id, vehicle name, price, discount and details.
+
+mysql> select vid "Vehicle ID", vname "Vehicle Name", price "Price", discount "Discount", details "Vehicle Details" from vehicle;
++------------+---------------+--------+----------+---------------------------------+
+| Vehicle ID | Vehicle Name  | Price  | Discount | Vehicle Details                 |
++------------+---------------+--------+----------+---------------------------------+
+|          1 | Activa        |  80000 |       10 | Two wheeler.Sturdy.Milage 30 km |
+|          2 | Santro        |  95000 |       20 | Product of Hyandai              |
+|          3 | Yamaha        | 160000 |        5 | Sturdy and good milage          |
+|          4 | i-10          | 300000 |        8 | Good small car                  |
+|          5 | WaganR        | 250000 |       10 | Good milage car                 |
+|          6 | Hero Splendor |  80000 |        9 | Best bike                       |
+|          7 | Royal Enfild  | 190000 |        5 | a royal bike                    |
++------------+---------------+--------+----------+---------------------------------+
+7 rows in set (0.00 sec)
+
+
+2. Create a copy of table customer and salesman by name customer1 and salesman1
+
+mysql> CREATE TABLE customer1 AS SELECT * from customer;
+Query OK, 5 rows affected (0.03 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from customer1;
++--------+--------+----------+
+| custid | cname  | location |
++--------+--------+----------+
+|      2 | Ganesh | Pune     |
+|      3 | Kishor | Kothrud  |
+|      5 | Geeta  | Pimpri   |
+|      6 | Raj    | Aundh    |
+|      7 | Yash   | Aundh    |
++--------+--------+----------+
+5 rows in set (0.00 sec)
+
+mysql> CREATE TABLE customer1 AS SELECT * from customer;
+Query OK, 5 rows affected (0.03 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from customer1;
++--------+--------+----------+
+| custid | cname  | location |
++--------+--------+----------+
+|      2 | Ganesh | Pune     |
+|      3 | Kishor | Kothrud  |
+|      5 | Geeta  | Pimpri   |
+|      6 | Raj    | Aundh    |
+|      7 | Yash   | Aundh    |
++--------+--------+----------+
+5 rows in set (0.00 sec)
+
+mysql> CREATE TABLE salesman1 AS SELECT * from salesman;
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from salesman1;
++------+----------+--------+------------+
+| sid  | sname    | city   | experience |
++------+----------+--------+------------+
+|   10 | Rajesh   | mumbai |          5 |
+|   11 | Seema    | Pune   |          8 |
+|   12 | Shailesh | Nagpur |          7 |
+|   13 | Rakhi    | Pune   |          2 |
++------+----------+--------+------------+
+4 rows in set (0.00 sec)
+
+3. List all records with sal > 2000 and comm>200
+
+mysql> select * from emp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3000.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1100.00 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+14 rows in set (0.00 sec)
+
+mysql> select *
+    -> from emp
+    -> where sal > 2000 and comm>200
+    -> ;
+Empty set (0.00 sec)
+
+ 
+4. List all records where job=’Clerk’ or sal>2000
+
+mysql> select *
+    -> from emp
+    -> where job='Clerk' or sal>2000;
++-------+--------+-----------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+-----------+------+------------+---------+------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800.00 | NULL |     20 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975.00 | NULL |     20 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 | NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 | NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3000.00 | NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 | NULL |     10 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1100.00 | NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 | NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 | NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 | NULL |     10 |
++-------+--------+-----------+------+------------+---------+------+--------+
+10 rows in set (0.00 sec)
+
+
+5. List all the records with sal=1250 or 1100 
+
+mysql> select *
+    -> from emp
+    -> where sal=1250 or sal=1100;
++-------+--------+----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+----------+------+------------+---------+---------+--------+
+|  7521 | WARD   | SALESMAN | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7876 | ADAMS  | CLERK    | 7788 | 1983-01-12 | 1100.00 |    NULL |     20 |
++-------+--------+----------+------+------------+---------+---------+--------+
+3 rows in set (0.00 sec)
+ 
+6. List all employees with sal>1250 and <2850
+ 
+mysql> select *
+    -> from emp
+    -> WHERE sal BETWEEN 1250 AND 2850;
++-------+--------+----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+----------+------+------------+---------+---------+--------+
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER  | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER  | 7839 | 1981-06-09 | 2450.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
+|  7934 | MILLER | CLERK    | 7782 | 1982-01-23 | 1300.00 |    NULL |     10 |
++-------+--------+----------+------+------------+---------+---------+--------+
+7 rows in set (0.00 sec)
+
+7. Retrieve the details (Name, Salary and dept no) of the emp who are working in department no 20
+
+mysql> select ename, sal, deptno
+    -> from emp
+    -> WHERE deptno=20;
++-------+---------+--------+
+| ename | sal     | deptno |
++-------+---------+--------+
+| SMITH |  800.00 |     20 |
+| JONES | 2975.00 |     20 |
+| SCOTT | 3000.00 |     20 |
+| ADAMS | 1100.00 |     20 |
+| FORD  | 3000.00 |     20 |
++-------+---------+--------+
+5 rows in set (0.00 sec)
+
+ 
+8. Display all employees who have joined after 9th june 81.
+
+mysql> select *
+    -> from emp
+    -> WHERE hiredate > '1981-06-09';
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3000.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1100.00 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+8 rows in set (0.00 sec)
+
+ 
+
+9. Display empno,empname,sal, comm and total salary.   
+   Total Salary = comm + sal
+mysql> select empno, ename, sal, comm, sal+comm "Total Salary"
+    -> from emp;
++-------+--------+---------+---------+--------------+
+| empno | ename  | sal     | comm    | Total Salary |
++-------+--------+---------+---------+--------------+
+|  7369 | SMITH  |  800.00 |    NULL |         NULL |
+|  7499 | ALLEN  | 1600.00 |  300.00 |      1900.00 |
+|  7521 | WARD   | 1250.00 |  500.00 |      1750.00 |
+|  7566 | JONES  | 2975.00 |    NULL |         NULL |
+|  7654 | MARTIN | 1250.00 | 1400.00 |      2650.00 |
+|  7698 | BLAKE  | 2850.00 |    NULL |         NULL |
+|  7782 | CLARK  | 2450.00 |    NULL |         NULL |
+|  7788 | SCOTT  | 3000.00 |    NULL |         NULL |
+|  7839 | KING   | 5000.00 |    NULL |         NULL |
+|  7844 | TURNER | 1500.00 |    0.00 |      1500.00 |
+|  7876 | ADAMS  | 1100.00 |    NULL |         NULL |
+|  7900 | JAMES  |  950.00 |    NULL |         NULL |
+|  7902 | FORD   | 3000.00 |    NULL |         NULL |
+|  7934 | MILLER | 1300.00 |    NULL |         NULL |
++-------+--------+---------+---------+--------------+
+14 rows in set (0.00 sec)
+
+
+10. Display all employees with sal >2000 or job is either clerk or Salesman.
+
+mysql> select *
+    -> from emp
+    -> Where sal > 2000 or job in ('clerk','salesman');
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3000.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1100.00 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+14 rows in set (0.00 sec)
+
+ 
+11. List the employees in dept 20 and 30 who did not get any commission.
+
+mysql> select *
+    -> from emp
+    -> where deptno in (30, 20) AND comm IS NULL OR comm=0;
++-------+--------+----------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+----------+------+------------+---------+------+--------+
+|  7369 | SMITH  | CLERK    | 7902 | 1980-12-17 |  800.00 | NULL |     20 |
+|  7566 | JONES  | MANAGER  | 7839 | 1981-04-02 | 2975.00 | NULL |     20 |
+|  7698 | BLAKE  | MANAGER  | 7839 | 1981-05-01 | 2850.00 | NULL |     30 |
+|  7788 | SCOTT  | ANALYST  | 7566 | 1982-12-09 | 3000.00 | NULL |     20 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500.00 | 0.00 |     30 |
+|  7876 | ADAMS  | CLERK    | 7788 | 1983-01-12 | 1100.00 | NULL |     20 |
+|  7900 | JAMES  | CLERK    | 7698 | 1981-12-03 |  950.00 | NULL |     30 |
+|  7902 | FORD   | ANALYST  | 7566 | 1981-12-03 | 3000.00 | NULL |     20 |
++-------+--------+----------+------+------------+---------+------+--------+
+8 rows in set (0.00 sec)
+
+
+ 
+12. Display all employees who works in either dept 10 or 30 or joined in year 1982
+ 
+mysql> select *
+    -> from emp
+    -> where deptno in(10, 30) or hiredate in ('1982-01-01', '1982-12-31');
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 |    NULL |     10 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 |    NULL |     30 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+9 rows in set (0.00 sec)
+
+13. There is a salary hike by 20% . Display the information from emp table as empno,ename,sal and new sal.
+ 
+mysql> select empno,ename,sal,sal*1.20 "new sal"
+    -> from emp;
++-------+--------+---------+-----------+
+| empno | ename  | sal     | new sal   |
++-------+--------+---------+-----------+
+|  7369 | SMITH  |  800.00 |  960.0000 |
+|  7499 | ALLEN  | 1600.00 | 1920.0000 |
+|  7521 | WARD   | 1250.00 | 1500.0000 |
+|  7566 | JONES  | 2975.00 | 3570.0000 |
+|  7654 | MARTIN | 1250.00 | 1500.0000 |
+|  7698 | BLAKE  | 2850.00 | 3420.0000 |
+|  7782 | CLARK  | 2450.00 | 2940.0000 |
+|  7788 | SCOTT  | 3000.00 | 3600.0000 |
+|  7839 | KING   | 5000.00 | 6000.0000 |
+|  7844 | TURNER | 1500.00 | 1800.0000 |
+|  7876 | ADAMS  | 1100.00 | 1320.0000 |
+|  7900 | JAMES  |  950.00 | 1140.0000 |
+|  7902 | FORD   | 3000.00 | 3600.0000 |
+|  7934 | MILLER | 1300.00 | 1560.0000 |
++-------+--------+---------+-----------+
+14 rows in set (0.00 sec)
+
+14. Create new table emp100 same as emp without any data. Check it's structure.
+ 
+mysql> create table emp100
+    -> as
+    -> select * from emp
+    -> where 1=2;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe emp100;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| EMPNO    | int          | NO   |     | NULL    |       |
+| ENAME    | varchar(12)  | YES  |     | NULL    |       |
+| JOB      | varchar(9)   | YES  |     | NULL    |       |
+| MGR      | int          | YES  |     | NULL    |       |
+| HIREDATE | date         | YES  |     | NULL    |       |
+| SAL      | decimal(7,2) | YES  |     | NULL    |       |
+| COMM     | decimal(7,2) | YES  |     | NULL    |       |
+| DEPTNO   | int          | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+
+15. Insert new row with data of your choice  in emp10 table where manager(mgr) is null.
+ 
+mysql> insert into emp100
+    -> values( 102,'Ruchi','techlead', NULL ,'1982-08-07',2000,23, 30);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from emp100;
++-------+-------+----------+------+------------+---------+-------+--------+
+| EMPNO | ENAME | JOB      | MGR  | HIREDATE   | SAL     | COMM  | DEPTNO |
++-------+-------+----------+------+------------+---------+-------+--------+
+|   102 | Ruchi | techlead | NULL | 1982-08-07 | 2000.00 | 23.00 |     30 |
++-------+-------+----------+------+------------+---------+-------+--------+
+1 row in set (0.00 sec)
+
+
+16. Display the emp details who do not have manager.
+
+mysql> select *
+    -> from emp
+    -> where mgr is null;
++-------+-------+-----------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+-----------+------+------------+---------+------+--------+
+|  7839 | KING  | PRESIDENT | NULL | 1981-11-17 | 5000.00 | NULL |     10 |
++-------+-------+-----------+------+------------+---------+------+--------+
+1 row in set (0.00 sec)
+
+ 
+17. Use emp100 table to perform following query 
+Update employee salary. Increase sal of each employee by 15% of (sal+comm), change the mgr to 777 for all employees in dept 10. 
+ mysql> select * from emp100;
++-------+-------+----------+------+------------+---------+-------+--------+
+| EMPNO | ENAME | JOB      | MGR  | HIREDATE   | SAL     | COMM  | DEPTNO |
++-------+-------+----------+------+------------+---------+-------+--------+
+|   102 | Ruchi | techlead | NULL | 1982-08-07 | 2023.00 | 23.00 |     30 |
+|    12 | Ruhi  | techlead | NULL | 1982-06-07 | 1263.00 | 63.00 |     10 |
++-------+-------+----------+------+------------+---------+-------+--------+
+2 rows in set (0.00 sec)
+
+mysql> update emp100
+    -> set sal=(sal+comm)*1.15;
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> update emp100
+    -> set mgr = 777
+    -> where deptno = 10;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from emp100;
++-------+-------+----------+------+------------+---------+-------+--------+
+| EMPNO | ENAME | JOB      | MGR  | HIREDATE   | SAL     | COMM  | DEPTNO |
++-------+-------+----------+------+------------+---------+-------+--------+
+|   102 | Ruchi | techlead | NULL | 1982-08-07 | 2352.90 | 23.00 |     30 |
+|    12 | Ruhi  | techlead |  777 | 1982-06-07 | 1524.90 | 63.00 |     10 |
++-------+-------+----------+------+------------+---------+-------+--------+
+2 rows in set (0.00 sec)
+
+18. Display all employees who joined between years 1981 to 1983.
+ 
+mysql> select * from emp where hiredate between '1981-01-01' AND '1983-12-31';
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3000.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1100.00 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+13 rows in set (0.00 sec)
+
+19. Display empno, name and department number of an emp working under manager with id 7698.
+ 
+mysql> select empno, ename, deptno
+    -> from emp
+    -> where mgr = 7698;
++-------+--------+--------+
+| empno | ename  | deptno |
++-------+--------+--------+
+|  7499 | ALLEN  |     30 |
+|  7521 | WARD   |     30 |
+|  7654 | MARTIN |     30 |
+|  7844 | TURNER |     30 |
+|  7900 | JAMES  |     30 |
++-------+--------+--------+
+5 rows in set (0.00 sec)
+
+
+
+20. List all managers working in dept 10.   
+mysql> select *
+    -> from emp
+    -> where job = 'manager' AND deptno = 10;
++-------+-------+---------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+---------+------+------------+---------+------+--------+
+|  7782 | CLARK | MANAGER | 7839 | 1981-06-09 | 2450.00 | NULL |     10 |
++-------+-------+---------+------+------------+---------+------+--------+
+1 row in set (0.00 sec)
+
+ 
+21. Display all jobs from emp table. 
+
+mysql> select distinct job from emp;
++-----------+
+| job       |
++-----------+
+| CLERK     |
+| SALESMAN  |
+| MANAGER   |
+| ANALYST   |
+| PRESIDENT |
++-----------+
+5 rows in set (0.00 sec)
+
+ 
+22. Display all unique  deptnos in which employees are working.
+mysql> select distinct deptno from emp;
++--------+
+| deptno |
++--------+
+|     20 |
+|     30 |
+|     10 |
++--------+
+3 rows in set (0.00 sec)
+
+ 
+23. Implement following using case statement. Use data from emp database. 
+
+24. Company decides to give salary rise with following percentage.
+    Using case statement display the data as below
+    ename,job,sal,new sal
+    Generate new sal and display with proper heading.
+    clerk 7%
+    analyst 5%
+    manager %2
+    others no rise
+
+mysql> select ename "Employee Name", job Job, sal Salary, case job when 'clerk' then sal*1.07
+    -> when 'analyst' then sal*1.05
+    -> when 'manager' then sal*1.02
+    -> else sal*1
+    -> end "New Salary"
+    -> from emp;
++---------------+-----------+---------+------------+
+| Employee Name | Job       | Salary  | New Salary |
++---------------+-----------+---------+------------+
+| SMITH         | CLERK     |  800.00 |   856.0000 |
+| ALLEN         | SALESMAN  | 1600.00 |    1600.00 |
+| WARD          | SALESMAN  | 1250.00 |    1250.00 |
+| JONES         | MANAGER   | 2975.00 |  3034.5000 |
+| MARTIN        | SALESMAN  | 1250.00 |    1250.00 |
+| BLAKE         | MANAGER   | 2850.00 |  2907.0000 |
+| CLARK         | MANAGER   | 2450.00 |  2499.0000 |
+| SCOTT         | ANALYST   | 3000.00 |  3150.0000 |
+| KING          | PRESIDENT | 5000.00 |    5000.00 |
+| TURNER        | SALESMAN  | 1500.00 |    1500.00 |
+| ADAMS         | CLERK     | 1100.00 |  1177.0000 |
+| JAMES         | CLERK     |  950.00 |  1016.5000 |
+| FORD          | ANALYST   | 3000.00 |  3150.0000 |
+| MILLER        | CLERK     | 1300.00 |  1391.0000 |
++---------------+-----------+---------+------------+
+14 rows in set (0.00 sec)
+
+
+25. Create a copy of table salesman as salesman1.
+mysql> CREATE TABLE salesman1 AS SELECT * from salesman;
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from salesman1;
++------+----------+--------+------------+
+| sid  | sname    | city   | experience |
++------+----------+--------+------------+
+|   10 | Rajesh   | mumbai |          5 |
+|   11 | Seema    | Pune   |          8 |
+|   12 | Shailesh | Nagpur |          7 |
+|   13 | Rakhi    | Pune   |          2 |
++------+----------+--------+------------+
+4 rows in set (0.00 sec)
+
+
+
+
+26. Increase the salary of all employees by 5% who are earning less than 20000 as a basic pay. 
+    Update in the table.
+ mysql> UPDATE emp
+    -> SET sal = sal * 1.05
+    -> WHERE sal<2000;
+Query OK, 8 rows affected (0.01 sec)
+Rows matched: 8  Changed: 8  Warnings: 0
+
+mysql> select * from emp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  840.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1680.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1312.50 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1312.50 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3000.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1575.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1155.00 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  997.50 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1365.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+14 rows in set (0.00 sec)
+—-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ .
+
+
+ 
+ Restricting rows using like operator and reg_exp
+
+1.Find all employees with name ending with R . 
+
+LIKE OPERATOR:
+
+mysql> select * from emp
+    -> where ename like '%r';
++-------+--------+----------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+----------+------+------------+---------+------+--------+
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1575.00 | 0.00 |     30 |
+|  7934 | MILLER | CLERK    | 7782 | 1982-01-23 | 1365.00 | NULL |     10 |
++-------+--------+----------+------+------------+---------+------+--------+
+2 rows in set (0.01 sec)
+
+REGEXP
+mysql> select * from emp
+    -> where regexp_like(ename, '.*r$');
++-------+--------+----------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+----------+------+------------+---------+------+--------+
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1575.00 | 0.00 |     30 |
+|  7934 | MILLER | CLERK    | 7782 | 1982-01-23 | 1365.00 | NULL |     10 |
++-------+--------+----------+------+------------+---------+------+--------+
+2 rows in set (0.00 sec)
+
+2. Find all employees with name starting with M and ending with R.
+
+LIKE OPERATOR:
+mysql> SELECT *
+    -> FROM EMP
+    -> WHERE ENAME LIKE 'M%R';
++-------+--------+-------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB   | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+-------+------+------------+---------+------+--------+
+|  7934 | MILLER | CLERK | 7782 | 1982-01-23 | 1365.00 | NULL |     10 |
++-------+--------+-------+------+------------+---------+------+--------+
+1 row in set (0.00 sec)
+
+REGEXP
+
+mysql> SELECT *
+    -> FROM EMP
+    -> WHERE REGEXP_LIKE (ENAME, '^M.*R$');
++-------+--------+-------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB   | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+-------+------+------------+---------+------+--------+
+|  7934 | MILLER | CLERK | 7782 | 1982-01-23 | 1365.00 | NULL |     10 |
++-------+--------+-------+------+------------+---------+------+--------+
+1 row in set (0.00 sec)
+ 
+3. To find all employees with name starting with either M or A.
+
+LIKE OPERATOR:
+mysql> SELECT * FROM EMP
+    -> WHERE ENAME LIKE 'M%' OR ENAME LIKE 'A%';
++-------+--------+----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+----------+------+------------+---------+---------+--------+
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1680.00 |  300.00 |     30 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1312.50 | 1400.00 |     30 |
+|  7876 | ADAMS  | CLERK    | 7788 | 1983-01-12 | 1155.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK    | 7782 | 1982-01-23 | 1365.00 |    NULL |     10 |
++-------+--------+----------+------+------------+---------+---------+--------+
+4 rows in set (0.00 sec)
+
+
+
+REGEXP_LIKE OPERATOR
+mysql> SELECT * FROM EMP
+    -> WHERE REGEXP_LIKE (ENAME, '^[AM].*');
++-------+--------+----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+----------+------+------------+---------+---------+--------+
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1680.00 |  300.00 |     30 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1312.50 | 1400.00 |     30 |
+|  7876 | ADAMS  | CLERK    | 7788 | 1983-01-12 | 1155.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK    | 7782 | 1982-01-23 | 1365.00 |    NULL |     10 |
++-------+--------+----------+------+------------+---------+---------+--------+
+4 rows in set (0.00 sec)
+
+
+ 
+4. List the employee  name having letter 'L' as the second character.
+
+LIKE OPERATOR:
+mysql> SELECT * FROM EMP
+    -> WHERE ENAME LIKE '_L%';
++-------+-------+----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME | JOB      | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+-------+----------+------+------------+---------+--------+--------+
+|  7499 | ALLEN | SALESMAN | 7698 | 1981-02-20 | 1680.00 | 300.00 |     30 |
+|  7698 | BLAKE | MANAGER  | 7839 | 1981-05-01 | 2850.00 |   NULL |     30 |
+|  7782 | CLARK | MANAGER  | 7839 | 1981-06-09 | 2450.00 |   NULL |     10 |
++-------+-------+----------+------+------------+---------+--------+--------+
+3 rows in set (0.00 sec)
+
+REGEXP_LIKE OPERATOR
+mysql> SELECT * FROM EMP
+    -> WHERE REGEXP_LIKE (ENAME, '^.L.*');
++-------+-------+----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME | JOB      | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+-------+----------+------+------------+---------+--------+--------+
+|  7499 | ALLEN | SALESMAN | 7698 | 1981-02-20 | 1680.00 | 300.00 |     30 |
+|  7698 | BLAKE | MANAGER  | 7839 | 1981-05-01 | 2850.00 |   NULL |     30 |
+|  7782 | CLARK | MANAGER  | 7839 | 1981-06-09 | 2450.00 |   NULL |     10 |
++-------+-------+----------+------+------------+---------+--------+--------+
+3 rows in set (0.00 sec)
+
+ 
+5. Find all employees with name having L at 3 rd position.
+ LIKE OPERATOR:
+
+mysql> SELECT * FROM EMP
+    -> WHERE ENAME LIKE '__L%';
++-------+--------+----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+--------+----------+------+------------+---------+--------+--------+
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1680.00 | 300.00 |     30 |
+|  7934 | MILLER | CLERK    | 7782 | 1982-01-23 | 1365.00 |   NULL |     10 |
++-------+--------+----------+------+------------+---------+--------+--------+
+2 rows in set (0.00 sec)
+
+
+REGEXP_LIKE OPERATOR
+mysql> SELECT * FROM EMP
+    -> WHERE REGEXP_LIKE (ENAME, '^..L.*');
++-------+--------+----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+--------+----------+------+------------+---------+--------+--------+
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1680.00 | 300.00 |     30 |
+|  7934 | MILLER | CLERK    | 7782 | 1982-01-23 | 1365.00 |   NULL |     10 |
++-------+--------+----------+------+------------+---------+--------+--------+
+2 rows in set (0.00 sec)
+
+
+6. To list all employees with name ending by ES.
+ LIKE OPERATOR:
+
+mysql> SELECT * FROM EMP
+    -> WHERE ENAME LIKE '%es';
++-------+-------+---------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+---------+------+------------+---------+------+--------+
+|  7566 | JONES | MANAGER | 7839 | 1981-04-02 | 2975.00 | NULL |     20 |
+|  7900 | JAMES | CLERK   | 7698 | 1981-12-03 |  997.50 | NULL |     30 |
++-------+-------+---------+------+------------+---------+------+--------+
+2 rows in set (0.00 sec)
+
+REGEXP_LIKE OPERATOR
+mysql> SELECT * FROM EMP
+    -> WHERE REGEXP_LIKE (ENAME, '^.*es$');
++-------+-------+---------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+---------+------+------------+---------+------+--------+
+|  7566 | JONES | MANAGER | 7839 | 1981-04-02 | 2975.00 | NULL |     20 |
+|  7900 | JAMES | CLERK   | 7698 | 1981-12-03 |  997.50 | NULL |     30 |
++-------+-------+---------+------+------------+---------+------+--------+
+2 rows in set (0.00 sec)
+
+
+7. To list all employees with job starting with C and ending with K.
+ LIKE OPERATOR:
+
+mysql> SELECT * FROM EMP
+    -> WHERE JOB LIKE 'C%K';
++-------+--------+-------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB   | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+-------+------+------------+---------+------+--------+
+|  7369 | SMITH  | CLERK | 7902 | 1980-12-17 |  840.00 | NULL |     20 |
+|  7876 | ADAMS  | CLERK | 7788 | 1983-01-12 | 1155.00 | NULL |     20 |
+|  7900 | JAMES  | CLERK | 7698 | 1981-12-03 |  997.50 | NULL |     30 |
+|  7934 | MILLER | CLERK | 7782 | 1982-01-23 | 1365.00 | NULL |     10 |
++-------+--------+-------+------+------------+---------+------+--------+
+4 rows in set (0.00 sec)
+
+
+REGEXP_LIKE OPERATOR
+
+mysql> SELECT * FROM EMP
+    -> WHERE REGEXP_LIKE (JOB, '^C.*K$');
++-------+--------+-------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB   | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+-------+------+------------+---------+------+--------+
+|  7369 | SMITH  | CLERK | 7902 | 1980-12-17 |  840.00 | NULL |     20 |
+|  7876 | ADAMS  | CLERK | 7788 | 1983-01-12 | 1155.00 | NULL |     20 |
+|  7900 | JAMES  | CLERK | 7698 | 1981-12-03 |  997.50 | NULL |     30 |
+|  7934 | MILLER | CLERK | 7782 | 1982-01-23 | 1365.00 | NULL |     10 |
++-------+--------+-------+------+------------+---------+------+--------+
+4 rows in set (0.00 sec)
+
+8. To find all employees with name starting with either M or A and last character as either R or E.
+ LIKE OPERATOR:
+mysql> SELECT * FROM EMP
+    -> WHERE ENAME LIKE 'M%' OR ENAME LIKE 'A%' AND ENAME LIKE '%r' OR ENAME LIKE '%E';
++-------+--------+----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+----------+------+------------+---------+---------+--------+
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1312.50 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER  | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 |
+|  7934 | MILLER | CLERK    | 7782 | 1982-01-23 | 1365.00 |    NULL |     10 |
++-------+--------+----------+------+------------+---------+---------+--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMP
+
+
+
+REGEXP_LIKE OPERATOR
+
+mysql> SELECT * FROM EMP
+    -> WHERE REGEXP_LIKE (ENAME, '^[AM].*$') AND REGEXP_LIKE(ENAME, '^.*R$') OR REGEXP_LIKE(ENAME, '^.*e$');
++-------+--------+---------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB     | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+---------+------+------------+---------+------+--------+
+|  7698 | BLAKE  | MANAGER | 7839 | 1981-05-01 | 2850.00 | NULL |     30 |
+|  7934 | MILLER | CLERK   | 7782 | 1982-01-23 | 1365.00 | NULL |     10 |
++-------+--------+---------+------+------------+---------+------+--------+
+2 rows in set (0.00 sec)
+
+9. To find all employee with name starting with A or M and ending with E.
+ LIKE OPERATOR:
+mysql> SELECT * FROM EMP
+    -> WHERE ENAME LIKE 'M%' OR ENAME LIKE 'A%' AND ENAME LIKE '%E';
+
+
+REGEXP_LIKE OPERATOR
+
+mysql> SELECT * FROM EMP
+    -> WHERE REGEXP_LIKE (ENAME, '^[AM].*$') AND REGEXP_LIKE(ENAME, '^.*E$');
+Empty set (0.00 sec)
+
+
+
+10. Find all employees with name starting with A and ending with N, or it may start with S and end with H.
+
+
+
+
+
+
+
+ LIKE OPERATOR:
+mysql> select ename
+    -> from emp
+    -> where ename like 'a%n' or ename like 's%h';
++-------+
+| ename |
++-------+
+| SMITH |
+| ALLEN |
++-------+
+2 rows in set (0.00 sec)
+
+
+
+REGEXP_LIKE OPERATOR
+mysql> select ename
+    -> from emp
+    -> where regexp_like (ename,'^a.*n$') or regexp_like(ename,'^s.*h$');
++-------+
+| ename |
++-------+
+| SMITH |
+| ALLEN |
++-------+
+2 rows in set (0.00 sec)
+
+
+11. Find all employees with name starting with M, having  L at 3 rd position and ends with R.
+ LIKE OPERATOR:
+
+mysql> select *
+    -> from emp
+    -> where ename like 'm%__L%r';
++-------+--------+-------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB   | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+-------+------+------------+---------+------+--------+
+|  7934 | MILLER | CLERK | 7782 | 1982-01-23 | 1300.00 | NULL |     10 |
++-------+--------+-------+------+------------+---------+------+--------+
+1 row in set (0.00 sec)
+
+
+ REGEXP_LIKE OPERATOR
+mysql> select *
+    -> from emp
+    -> where regexp_like(ename,'^m..l.*r$');
++-------+--------+-------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB   | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+-------+------+------------+---------+------+--------+
+|  7934 | MILLER | CLERK | 7782 | 1982-01-23 | 1300.00 | NULL |     10 |
++-------+--------+-------+------+------------+---------+------+--------+
+1 row in set (0.00 sec)
+
+
+
+
+ 
+12. Find all employees with name having L at 3 rd position and E at second last position.
+LIKE OPERATOR:
+mysql> select *
+    -> from emp
+    -> where ename like '__l%E_';
++-------+--------+----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+--------+----------+------+------------+---------+--------+--------+
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1600.00 | 300.00 |     30 |
+|  7934 | MILLER | CLERK    | 7782 | 1982-01-23 | 1300.00 |   NULL |     10 |
++-------+--------+----------+------+------------+---------+--------+--------+
+2 rows in set (0.00 sec)
+
+
+REGEXP_LIKE OPERATOR
+mysql> select *
+    -> from emp
+    -> where regexp_like(ename,'..l.*e.');
++-------+--------+----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+--------+----------+------+------------+---------+--------+--------+
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1600.00 | 300.00 |     30 |
+|  7934 | MILLER | CLERK    | 7782 | 1982-01-23 | 1300.00 |   NULL |     10 |
++-------+--------+----------+------+------------+---------+--------+--------+
+2 rows in set (0.00 sec)
+
+
+
+ 
+13. Find all employees with name not starting with A or M
+LIKE OPERATOR:
+mysql> select *
+    -> from emp
+    -> where ename not like 'a%' and ename not like 'm%';
++-------+--------+-----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+--------+-----------+------+------------+---------+--------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800.00 |   NULL |     20 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250.00 | 500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975.00 |   NULL |     20 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 |   NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 |   NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3000.00 |   NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |   NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 |   0.00 |     30 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 |   NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 |   NULL |     20 |
++-------+--------+-----------+------+------------+---------+--------+--------+
+10 rows in set (0.00 sec)
+
+
+
+REGEXP_LIKE OPERATOR
+mysql> select *
+    -> from emp
+    -> where regexp_like(ename,'^[^a].*') and regexp_like(ename,'^[^m].*');
++-------+--------+-----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+--------+-----------+------+------------+---------+--------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800.00 |   NULL |     20 |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250.00 | 500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975.00 |   NULL |     20 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 |   NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 |   NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3000.00 |   NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |   NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 |   0.00 |     30 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 |   NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 |   NULL |     20 |
++-------+--------+-----------+------+------------+---------+--------+--------+
+10 rows in set (0.00 sec)
+
+
+
+ 
+14. Display all employees with sal >1000 and sal<3000 and job has A at starting position and ends with T.
+LIKE OPERATOR:
+mysql> select *
+    -> from emp
+    -> where sal between 1000 and 3000 and
+    -> job like 'a%t';
++-------+-------+---------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+---------+------+------------+---------+------+--------+
+|  7788 | SCOTT | ANALYST | 7566 | 1982-12-09 | 3000.00 | NULL |     20 |
+|  7902 | FORD  | ANALYST | 7566 | 1981-12-03 | 3000.00 | NULL |     20 |
++-------+-------+---------+------+------------+---------+------+--------+
+2 rows in set (0.00 sec)
+
+REGEXP_LIKE OPERATOR
+mysql> select *
+    -> from emp
+    -> where sal between 1000 and 3000 and
+    -> regexp_like (job, '^a.*t$');
++-------+-------+---------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+---------+------+------------+---------+------+--------+
+|  7788 | SCOTT | ANALYST | 7566 | 1982-12-09 | 3000.00 | NULL |     20 |
+|  7902 | FORD  | ANALYST | 7566 | 1981-12-03 | 3000.00 | NULL |     20 |
++-------+-------+---------+------+------------+---------+------+--------+
+2 rows in set (0.00 sec)
+
+
+ 
+15. Write a query  to display empno, ename, sal, commission, increased sal by 10% and for all employees  whose  name starts with A,M or S.
+LIKE OPERATOR:
+mysql> select empno,ename,sal,comm as "commission",sal*1.10 as "increased sal by 10%"
+    -> from emp
+    -> where ename like 'a%' or ename like'm%' or ename like 's%';
++-------+--------+---------+------------+----------------------+
+| empno | ename  | sal     | commission | increased sal by 10% |
++-------+--------+---------+------------+----------------------+
+|  7369 | SMITH  |  800.00 |       NULL |             880.0000 |
+|  7499 | ALLEN  | 1600.00 |     300.00 |            1760.0000 |
+|  7654 | MARTIN | 1250.00 |    1400.00 |            1375.0000 |
+|  7788 | SCOTT  | 3000.00 |       NULL |            3300.0000 |
+|  7876 | ADAMS  | 1100.00 |       NULL |            1210.0000 |
+|  7934 | MILLER | 1300.00 |       NULL |            1430.0000 |
++-------+--------+---------+------------+----------------------+
+6 rows in set (0.00 sec)
+
+
+
+
+
+
+REGEXP_LIKE OPERATOR
+mysql> select empno,ename,sal,comm as "commission",sal*1.10 as "increased sal by 10%"
+    -> from emp
+    -> where regexp_like (ename,'^a.*') or regexp_like(ename,'^m.*') or regexp_like(ename,'^s.*');
++-------+--------+---------+------------+----------------------+
+| empno | ename  | sal     | commission | increased sal by 10% |
++-------+--------+---------+------------+----------------------+
+|  7369 | SMITH  |  800.00 |       NULL |             880.0000 |
+|  7499 | ALLEN  | 1600.00 |     300.00 |            1760.0000 |
+|  7654 | MARTIN | 1250.00 |    1400.00 |            1375.0000 |
+|  7788 | SCOTT  | 3000.00 |       NULL |            3300.0000 |
+|  7876 | ADAMS  | 1100.00 |       NULL |            1210.0000 |
+|  7934 | MILLER | 1300.00 |       NULL |            1430.0000 |
++-------+--------+---------+------------+----------------------+
+6 rows in set (0.00 sec)
+
+
+
+
+ 
+16. Display all employees whose name starts with A and ends with either N or S, or works in dept 10.   
+LIKE OPERATOR:
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE (ENAME LIKE 'A%N' OR ENAME LIKE 'A%S') OR DEPTNO = 10;
++-------+--------+-----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+--------+-----------+------+------------+---------+--------+--------+
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600.00 | 300.00 |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 |   NULL |     10 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |   NULL |     10 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1100.00 |   NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 |   NULL |     10 |
++-------+--------+-----------+------+------------+---------+--------+--------+
+5 rows in set (0.00 sec)
+
+
+REGEXP_LIKE OPERATOR
+
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE REGEXP_LIKE(ENAME, '^A.*[NS]$') OR DEPTNO = 10;
++-------+--------+-----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+--------+-----------+------+------------+---------+--------+--------+
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600.00 | 300.00 |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 |   NULL |     10 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |   NULL |     10 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1100.00 |   NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 |   NULL |     10 |
++-------+--------+-----------+------+------------+---------+--------+--------+
+5 rows in set (0.00 sec)
+
+
+ 
+17. List all departments whose name has atleast 8 characters.
+LIKE OPERATOR:
+mysql> SELECT DEPTNO
+    -> FROM emp
+    -> WHERE ENAME LIKE '________';
+Empty set (0.00 sec)
+
+REGEXP_LIKE OPERATOR
+
+mysql> SELECT DEPTNO
+    -> FROM emp
+    -> WHERE REGEXP_LIKE (ENAME, '........');
+Empty set (0.00 sec)
+
+ 
+18. List the employees name having 'E' as a second last character.
+LIKE OPERATOR:
+
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE ename LIKE '%E_';
++-------+--------+----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+--------+----------+------+------------+---------+--------+--------+
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1600.00 | 300.00 |     30 |
+|  7566 | JONES  | MANAGER  | 7839 | 1981-04-02 | 2975.00 |   NULL |     20 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500.00 |   0.00 |     30 |
+|  7900 | JAMES  | CLERK    | 7698 | 1981-12-03 |  950.00 |   NULL |     30 |
+|  7934 | MILLER | CLERK    | 7782 | 1982-01-23 | 1300.00 |   NULL |     10 |
++-------+--------+----------+------+------------+---------+--------+--------+
+5 rows in set (0.00 sec)
+
+REGEXP_LIKE OPERATOR
+
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE REGEXP_LIKE (ENAME, '.*E.$');
++-------+--------+----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+--------+----------+------+------------+---------+--------+--------+
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1600.00 | 300.00 |     30 |
+|  7566 | JONES  | MANAGER  | 7839 | 1981-04-02 | 2975.00 |   NULL |     20 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500.00 |   0.00 |     30 |
+|  7900 | JAMES  | CLERK    | 7698 | 1981-12-03 |  950.00 |   NULL |     30 |
+|  7934 | MILLER | CLERK    | 7782 | 1982-01-23 | 1300.00 |   NULL |     10 |
++-------+--------+----------+------+------------+---------+--------+--------+
+5 rows in set (0.00 sec)
+
+
+ 
+19. List the details of the employee , whose names start with ‘A’ and end with ‘S’ or whose names contains N as the second or third     character, and end with either ‘N’ or ‘S’.
+LIKE OPERATOR:
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE ename LIKE 'A%S' OR ((ename LIKE '__N%' OR ename LIKE '_N%') AND (ename LIKE '%N' OR ename LIKE '%S'));
++-------+-------+---------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+---------+------+------------+---------+------+--------+
+|  7566 | JONES | MANAGER | 7839 | 1981-04-02 | 2975.00 | NULL |     20 |
+|  7876 | ADAMS | CLERK   | 7788 | 1983-01-12 | 1100.00 | NULL |     20 |
++-------+-------+---------+------+------------+---------+------+--------+
+2 rows in set (0.00 sec)
+
+REGEXP_LIKE OPERATOR
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE REGEXP_LIKE(ename, '^A.*S$') AND ((REGEXP_LIKE(ENAME, '^..N.*') OR REGEXP_LIKE(ENAME, '^.N.*')) AND (REGEXP_LIKE(ENAME, '.*[NS$]$')));
++-------+-------+---------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+---------+------+------------+---------+------+--------+
+|  7566 | JONES | MANAGER | 7839 | 1981-04-02 | 2975.00 | NULL |     20 |
+|  7876 | ADAMS | CLERK   | 7788 | 1983-01-12 | 1100.00 | NULL |     20 |
++-------+-------+---------+------+------------+---------+------+--------+
+2 rows in set (0.00 sec)
+
+
+
+ 
+20. List employees whose name starts with either 'A' or 'S' in dept 20.
+LIKE OPERATOR:
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE (ename LIKE 'A%' OR ename LIKE 'S%') AND deptno = 20;
++-------+-------+---------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+---------+------+------------+---------+------+--------+
+|  7369 | SMITH | CLERK   | 7902 | 1980-12-17 |  800.00 | NULL |     20 |
+|  7788 | SCOTT | ANALYST | 7566 | 1982-12-09 | 3000.00 | NULL |     20 |
+|  7876 | ADAMS | CLERK   | 7788 | 1983-01-12 | 1100.00 | NULL |     20 |
++-------+-------+---------+------+------------+---------+------+--------+
+3 rows in set (0.00 sec)
+
+
+REGEXP_LIKE OPERATOR
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE REGEXP_LIKE(ENAME, '^[AS].*') AND deptno = 20;
++-------+-------+---------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+---------+------+------------+---------+------+--------+
+|  7369 | SMITH | CLERK   | 7902 | 1980-12-17 |  800.00 | NULL |     20 |
+|  7788 | SCOTT | ANALYST | 7566 | 1982-12-09 | 3000.00 | NULL |     20 |
+|  7876 | ADAMS | CLERK   | 7788 | 1983-01-12 | 1100.00 | NULL |     20 |
++-------+-------+---------+------+------------+---------+------+--------+
+3 rows in set (0.00 sec)
+
+
+ 
+21. To list all employees with job starting with C , E at 3rd position and  ending with K.
+ LIKE OPERATOR:
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE job LIKE 'C_E%K';
++-------+--------+-------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB   | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+-------+------+------------+---------+------+--------+
+|  7369 | SMITH  | CLERK | 7902 | 1980-12-17 |  800.00 | NULL |     20 |
+|  7876 | ADAMS  | CLERK | 7788 | 1983-01-12 | 1100.00 | NULL |     20 |
+|  7900 | JAMES  | CLERK | 7698 | 1981-12-03 |  950.00 | NULL |     30 |
+|  7934 | MILLER | CLERK | 7782 | 1982-01-23 | 1300.00 | NULL |     10 |
++-------+--------+-------+------+------------+---------+------+--------+
+4 rows in set (0.00 sec)
+
+
+REGEXP_LIKE OPERATOR
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE REGEXP_LIKE (job, '^C.E.*K$');
++-------+--------+-------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB   | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+-------+------+------------+---------+------+--------+
+|  7369 | SMITH  | CLERK | 7902 | 1980-12-17 |  800.00 | NULL |     20 |
+|  7876 | ADAMS  | CLERK | 7788 | 1983-01-12 | 1100.00 | NULL |     20 |
+|  7900 | JAMES  | CLERK | 7698 | 1981-12-03 |  950.00 | NULL |     30 |
+|  7934 | MILLER | CLERK | 7782 | 1982-01-23 | 1300.00 | NULL |     10 |
++-------+--------+-------+------+------------+---------+------+--------+
+4 rows in set (0.00 sec)
+
+
+22. To list all employees with job containing L at third position and M at third last position.
+ LIKE OPERATOR:
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE ename LIKE '__L.*M__';
++-------+--------+----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+----------+------+------------+---------+---------+--------+
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
++-------+--------+----------+------+------------+---------+---------+--------+
+4 rows in set (0.00 sec)
+
+
+
+REGEXP_LIKE OPERATOR
+
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE REGEXP_LIKE (JOB,'^..L.*M..$');
++-------+--------+----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+----------+------+------------+---------+---------+--------+
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
++-------+--------+----------+------+------------+---------+---------+--------+
+4 rows in set (0.00 sec)
+
+
+
+23. To list all employees with comm is null and name starts with ‘S’
+ LIKE OPERATOR:
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE comm IS NULL AND ename LIKE 's%';
++-------+-------+---------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+---------+------+------------+---------+------+--------+
+|  7369 | SMITH | CLERK   | 7902 | 1980-12-17 |  800.00 | NULL |     20 |
+|  7788 | SCOTT | ANALYST | 7566 | 1982-12-09 | 3000.00 | NULL |     20 |
++-------+-------+---------+------+------------+---------+------+--------+
+2 rows in set (0.00 sec)
+
+REGEXP_LIKE OPERATOR
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE comm IS NULL AND REGEXP_LIKE (ENAME,'^s.*');
++-------+-------+---------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+---------+------+------------+---------+------+--------+
+|  7369 | SMITH | CLERK   | 7902 | 1980-12-17 |  800.00 | NULL |     20 |
+|  7788 | SCOTT | ANALYST | 7566 | 1982-12-09 | 3000.00 | NULL |     20 |
++-------+-------+---------+------+------------+---------+------+--------+
+2 rows in set (0.00 sec)
+
+
+24. List employees in all dept whose salary not in the range of 2000 to 3000 with the job which is having a  string called 'MAN' at the end.
+ LIKE OPERATOR:
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE sal NOT BETWEEN 2000 AND 3000 AND JOB LIKE '%MAN'
+    -> ;
++-------+--------+----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+----------+------+------------+---------+---------+--------+
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
++-------+--------+----------+------+------------+---------+---------+--------+
+4 rows in set (0.00 sec)
+
+
+REGEXP_LIKE OPERATOR
+
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE sal NOT BETWEEN 2000 AND 3000 AND REGEXP_LIKE (JOB,'.*MAN$');
++-------+--------+----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+----------+------+------------+---------+---------+--------+
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
++-------+--------+----------+------+------------+---------+---------+--------+
+4 rows in set (0.00 sec)
+
+
+25. List all the employee whose name does not end with 'S' in dept 20 and 30?
+ LIKE OPERATOR:
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE ename NOT LIKE '%S' AND deptno IN (20, 30);
++-------+--------+----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+----------+------+------------+---------+---------+--------+
+|  7369 | SMITH  | CLERK    | 7902 | 1980-12-17 |  800.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER  | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 |
+|  7788 | SCOTT  | ANALYST  | 7566 | 1982-12-09 | 3000.00 |    NULL |     20 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
+|  7902 | FORD   | ANALYST  | 7566 | 1981-12-03 | 3000.00 |    NULL |     20 |
++-------+--------+----------+------+------------+---------+---------+--------+
+8 rows in set (0.00 sec)
+
+
+REGEXP_LIKE OPERATOR
+
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE NOT REGEXP_LIKE (ENAME,'.*S$') AND deptno IN (20, 30);
++-------+--------+----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+----------+------+------------+---------+---------+--------+
+|  7369 | SMITH  | CLERK    | 7902 | 1980-12-17 |  800.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER  | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 |
+|  7788 | SCOTT  | ANALYST  | 7566 | 1982-12-09 | 3000.00 |    NULL |     20 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
+|  7902 | FORD   | ANALYST  | 7566 | 1981-12-03 | 3000.00 |    NULL |     20 |
++-------+--------+----------+------+------------+---------+---------+--------+
+8 rows in set (0.00 sec)
+
+
+
+26. Display list all employees whose name ends with ER.
+ LIKE OPERATOR:
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE ename LIKE '%er';
++-------+--------+----------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+----------+------+------------+---------+------+--------+
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500.00 | 0.00 |     30 |
+|  7934 | MILLER | CLERK    | 7782 | 1982-01-23 | 1300.00 | NULL |     10 |
++-------+--------+----------+------+------------+---------+------+--------+
+2 rows in set (0.00 sec)
+
+
+REGEXP_LIKE OPERATOR
+
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE REGEXP_LIKE (ename, '.*er$');
++-------+--------+----------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+----------+------+------------+---------+------+--------+
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500.00 | 0.00 |     30 |
+|  7934 | MILLER | CLERK    | 7782 | 1982-01-23 | 1300.00 | NULL |     10 |
++-------+--------+----------+------+------------+---------+------+--------+
+2 rows in set (0.00 sec)
+
+
+27. Display all employees where comm is null and name starts with ‘S’.
+LIKE OPERATOR
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE comm IS NULL AND ename LIKE 'S%';
++-------+-------+---------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+---------+------+------------+---------+------+--------+
+|  7369 | SMITH | CLERK   | 7902 | 1980-12-17 |  800.00 | NULL |     20 |
+|  7788 | SCOTT | ANALYST | 7566 | 1982-12-09 | 3000.00 | NULL |     20 |
++-------+-------+---------+------+------------+---------+------+--------+
+2 rows in set (0.00 sec)
+
+REGEXP_LIKE OPERATOR
+
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE comm IS NULL AND REGEXP_LIKE (ename, '^S.*');
++-------+-------+---------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+---------+------+------------+---------+------+--------+
+|  7369 | SMITH | CLERK   | 7902 | 1980-12-17 |  800.00 | NULL |     20 |
+|  7788 | SCOTT | ANALYST | 7566 | 1982-12-09 | 3000.00 | NULL |     20 |
++-------+-------+---------+------+------------+---------+------+--------+
+2 rows in set (0.04 sec)
+
+ 
+28. Display all rows where comm is null.
+
+mysql> SELECT *
+    -> FROM emp
+    -> WHERE comm IS NULL;
++-------+--------+-----------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+-----------+------+------------+---------+------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800.00 | NULL |     20 |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975.00 | NULL |     20 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 | NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 | NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3000.00 | NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 | NULL |     10 |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1100.00 | NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 | NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 | NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 | NULL |     10 |
++-------+--------+-----------+------+------------+---------+------+--------+
+10 rows in set (0.03 sec)
+
+
+
+
+ 
+========================================================
+
+
+
+

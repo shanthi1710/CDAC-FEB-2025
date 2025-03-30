@@ -1,0 +1,393 @@
+-PK
+-candidate key, alternate key, composit key
+-auto inc
+-FK
+-On delete/update
+-truncate cause
+-DDL/DML/TCL
+-diff between truncate/delete
+-alter clause 
+-data types
+
+key - column in the table which identifies the row
+primary key - column is a key and it is unique +
+ not null
+
+employee(eno,ename,deptno,sal,adhar_no,pp_no)
+
+eno,adhar_no,pp_no   unique+nn
+eno----primary
+
+set of probal Pk (eno,adhar_no,pp_no)----candidate keys
+eno----PK
+(adhar_no,pp_no)----alternate keys
+
+student(roll,sname,per,city)
+
+create table student     ----- method 1
+(roll int primary key,
+ sname varchar(15) not null,
+ per float(5,2) check(per>=35),
+ city varchar(15) default 'Pune'
+);
+insert into student
+values(1,'Sumit',89.00,'Nashik');
+insert into student(roll,sname)
+values(2,'Sagar');
+insert into student
+values(3,'Smita',null,null);
+insert into student
+values(4,'Raj',null,default);
+
+auto_increment
+-used only on the column which is a PK
+
+create table student     ---------- method 2
+(roll int auto_increment,
+ sname varchar(15) not null,
+ per float(5,2) check(per>=35),
+ city varchar(15) default 'Pune',
+ primary key(roll)
+);
+
+insert into student(sname,per,city)
+values('Sumit',89.00,'Nashik');
+insert into student(sname)
+values('Sagar');
+insert into student(sname,per,city)
+values ('Smita',null,null);
+insert into student(sname,per,city)
+values('Raj',null,default);
+
+CONSTRAIT constraint_name PRIMARY KEY(column_name)
+
+create table student     ----- metho 3 
+(roll int auto_increment,
+ sname varchar(15) not null,
+ per float(5,2) check(per>=35),
+ city varchar(15) default 'Pune',
+ constraint x primary key(roll)  
+);
+
+composit key
+------------
+  student      	  course	  admssion
+______________	____________  	_____________
+roll  name  	 cid  cname	  roll  cid
+1     A          c1   WP           1    C2
+2     B          C2   Adv Java     2    C4
+3     R          C3   Linux        3    C1
+4     M          C4   DBT          4    C1
+5     P        	                   5    C3
+6     L				   1    C3
+                                   2    C1
+                                   4    C3
+
+PK - roll       cid	composit key roll+cid
+
+Foreign Key constraint
+-----------------------
+Key which is PRIMARY KEY in another table is called as FK.
+referential integrity
+
+dept(deptno,dname)------- pk deptno
+bae table
+emp(empno,ename,deptno,sal)-----pk empno
+			        fk deptno
+dependent table
+
+
+cat(cid,cname) -----pk cid
+base table
+
+product(pid,pname,cid) -----pk pid
+		            fk cid
+dependent table
+
+author(aid,aname,email) ----- pk aid
+base tale
+book(bno,bname,aid) ------ pk bno
+                           fk aid
+dependent table
+
+select b.bno, b.bname, a.aid,a.aname,a.email
+from book b,author a
+where a.aid=b.aid;
+
+
+
+cat(cid,cname)
+product(pid,pname,cid)
+
+create table cat
+(cid int auto_increment,
+ cname varchar(15),
+ constraint pk_cid primary key(cid)
+);
+insert into cat(cname)
+values('Stationary'),('Food'),('Electronics');
+
+create table product
+(pid int auto_increment,
+ pname varchar(15),
+ cid int,
+ constraint pk_pid primary key(pid),
+ constraint fk_cid foreign key(cid) references cat(cid)
+ );
+
+insert into product(pname,cid)
+values('Pen',1),('Dairy Milk',2);
+
+insert into product(pname,cid)
+values('Pencil',1),('Mobile',3),('Lays',2),('crayons',1);
+
+insert into cat(cname)
+values('Clothes')
+
+update product
+set cid =6 
+where pid=4;
+
+dose no work a cid 6 is not in base table
+
+insert into product(pname)
+values('shoes'),('t-shirt');
+
+ 
+student(sid,sname) ---- pk sid
+trainer(tid,tname) ---- pk tid
+module(mid,mname,sid,tid,) ---- pk mid 
+			   -- fk sid,tid
+
+create table student
+(sid int,
+ sname varchar(15),
+ constraint pk_sid primary key(sid)
+);
+
+create table trainer
+(tid int
+ tname varchar(15),
+ constraint pk_tid primary key(tid) 
+);
+
+create table module
+(mid int,
+ mname varchar(25),
+ sid int,
+ tid int,
+ constraint pk_mid primary key(mid),
+ constraint fk_sid foreign key(sid) references student(sid),
+ constraint fk_tid foreign key(tid) references trainer(tid)
+)
+ 
+PK and FK constraints are called as table level constraints
+unique,nn,check,default are called as column level constraints
+
+on delete set null/cascade
+on update set null/cascade
+
+create table dept1
+(dno int,
+ dname varchar(15),
+ constraint pk_dno primary key(dno)
+);
+insert into dept1 
+values(10,'R&D'),(20,'Sales'),(30,'Mkt'),(40,'Purcase');
+
+create table dept1
+(dno int,
+ dname varchar(15),
+ constraint pk_dno primary key(dno)
+);
+insert into dept1 
+values(10,'R&D'),(20,'Sales'),(30,'Mkt'),(40,'Purcase');
+
+create table employee
+(eno int auto_increment,
+ ename varchar(15),
+ deptno int,
+ constraint pk_eno primary key(eno),
+ constraint fk_deptno foreign key(deptno) references   dept1(dno) on delete set null
+);
+insert into employee(ename,deptno)
+values('Raj',10),('Yash',20),('Smita',30),('Geeta',10),
+('Ramesh',10),('Seema',20),('Neha',30);
+
+delete from dept1
+where deptno=10;
+
+create table employee
+(eno int auto_increment,
+ ename varchar(15),
+ deptno int,
+ constraint pk_eno primary key(eno),
+ constraint fk_deptno foreign key(deptno) references   dept1(dno) on delete cascade
+);
+insert into employee(ename,deptno)
+values('Raj',10),('Yash',20),('Smita',30),('Geeta',10),
+('Ramesh',10),('Seema',20),('Neha',30);
+
+delete
+from dept1
+where dno=10;
+
+---------------------------------------
+on update set null/cascade
+
+create table employee
+(eno int auto_increment,
+ ename varchar(15),
+ deptno int,
+ constraint pk_eno primary key(eno),
+ constraint fk_deptno foreign key(deptno) references   dept1(dno) on update set null
+);
+insert into employee(ename,deptno)
+values('Raj',10),('Yash',20),('Smita',30),('Geeta',10),
+('Ramesh',10),('Seema',20),('Neha',30);
+
+update dept1
+set dno = 80
+where dno=10;
+
+create table employee
+(eno int auto_increment,
+ ename varchar(15),
+ deptno int,
+ constraint pk_eno primary key(eno),
+ constraint fk_deptno foreign key(deptno) references   dept1(dno) on update cascade
+);
+insert into employee(ename,deptno)
+values('Raj',10),('Yash',20),('Smita',30),('Geeta',10),
+('Ramesh',10),('Seema',20),('Neha',30);
+
+update dept1
+set dno = 80
+where dno=10;
+-------------------------------
+truncate----delete all the rows from the table
+deletion is permanent. Data cannon be rolled backed
+truncate table table_name;
+
+truncate table t1;
+
+-----------------------------------
+
+SQL 
+|
+DML  data manipulation language
+DDL  data definition language
+DCL  data control language
+TCL  transaction control languge
+
+DML
+insert, update, delete
+can be rolled back 
+
+DDL
+create, alter, drop, truncate
+cannot be rolled backed
+
+DCL
+grant, revoke
+
+TCL
+rollbak, commit, savepoint
+
+----------------------------------------
+Alter clause
+
+-used to make changes in the table structure.
+
+rename the table
+-----------------
+syntax-1
+alter table table_name
+rename to new_table_name;
+
+alter table employee
+rename to tem_employee;
+
+rename column
+--------------
+Syntax 
+ALTER  TABLE  table_name
+RENAME  COLUMN  column_name  TO  new_column_name;
+
+alter table dept1
+rename column dno to deptno;
+ 
+add new column
+--------------
+ALTER TABLE table_name
+ADD column_name datatype;
+
+alter table new_emp2
+add email varchar(20);
+
+changing data type of existing column
+-------------------------------------
+ALTER TABLE table_name    
+MODIFY column_name  datatype;
+
+alter table new_emp2
+modify deptno varchar(5);
+
+deleting existing column
+------------------------
+alter table table_name
+drop column column_name;
+
+alter table student
+drop column email;
+
+=============================
+Adding constraints on existing table
+
+Adding NOT NULL constraint 
+    ALTER TABLE student
+    MODIFY sname into NOT NULL;
+
+Adding CHECK constraint 
+student(sno,sname,age)  
+   ALTER TABLE student
+   ADD CHECK (Age>=18);
+   or
+   ALTER TABLE student
+   ADD CONSTRAINT CHK_age CHECK (Age>=18);
+
+Adding DEFAULT constraint
+   ALTER TABLE student
+   ADD DEFAULT city='PUNE';
+   or
+   ALTER TABLE student
+   ADD constraint def_city DEFAULT city='PUNE'; 
+
+   def_city is a  constraint_name
+
+Adding UNIQUE constraint 
+   ALTER TABLE student
+   ADD CONSTRAINT x UNIQUE(roll);
+   
+   x is a constraint name
+
+   or
+   ALTER TABLE student
+   ADD  UNIQUE(roll);
+
+Adding PK constraint
+--------------------
+alter table student
+add constraint pk_roll primary key(roll);
+
+Adding FK constraint
+---------------------
+alter table product
+add constraint y foreign key(cid) references cat(cid);
+
+
+
+
+
+
+ 
