@@ -1,0 +1,346 @@
+
+Section I: MySQL Queries (use hr-db) (20 marks)
+
+1. Find the employees such that their first and last name starts with same letter
+
+Solution:
+
+SELECT first_name, last_name FROM employees  
+WHERE LEFT(first_name, 1) = LEFT(last_name, 1);
++------------+-----------+
+| first_name | last_name |
++------------+-----------+
+| Girard     | Geoni     |
+| Mattea     | Marvins   |
+| Sarath     | Sewall    |
+| Stephen    | Stiles    |
++------------+-----------+
+4 rows in set (0.00 sec)
+____________________________________________________________________________________________________________________________________________________________
+
+2. Display List of City while names start with 'S' and ends with 'E'.
+
+Solution:
+
+SELECT * FROM locations WHERE city LIKE "S%%E";
++-------------+---------------------+-------------+-----------+----------------+------------+
+| LOCATION_ID | STREET_ADDRESS      | POSTAL_CODE | CITY      | STATE_PROVINCE | COUNTRY_ID |
++-------------+---------------------+-------------+-----------+----------------+------------+
+|        1700 | 2004 Charade Rd     | 98199       | Seattle   | Washington     | US         |
+|        2300 | 198 Clementi North  | 540198      | Singapore |                | SG         |
+|        1400 | 2014 Jabberwocky Rd | 26192       | Southlake | Texas          | US         |
++-------------+---------------------+-------------+-----------+----------------+------------+
+3 rows in set (0.01 sec)
+
+____________________________________________________________________________________________________________________________________________________________
+
+3. Find employees having salary greater that 5000 and less than 15000
+
+Solution:
+
+SELECT FIRST_NAME,LAST_NAME,SALARY FROM employees WHERE SALARY BETWEEN 5000 AND 15000 ;
++-------------+------------+----------+
+| FIRST_NAME  | LAST_NAME  | SALARY   |
++-------------+------------+----------+
+| Alexander   | Hunold     |  9000.00 |
+| Bruce       | Ernst      |  6000.00 |
+| Nancy       | Greenberg  | 12000.00 |
+| Daniel      | Faviet     |  9000.00 |
+| John        | Chen       |  8200.00 |
+| Ismael      | Sciarra    |  7700.00 |
+| Jose Manuel | Urman      |  7800.00 |
+| Luis        | Popp       |  6900.00 |
+| Den         | Raphaely   | 11000.00 |
+| Matthew     | Weiss      |  8000.00 |
+| Adam        | Fripp      |  8200.00 |
+| Payam       | Kaufling   |  7900.00 |
+| Shanta      | Vollman    |  6500.00 |
+| Kevin       | Mourgos    |  5800.00 |
+| John        | Russell    | 14000.00 |
+| Karen       | Partners   | 13500.00 |
+| Alberto     | Errazuriz  | 12000.00 |
+| Gerald      | Cambrault  | 11000.00 |
+| Eleni       | Zlotkey    | 10500.00 |
+| Peter       | Tucker     | 10000.00 |
+55 rows in set (0.00 sec)
+
+____________________________________________________________________________________________________________________________________________________________
+
+4. Find the second highest salary in the company (Without LIMIT)
+
+Solution:
+
+SELECT MAX(salary) AS Second_Highest_Salary FROM employees WHERE salary < (SELECT MAX(salary) FROM employees);
++-----------------------+
+| Second_Highest_Salary |
++-----------------------+
+|              17000.00 |
++-----------------------+
+1 row in set (0.01 sec)
+
+____________________________________________________________________________________________________________________________________________________________
+
+5. Create an email ID for each employee using their first and last name (e.g., john.smith@company.com).
+
+Solution: 
+
+SELECT CONCAT(LOWER(first_name), '.', LOWER(last_name), '@company.com') AS Email FROM employees;
++-------------------------------+
+| Email                         |
++-------------------------------+
+| ellen.abel@company.com        |
+| sundar.ande@company.com       |
+| mozhe.atkinson@company.com    |
+| david.austin@company.com      |
+| hermann.baer@company.com      |
+| shelli.baida@company.com      |
+| amit.banda@company.com        |
+| elizabeth.bates@company.com   |
+| sarah.bell@company.com        |
+| david.bernstein@company.com   |
+| laura.bissot@company.com      |
+| harrison.bloom@company.com    |
+| alexis.bull@company.com       |
+| anthony.cabrio@company.com    |
+| gerald.cambrault@company.com  |
+| nanette.cambrault@company.com |
+| john.chen@company.com         |
+| kelly.chung@company.com       |
+| karen.colmenares@company.com  |
+| curtis.davies@company.com     |
+107 rows in set (0.00 sec)
+
+____________________________________________________________________________________________________________________________________________________________
+
+6. Display the first name, hire date (in 'dd/mm/yy' format), and department name of employees?
+
+Solution:
+
+select employees.FIRST_NAME, date_format(employees.HIRE_DATE, '%d/%m/%y'), departments.DEPARTMENT_NAME from employees left outer join departments on employees.DEPARTMENT_ID = departments.DEPARTMENT_ID ;
++-------------+-----------------------------------------------+------------------+
+| FIRST_NAME  | date_format(employees.HIRE_DATE , '%d/%m/%y') | DEPARTMENT_NAME  |
++-------------+-----------------------------------------------+------------------+
+| Steven      | 17/06/87                                      | Executive        |
+| Neena       | 18/06/87                                      | Executive        |
+| Lex         | 19/06/87                                      | Executive        |
+| Alexander   | 20/06/87                                      | IT               |
+| Bruce       | 21/06/87                                      | IT               |
+| David       | 22/06/87                                      | IT               |
+| Valli       | 23/06/87                                      | IT               |
+| Diana       | 24/06/87                                      | IT               |
+
+107 rows in set (0.00 sec)
+
+____________________________________________________________________________________________________________________________________________________________
+
+7. Select number of employees working in each city having salary greater than 5000 and less than 15000 and working for more than 5 years. (use join)
+
+Solution:
+
+SELECT locations.CITY, COUNT(employees.EMPLOYEE_ID) AS NUMBER_OF_EMPLOYEES FROM employees JOIN departments ON employees.DEPARTMENT_ID = departments.DEPARTMENT_ID JOIN locations ON departments.LOCATION_ID = locations.LOCATION_ID WHERE employees.SALARY BETWEEN 5000 AND 15000 AND DATEDIFF (CURDATE(),employees.HIRE_DATE)/365 > 5 group by locations.city;
++---------------------+---------------------+
+| CITY                | NUMBER_OF_EMPLOYEES |
++---------------------+---------------------+
+| Southlake           |                   2 |
+| Seattle             |                   9 |
+| South San Francisco |                   5 |
+| OX9 9ZB             |                  34 |
+| Toronto             |                   2 |
+| London              |                   1 |
+| Munich              |                   1 |
++---------------------+---------------------+
+7 rows in set (0.01 sec)
+
+____________________________________________________________________________________________________________________________________________________________
+
+8. Find the department with the highest number of employees.
+
+Solution:
+
+SELECT department_id, COUNT(*) AS employee_count FROM employees GROUP BY department_id HAVING COUNT(*) = (SELECT MAX(emp_count) FROM (SELECT department_id, COUNT(*) AS emp_count FROM employees GROUP BY department_id) AS dept_counts);
++---------------+----------------+
+| department_id | employee_count |
++---------------+----------------+
+|            50 |             45 |
++---------------+----------------+
+1 row in set (0.01 sec)
+
+____________________________________________________________________________________________________________________________________________________________
+
+9. Select employee name and if they have salary greater than average salary of their deparment then print 'OK' else print 'NEEDS_INCREMENT'.
+
+Solution:
+ 
+SELECT e.FIRST_NAME, e.LAST_NAME,
+CASE
+WHEN e.SALARY > ( SELECT AVG(SALARY) FROM employees WHERE DEPARTMENT_ID = e.DEPARTMENT_ID)
+THEN 'OK'
+ELSE 'NEEDS_INCREMENT'
+END AS SALARY_STATUS
+FROM employees e;
++-------------+-------------+-----------------+
+| FIRST_NAME  | LAST_NAME   | SALARY_STATUS   |
++-------------+-------------+-----------------+
+| Steven      | King        | OK              |
+| Neena       | Kochhar     | NEEDS_INCREMENT |
+| Lex         | De Haan     | NEEDS_INCREMENT |
+| Alexander   | Hunold      | OK              |
+| Bruce       | Ernst       | OK              |
+| David       | Austin      | NEEDS_INCREMENT |
+| Valli       | Pataballa   | NEEDS_INCREMENT |
+| Diana       | Lorentz     | NEEDS_INCREMENT |
+| Nancy       | Greenberg   | OK              |
+| Daniel      | Faviet      | OK              |
+| John        | Chen        | NEEDS_INCREMENT |
+| Ismael      | Sciarra     | NEEDS_INCREMENT |
+| Jose Manuel | Urman       | NEEDS_INCREMENT |
+| Luis        | Popp        | NEEDS_INCREMENT |
+| Den         | Raphaely    | OK              |
+| Alexander   | Khoo        | NEEDS_INCREMENT |
+| Shelli      | Baida       | NEEDS_INCREMENT |
+| Sigal       | Tobias      | NEEDS_INCREMENT |
+| Guy         | Himuro      | NEEDS_INCREMENT |
+| Karen       | Colmenares  | NEEDS_INCREMENT |
+| Matthew     | Weiss       | OK              |
+| Adam        | Fripp       | OK              |
+| Payam       | Kaufling    | OK              |
+| Shanta      | Vollman     | OK              |
+| Kevin       | Mourgos     | OK              |
+| Julia       | Nayer       | NEEDS_INCREMENT |
+| Irene       | Mikkilineni | NEEDS_INCREMENT |
+107 rows in set (0.03 sec)
+
+____________________________________________________________________________________________________________________________________________________________
+
+10. Find all the department which have more than and equal to 2 Employees with descending order (Use having clause).
+ 
+Solution:
+
+SELECT department_id, COUNT(employee_id) AS Employee_Count FROM employees GROUP BY department_id HAVING COUNT(employee_id) >= 2 ORDER BY Employee_Count DESC;
++---------------+----------------+
+| department_id | Employee_Count |
++---------------+----------------+
+|            50 |             45 |
+|            80 |             34 |
+|            30 |              6 |
+|           100 |              6 |
+|            60 |              5 |
+|            90 |              3 |
+|            20 |              2 |
+|           110 |              2 |
++---------------+----------------+
+8 rows in set (0.01 sec)
+
+============================================================================================================================================================
+
+Section II: Stored Procedure (10 marks)
+
+1.Write a SQL query to call the stored procedure GetCountriesWithEmployeeCount to retrieve the list of countries in Region ID: 2, along with the number of employees in each country. Ensure the results are sorted in descending order of employee count.
+
+Solution:
+
+DELIMITER $$
+
+CREATE PROCEDURE GetCountriesWithEmployeeCount(IN region_id INT)
+BEGIN
+    -- Retrieve all countries in the given region with employee count
+    SELECT c.COUNTRY_ID, c.COUNTRY_NAME, COUNT(e.EMPLOYEE_ID) AS EmployeeCount
+    FROM countries c
+    LEFT JOIN locations l ON c.COUNTRY_ID = l.COUNTRY_ID
+    LEFT JOIN departments d ON l.LOCATION_ID = d.LOCATION_ID
+    LEFT JOIN employees e ON d.DEPARTMENT_ID = e.DEPARTMENT_ID
+    WHERE c.REGION_ID = region_id
+    GROUP BY c.COUNTRY_ID, c.COUNTRY_NAME
+    ORDER BY EmployeeCount DESC;
+END $$
+
+DELIMITER ;
+
+call GetCountriesWithEmployeeCount(2);
+
++------------+--------------------------+---------------+
+| COUNTRY_ID | COUNTRY_NAME             | EmployeeCount |
++------------+--------------------------+---------------+
+| US         | United States of America |            68 |
+| CA         | Canada                   |             2 |
+| AR         | Argentina                |             0 |
+| BR         | Brazil                   |             0 |
+| MX         | Mexico                   |             0 |
++------------+--------------------------+---------------+
+5 rows in set (0.00 sec)
+
+============================================================================================================================================================
+
+Section III: MongoDB (10 marks)
+
+1. Create and use a database using your account (database name SunbeamDBT).
+
+Solution:
+
+use SunbeamDBT
+switched to db SunbeamDBT
+
+____________________________________________________________________________________________________________________________________________________________
+
+2. Create a collection called “Students” as per following structure & insert 5 documents
+
+Solution:
+
+db.createCollection("Students")
+db.Students.insertMany([
+  { student_name: "Pavan Mankar", roll_no: 101, course: "Mathematics", exam_date: "2024-02-15", marks: 85, city: "Pune" },
+  { student_name: "Vivek Patane", roll_no: 102, course: "Physics", exam_date: "2024-02-16", marks: 78, city: "Bhopal" },
+  { student_name: "Vijay Jaddhav", roll_no: 103, course: "Chemistry", exam_date: "2024-02-17", marks: 92, city: "Satara" },
+  { student_name: "Radha Adav", roll_no: 104, course: "Biology", exam_date: "2024-02-18", marks: 88, city: "Sangali" },
+  { student_name: "Niraj Shinde", roll_no: 105, course: "Computer", exam_date: "2024-02-19", marks: 95, city: "Karad" }
+])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('67caa80b6626b35d6fc73bf8'),
+    '1': ObjectId('67caa80b6626b35d6fc73bf9'),
+    '2': ObjectId('67caa80b6626b35d6fc73bfa'),
+    '3': ObjectId('67caa80b6626b35d6fc73bfb'),
+    '4': ObjectId('67caa80b6626b35d6fc73bfc')
+  }
+}
+
+____________________________________________________________________________________________________________________________________________________________
+
+3. Write a MongoDB query to increase the marks of all students by 5 points in the students collection.
+
+Solution:
+db.Students.updateMany(
+  {},{ $inc: { marks: 5 } } )
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 10,
+  modifiedCount: 10,
+  upsertedCount: 0
+}
+
+____________________________________________________________________________________________________________________________________________________________
+
+4. Write a MongoDB query to delete a student whose marks are 92 from the Students collection.
+
+Solution:
+db.Students.deleteOne({ marks: 92 })
+
+____________________________________________________________________________________________________________________________________________________________
+
+5. Write a query to find the student with roll_no: 102
+
+Solution:
+db.Students.find({ roll_no: 102 })
+ {cknowledged: true,
+    _id: ObjectId('67ca8d11c33a8e8016c73bfe'),
+    student_name: 'Vivek Patane',
+    roll_no: 102,10,
+    course: 'Physics',
+    exam_date: '2024-02-16',
+    marks: 88,
+    city: 'Bhopal'
+  }
+
+============================================================================================================================================================
