@@ -1,0 +1,224 @@
+$in operator
+------------
+select * 
+from emp
+where job in('manager','salesman');
+
+disp all movies with price 250 or 350 of 450
+find({query},{projection})
+>db.movie.find({price:{$in:[250,350,450]}})
+
+disp all movie names,price where price is 250 or 350 of 450
+>db.movie.find({price:{$in:[250,350,450]}},{name:1,price:1,_id:0})
+
+disp name,price,ratings for all movies
+>select name,price,ratings
+from movie;
+
+>db.movie.find({},{name:1,price:1,ratings:1,_id:0})
+------------------------------------------
+
+$nin operator
+not in
+display all movies with price not equal to  250 or 350 of 450
+
+>db.movie.find({price:{$nin:[250,350,450]}})
+
+-----------
+$not
+
+disp all movie price between range 200 and 400
+>db.movie.find({price:{$gte:200,$lte:400}})
+
+all movie price not in the range of 200 and 400
+not $gte:200 and $lte:400
+
+>db.movie.find({price:{$not:{$gte:200,$lte:350}}})
+--------------------------------------
+$mod
+$mod:[number,reminder]
+movies will odd rating
+>db.movie.find({rating:{$mod:[2,1]}})
+
+even rating
+db.movie.find({rating:{$mod:[2,0]}})
+
+rating divisible by 5
+db.movie.find({rating:{$mod:[5,0]}})
+
+-----------------------------------------
+
+sorting the data
+sort({attribute:parameter})
+
+disp all movies with rating sorted in ascending order
+find()----select * from emp;
+>db.movie.find().sort({rating:1})
+1:ascending order
+-1: desc
+
+display name,rating and price in desc order of price
+>db.movie.find({},{name:1,rating:1,price:1,_id:0}).sort({price:-1})
+
+-------------------------------------------
+limit()
+limit(no)
+display 2 topmost rated movies
+>db.movie.find({},{name:1,rating:1,price:1,_id:0}).sort({rating:-1}).limit(2)
+
+------------------------------------------------
+skip(no)
+>db.movie.find().skip(5).limit(2)
+---------------------------------------
+display all movies of Amitabh in desc order of price
+>db.movie.find({actor:'Amitabh'}).sort({price:-1})
+
+display top rated movie of Akshay kumar
+>db.movie.find({actor:'Akshay'}).sort({rating:-1}).limit(1)
+
+find movies with rating null
+>db.movie.find(rating:null)
+---------------------------------
+regular expressions
+pattern matching
+^:begin    \d:digits
+$:end
+set[0-9]
+/pattern/
+.* set of chars
+[A-Za-z] : set of chars
+
+-movies names having digit
+>db.movie.find({name:/[0-9]/},{name:1,_id:0})
+db.movie.find({name:/\d/},{name:1,_id:0})
+
+-movies starting with digit
+>db.movie.find({name:/^[0-9]/},{name:1,_id:0})
+
+-ending with digit
+db.movie.find({name:/^.*[0-9]$/},{name:1,_id:0})
+
+-name starts with alphabet
+db.movie.find({name:/^[A-Za-z]/},{name:1,_id:0})
+-------------------------------------------------
+
+display movies where actor Amitabh is at 0th position
+db.movie.find({'actor.0':/^[Aa]mitabh/})
+
+---------------------------------------------
+Capped Collection
+-this is a collection whose size is fixed either as no of documents or total size of documents
+-we can update and insert in the collection
+-we cannot delete the doc from the collection
+-if a new document is inserted, than the first document will be delete automatically
+
+db.createCollection({'students'}) 
+--creates a collection by name student
+
+db.createCollection('students',{max:1000,size:3000,capped:true}}) 
+
+db.createCollection('product',{max:3,size:500,capped:true})
+
+db.product.insertMany([{name:'Dairy milk',price:120},{name:'Lays',price:40},{name:'Chips',price:80}])
+db.product.insert({name:'aaaaa',price:220}).count()
+----------------------------------------------
+
+update
+
+syntax -1
+>db.collection_name.update({query},{update action},{option})
+
+syntax -2 
+>db.collection_name.updateOne({query},{update action})
+
+syntax -3
+>db.collection_name.updateMany({query},{update action})
+
+operators
+----------
+$set 
+$unset
+$min 
+$max
+$inc
+$mul
+
+change rating to 5 for Lagan
+>db.collection_name.updateOne({query},{update action})
+>db.movie.updateOne({name:'lagaan'},{$set:{rating:5}})
+update movie
+set reting=5 
+where name='lagaan';
+
+>db.collection_name.updateMany({query},{update action})
+
+change rating of all movie to 7 if rating is 5
+>db.movie.updateMany({rating:5},{$set:{rating:7}})
+ 
+>db.collection_name.update({query},{update action},{option})
+db.movie.update({rating:7},{$set:{rating:5.5}},{multi:true})
+test> db.movie.update({rating:7},{$set:{rating:5.5}},{multi:true})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+multi : true/false
+
+db.movie.update({rating:5.5},{$set:{rating:6.5}},{multi:false})
+
+$unset
+db.movie.updateOne({name:'aradhana'},{$unset:{ticket_no:" "}})
+
+$max
+ if rating <5 then mak it 5 fro movies with Kk
+db.movie.updateMany({name:/^[Kk].*/},{$max:{rating:5}})
+
+$min
+update rating to 2 if current rating >2 for movie kahani
+db.movie.update({name:'kahani'},{$min:{rating:2}})
+
+$inc
+will increase current value
+-increase the price by rs 100 for all movies
+db.movie.updateMany({name:/Kahani/},{$inc:{price:100}})
+
+decrease current value
+db.movie.updateMany({name:/Kahani/},{$inc:{price:-100}})
+
+$mul
+increase value by 10% of price
+db.movie.updateOne({name:/kahani/},{$mul:{price:1.10}})
+ 
+---------------------------------------------------------
+delete the document
+db.collection_name.remove({})
+db.collection_name.deleteMany({})
+
+delete all products with price 220
+db.product.deleteMany({price:220})
+
+-----------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

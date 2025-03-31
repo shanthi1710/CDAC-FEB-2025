@@ -1,0 +1,366 @@
+1
+Consider following tables
+    product(pid,pname,price,qty)
+    product_details(pid,amt)
+    amt =price * qty
+Write a trigger which will calculate amt every time any update is done in the price of an item. 
+
+mysql> CREATE TABLE product
+    -> (pid INT PRIMARY KEY AUTO_INCREMENT,
+    -> pname VARCHAR(50),
+    -> price DECIMAL(9,2),
+    -> qty INT);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> CREATE TABLE product_details
+    -> (pdid INT PRIMARY KEY AUTO_INCREMENT,
+    -> pid INT,
+    -> amt DECIMAL(9,2)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> DESCRIBE product_details;
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| pdid  | int          | NO   | PRI | NULL    | auto_increment |
+| pid   | int          | YES  |     | NULL    |                |
+| amt   | decimal(9,2) | YES  |     | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> DELIMITER //
+mysql> CREATE TRIGGER prod
+    -> AFTER UPDATE
+    -> ON product
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     IF OLD.price <> NEW.price
+    ->     THEN
+    ->         INSERT INTO product_details(pid, amt) VALUES(NEW.pid, NEW.price * NEW.qty);
+    ->     END IF;
+    -> END //
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> DELIMITER ;
+
+mysql> DELIMITER //
+mysql> CREATE TRIGGER prod1
+    -> AFTER INSERT
+    -> ON product
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     INSERT INTO product_details(pid, amt) VALUES (NEW.pid, NEW.price * NEW.qty);
+    -> END //
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> DELIMITER ;
+
+mysql> SET SQL_SAFE_UPDATES = 0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO product(pname, price, qty) VALUES ('Perfume', 150, 100);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> UPDATE product SET price = 250 WHERE pname = 'Perfume';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM product_details;
++-------+-----+--------+
+| pdid  | pid | amt    |
++-------+-----+--------+
+| 1     | 1   | 15000.00 |
+| 2     | 1   | 25000.00 |
++-------+-----+--------+
+2 rows in set (0.00 sec)
+
+
+2
+Consider following table
+   emp_wage(eno,ename,sal,over_time)
+   eno : pk auto inc
+Write a trigger which will insert over_time as 400 if value of over_time entered is null.    
+
+mysql> CREATE TABLE emp_wage
+    -> (eno INT PRIMARY KEY AUTO_INCREMENT,
+    -> ename VARCHAR(50),
+    -> sal DECIMAL(9,2),
+    -> over_time INT);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> DELIMITER //
+mysql> CREATE TRIGGER empp
+    -> BEFORE INSERT
+    -> ON emp_wage
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     IF NEW.over_time IS NULL
+    ->     THEN
+    ->         SET NEW.over_time = 400;
+    ->     END IF;
+    -> END //
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> DELIMITER ;
+
+mysql> INSERT INTO emp_wage(ename, sal) VALUES("Vaibhavi", 40000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM emp_wage;
++-----+----------+--------+------------+
+| eno | ename     | sal    | over_time  |
++-----+----------+--------+------------+
+| 1   | Vaibhavi  | 40000.00 | 400       |
++-----+----------+--------+------------+
+1 row in set (0.00 sec)
+
+3
+Consider following table
+      order_master(oid,pname,qty,price)
+      oid : pk auto inc
+      order_log(oid,odate,amt)
+Write a trigger which will create a log of all orders once order is placed.
+
+mysql> CREATE TABLE order_master
+    -> (oid INT PRIMARY KEY AUTO_INCREMENT,
+    -> pname VARCHAR(50),
+    -> qty INT,
+    -> price DECIMAL(9,2));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE order_log
+    -> (olid INT PRIMARY KEY AUTO_INCREMENT,
+    -> oid INT,
+    -> odate DATE,
+    -> amt DECIMAL(9,2));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> DELIMITER //
+mysql> CREATE TRIGGER orders
+    -> AFTER INSERT
+    -> ON order_master
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     INSERT INTO order_log(oid, odate, amt)
+    ->     VALUES (NEW.oid, CURDATE(), NEW.qty * NEW.price);
+    -> END //
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> DELIMITER ;
+
+mysql> INSERT INTO order_master(pname, qty, price) VALUES ('Cadbory', 100, 100);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM order_log;
++------+-----+------------+--------+
+| olid | oid | odate      | amt    |
++------+-----+------------+--------+
+| 1    | 1   | 2025-03-28 | 10000.00 |
++------+-----+------------+--------+
+1 row in set (0.00 sec)
+
+
+4
+Consider following table
+      cust_master(cid,cname,accno,city)
+     cust_details(cid,deleted_date)
+Write a trigger which will save the information of deleted customer in cust_details table. 
+mysql> CREATE TABLE cust_master
+    -> (cid INT PRIMARY KEY AUTO_INCREMENT,
+    -> cname VARCHAR(50),
+    -> accno INT,
+    -> city VARCHAR(50));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE cust_details
+    -> (cdid INT PRIMARY KEY AUTO_INCREMENT,
+    -> cid INT,
+    -> deleted_date DATE);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> DELIMITER //
+mysql> CREATE TRIGGER cust
+    -> AFTER DELETE
+    -> ON cust_master
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     INSERT INTO cust_details(cid, deleted_date)
+    ->     VALUES (OLD.cid, CURDATE());
+    -> END //
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> DELIMITER ;
+
+mysql> INSERT INTO cust_master(cname, accno, city) VALUES ('Vaibhavi', 123, 'Panvel');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> DELETE FROM cust_master WHERE cname = 'Vaibhavi';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM cust_details;
++------+-----+--------------+
+| cdid | cid | deleted_date |
++------+-----+--------------+
+| 1    | 1   | 2025-03-28   |
++------+-----+--------------+
+1 row in set (0.00 sec)
+
+
+5
+create table med_master
+(mno int primary key auto_increment,
+ mname varchar(15),
+ stock int
+);
+create table med_order
+(mid int primary key auto_increment,
+ mno int,
+ qty int);
+Create above tables and write the trigger which will insert data in med_order table if stock drops down below 15.
+Use update after trigger.
+mysql> CREATE TABLE med_master
+    -> (mno INT PRIMARY KEY AUTO_INCREMENT,
+    -> mname VARCHAR(15),
+    -> stock INT);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE med_order
+    -> (mid INT PRIMARY KEY AUTO_INCREMENT,
+    -> mno INT,
+    -> qty INT);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> DELIMITER //
+mysql> CREATE TRIGGER med
+    -> BEFORE INSERT
+    -> ON med_master
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     IF NEW.stock < 15 THEN
+    ->         INSERT INTO med_order(mno, qty)
+    ->         VALUES (NEW.mno, NEW.stock);
+    ->     END IF;
+    -> END //
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> DELIMITER ;
+
+mysql> DELIMITER //
+mysql> CREATE TRIGGER med1
+    -> AFTER UPDATE
+    -> ON med_master
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     IF NEW.stock < 15 THEN
+    ->         INSERT INTO med_order(mno, qty)
+    ->         VALUES (NEW.mno, NEW.stock);
+    ->     END IF;
+    -> END //
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> DELIMITER ;
+
+mysql> INSERT INTO med_master(mname, stock) VALUES ('Medicine1', 13);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> UPDATE med_master SET stock = 12 WHERE mname = 'Medicine1';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM med_order;
++-----+-----+------+
+| mid | mno | qty  |
++-----+-----+------+
+| 1   | 1   | 13   |
+| 2   | 1   | 12   |
++-----+-----+------+
+2 rows in set (0.00 sec)
+
+
+6
+Try all basic commands of mongodb
+test> use assign
+switched to db assign
+assign> db.emp.insert({eno:1,ename:"Vaibhavi",deptno:20,comm:1200,sal:30000})
+DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('67e6fce99d9ccc27e0b71236') }
+}
+assign> db.emp.insert({eno:2,ename:"Sanjay",deptno:10,comm:1200,sal:50000})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('67e6fd009d9ccc27e0b71237') }
+}
+assign> db.emp.find()
+[
+  {
+    _id: ObjectId('67e6fce99d9ccc27e0b71236'),
+    eno: 1,
+    ename: 'Vaibhavi',
+    deptno: 20,
+    comm: 1200,
+    sal: 30000
+  },
+  {
+    _id: ObjectId('67e6fd009d9ccc27e0b71237'),
+    eno: 2,
+    ename: 'Sanjay',
+    deptno: 10,
+    comm: 1200,
+    sal: 50000
+  }
+]
+assign> db.emp.insertMany([{empno:3,ename:'Asha'},{eno:4,ename:'Devyani'},{eno:5,ename:"Digvijay"}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('67e6fd659d9ccc27e0b71238'),
+    '1': ObjectId('67e6fd659d9ccc27e0b71239'),
+    '2': ObjectId('67e6fd659d9ccc27e0b7123a')
+  }
+}
+assign>
+assign> db.createCollection('product')
+{ ok: 1 }
+assign> db.product.drop()
+true: 1 }
+assign> db.emp.find({ename:'Sanjay'})
+[
+  {
+    _id: ObjectId('67e6fd009d9ccc27e0b71237'),
+    eno: 2,
+    ename: 'Sanjay',
+    deptno: 10,
+    comm: 1200,
+    sal: 50000
+  }
+]
+
+assign> db.emp.find({ename:'Sanjay'},{_id:0})
+[ { eno: 2, ename: 'Sanjay', deptno: 10, comm: 1200, sal: 50000 } ]
+assign> db.emp.find({sal:{$gt:20000}},{_id:0})
+[
+  { eno: 1, ename: 'Vaibhavi', deptno: 20, comm: 1200, sal: 30000 },
+  { eno: 2, ename: 'Sanjay', deptno: 10, comm: 1200, sal: 50000 }
+]
+assign>
+assign> db.emp.find({$or:[{ename:'Vaibhavi'},{ename:'Asha'}]})
+[
+  {
+    _id: ObjectId('67e6fce99d9ccc27e0b71236'),
+    eno: 1,
+    ename: 'Vaibhavi',
+    deptno: 20,
+    comm: 1200,
+    sal: 30000
+  },
+  {
+    _id: ObjectId('67e6fd659d9ccc27e0b71238'),
+    empno: 3,
+    ename: 'Asha'
+  }
+]
+
+

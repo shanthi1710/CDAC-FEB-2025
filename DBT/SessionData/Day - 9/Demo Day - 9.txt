@@ -1,0 +1,344 @@
+delimiter //
+drop procedure if exists cursor_proc3;
+create procedure cursor_proc3()
+begin
+ declare f int default 0;
+ declare a varchar(15);
+ declare b decimal(7,2);
+ declare c varchar(15);
+ declare y cursor for
+  select ename,sal,job
+  from emp;
+ declare continue handler for NOT FOUND
+ set f=1;
+ open y;
+   print:loop
+     fetch y into a,b,c;
+     if c='manager'
+     then
+        set b=b+1000;
+     elseif c='clerk'
+     then
+        set b=b+5000;
+     elseif c='analyst'
+     then
+        set b=b+3000;
+     end if;
+     
+     if f=1
+     then 
+       leave print;
+     end if;
+    select a,b,c;
+   end loop print;
+   close y;
+end //
+delimiter ;
+===============================
+Triggers in RDBMS
+-these are special type of procedures which are called
+ as soon as any event occurs.
+-trigger is called before/after the event
+-events are insert update delete
+
+syntax
+-------
+CREATE TRIGGER trigger_name
+BEFORE/AFTER insert/update/delete
+ON table_name
+FOR EACH ROW
+BEGIN
+  statements;
+END //
+
+Before Insert trigger
+---------------------
+we r checking over_time is more than 500 brfore it is inserted in the tabl.
+
+create table emp_wage
+(eno int primary key auto_increment,
+ ename varchar(15),
+ sal int,
+ over_time int
+);
+delimiter //
+create trigger bf_insert
+before insert
+on emp_wage
+for each row
+begin
+   if new.over_time <=500 
+   then 
+      set new.over_time=600;
+   end if;
+end //
+delimiter ;
+
+insert into emp_wage
+values(1,'Sameer',30000,800);
+insert into emp_wage
+values(2,'Sarika',40000,400);
+insert into emp_wage
+values(3,'Shweta',50000,null);
+
+After Insert trigger
+--------------------
+create a log after inserting in the table
+
+create table order_master
+(oid int primary key auto_increment,
+ pname varchar(20),
+ qty int,
+ price int
+);
+create table order_log
+(oid int,
+ odate date,
+ amt int
+);
+
+delimiter //
+create trigger af_insert
+after insert
+on order_master
+for each row
+begin
+  declare tot int;
+  set tot=new.qty*new.price;
+  insert into order_log
+  values(new.oid,curdate(),tot);
+end //
+delimiter ;
+
+insert into order_master(pname,qty,price)
+values('Dairy Milk',100,90),
+      ('Pen',200,5),
+      ('TShirt',60,400);
+-------------------------------
+before update trigger
+--saving info before updating the data
+
+create table employee
+(eno int primary key auto_increment,
+ name varchar(15),
+ sal int
+);
+
+create table salary_audit
+(audit_no int primary key auto_increment,
+ eno int,
+ osal int,
+ nsal int,
+ change_date date
+);
+delimiter //
+create trigger bf_update
+before update
+on employee
+for each row
+begin
+   insert into salary_audit(eno,osal,nsal,change_date) 
+   values(old.eno,old.sal,new.sal,curdate());
+end //
+delimiter ;
+insert into employee(name,sal)
+values('Amit',20000),('Anita',12000),('Sumeet',24000);
+
+update employee
+set sal=25000 
+where name='Amit';
+
+update employee
+set sal=45000 
+where name='Sumeet';
+
+delimiter //
+drop procedure if exists cursor_proc3;
+create procedure cursor_proc3()
+begin
+ declare f int default 0;
+ declare a varchar(15);
+ declare b decimal(7,2);
+ declare c varchar(15);
+ declare y cursor for
+  select ename,sal,job
+  from emp;
+ declare continue handler for NOT FOUND
+ set f=1;
+ open y;
+   print:loop
+     fetch y into a,b,c;
+     if c='manager'
+     then
+        set b=b+1000;
+     elseif c='clerk'
+     then
+        set b=b+5000;
+     elseif c='analyst'
+     then
+        set b=b+3000;
+     end if;
+     
+     if f=1
+     then 
+       leave print;
+     end if;
+    select a,b,c;
+    update emp
+    set sal =b;
+   end loop print;
+   close y;
+end //
+delimiter ;
+------------------------------
+update after trigger
+
+create table med_master
+(mno int primary key auto_increment,
+ mname varchar(15),
+ stock int
+);
+
+create table med_order
+(mid int primary key auto_increment,
+ mno int,
+ qty int)
+
+hint
+after update in med_master
+if stock goes less than 15
+
+begin
+  if new.stock<15
+  then
+     x=15-new.stock;
+     insert into med_order()
+  enf if;
+
+====================================
+delete before trigger
+
+create table customer_master
+()
+=======================================
+MongoDB  
+
+SQL				NoSQL
+------                          -------
+structured query lan          not only sql
+structured data               unstructured data
+slower 			      faster(BSON)
+s/w stored on 1 machine       multiple servers(distributed)
+vertical scaling              horizontal scaling
+less accessible               highle accessible
+database                      database
+table                         collection
+row                           document
+field/column/attribute        field/attribute
+PK                            PK-created by system
+joins                         no joins(nested documents)
+MySQL,Oracle,Postgres,        Cassandra,MongoDB,DynamoDB,
+MsAcess,MsServer              CouchBaseddb, Hbase with 
+                              with Hadoop
+
+----------------------------------------------------
+>use database_name
+>show dbs
+>db ---shows a current database
+
+insert()
+-inserts a document in the collection
+syntax
+>db.collection_name.insert()
+
+>db.emp.insert({eno:1,ename:'Amit',deptno:20,comm:1200,sal:30000})
+db.emp.insert({eno:2,ename:'Smita',sal:30000})
+
+select * from emp;
+>db.emp.find()
+
+db.emp.insertMany([{empno:3,ename:'Ramesh'},{eno:4,dept:'R&D'},{name:'Sujay',sal:34000,job:'Manager'}])
+
+>show collections
+
+create collection dept 
+----------------------
+>db.dept.insertMany([{dno:10,dname:'Sales'},{deptno:20,dname:'Purchase',loc:'Hydrabad'},{dname:'Training',loc:'Pune'}])
+
+create a empty collection
+
+db.createCollection('product')
+
+delete the collection
+---------------------
+>db.product.drop()
+
+delete database
+-----------------
+>db.dropDatabase()
+will drop the current database
+
+display all info of employee Amit from emp
+select *
+from emp
+where ename='Amit';
+
+>db.emp.find({name:'Amit'})
+
+db.emp.insertMany([{empno:13,ename:'Amit'},{eno:14,dept:'R&D'},{ename:'amit',sal:34000,job:'Manager'}])
+
+syntax
+>db.collection_name.find({query},{projection})
+>db.emp.find()
+
+>db.emp.find({ename:'Amit'},{_id:0,ename:1,empno:1})
+
+operators
+-----------
+$lt --- less than
+$gt --- greater than
+$lte --- less than or equal to
+$gte --- greater than or equal to
+$eq --- equal to
+$in --- in 
+$nin  --- not in
+$size --- checks array size
+$mod --- modulus
+
+-display all movies with rating 3
+>db.movie.find({rating:3})
+
+-display all movies with rating 3 and price=250
+>db.movie.find({rating:3,price:200})
+
+-display all movies with rating >3  
+>db.movie.find({rating:{$gt:3}})
+
+-display all movies with rating >3 and price>300
+>db.movie.find({rating:{$gt:3},price:{$gt:300}})
+
+-display all movies with rating >3 and price>300 project only movie name, rating and price
+>db.movie.find({rating:{$gt:3},price:{$gt:300}},{name:1,rating:1,price:1,_id:0})
+
+-all movies rating=4 or price>300
+$or
+$or:[{},{},{}]
+>db.movie.find({$or:[{rating:4},{price:{$gt:300}}]})
+
+-all movies where actor is Amitabh or rating is 6
+or price <300
+db.movie.find({$or:[{actor:'Amitabh'},{rating:6},{price:{$lt:300}}]})
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
