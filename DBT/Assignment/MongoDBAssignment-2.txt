@@ -1,33 +1,310 @@
-1.Change rating of movie Kesari to 2  
+Mongodb_Assignment_2
 
-2.increase the price of all tickits by Rs 20 for Amitabh's movie. 
+1.Change rating of movie Kesari to 2
+
+db.movie.updateOne({name:'Kesari'},{$set:{rating:2}})
+
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+]
+batch2> db.movie.find({},{name:1,rating:1,_id:0})
+[
+  { name: 'Andhadhund', rating: 4 },
+  { name: 'uri', rating: 5 },
+  { name: 'kahani', rating: 8 },
+  { name: '3 idiots', rating: 3 },
+  { name: 'padmavat', rating: 4 },
+  { name: 'newton' },
+  {},
+  { name: 'chichore', rating: 4.3 },
+  { name: 'dream girl', rating: null },
+  { name: 'mission mangal', rating: 6 },
+  { name: 'Andhadhund', rating: 4 },
+  { name: 'sholay', rating: 6 },
+  { name: 'Dil dhadakane do', rating: 3 },
+  { name: 'lagaan', rating: 6 },
+  { name: 'Kesari', rating: 2 },
+  { name: 'aradhana', rating: 3 },
+  { name: 'paa', rating: 2 },
+  { name: 'kahani 2', rating: 5 }
+]
+
+==========================================================================================================================================================
+
+2.increase the price of all tickits by Rs 20 for Amitabh's movie.
+
+db.movie.update({actor:'Amitabh'},{$inc:{price:20}}) 
+
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+  {
+    actor: [
+      'Dharamendra',
+      'Amitabh',
+      'Sachin Pilgaokar',
+      'Dharamendra',
+      'Dharamendra',
+      'Mr. Khote',
+      'jaya bacchan',
+      'sanjiv kapoor'
+    ],
+    price: 370
+
+===========================================================================================================================================================
 
 3.Delete key rating for movie Kesari
 
+db.movie.updateOne({name:'Kesari'},{$unset:{rating:" "}})
+
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+db.movie.find({name:'Kesari'})
+[
+  {
+    _id: ObjectId('5ca453ef2952ebdd7ae2a92f'),
+    name: 'Kesari',
+    actor: [ 'Akshay Kumar', 'Pariniti chopra' ],
+    price: 350,
+    ticket_no: 270,
+    rdate: ISODate('2019-01-23T00:00:00.000Z')
+  }
+]
+================================================================================================================================================
+
 4.Increase price by 50 and change rating to 7 for movie 3 idiots.
+
+db.movie.updateOne({name:'Kesari'},{$set:{rating: 7}}, {$inc:{price:50}})
+
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+ db.movie.find({name:'Kesari'})
+[
+  {
+    _id: ObjectId('5ca453ef2952ebdd7ae2a92f'),
+    name: 'Kesari',
+    actor: [ 'Akshay Kumar', 'Pariniti chopra' ],
+    price: 350,
+    ticket_no: 270,
+    rdate: ISODate('2019-01-23T00:00:00.000Z'),
+    rating: 7
+  }
+]
+
+
+================================================================================================================================================
 
 5.Add new actor in movie Sholay
 
+db.movie.update({name:'sholay'},{$push:{actor:'Shahrukh'}})
+
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+batch2> db.movie.find({name:'sholay'})
+[
+  {
+    _id: ObjectId('5aaa3334639395f86922a881'),
+    name: 'sholay',
+    actor: [
+      'Dharamendra',
+      'Amitabh',
+      'Sachin Pilgaokar',
+      'Dharamendra',
+      'Dharamendra',
+      'Mr. Khote',
+      'jaya bacchan',
+      'sanjiv kapoor',
+      'Shahrukh'
+    ],
+    rating: 6,
+    ticket_no: 550,
+    price: 370,
+    position: [ 2, 2 ]
+  }
+]
+
+================================================================================================================================================
+
 6.Add multipla actors in any movie of your choice.
+
+
+
+
+db.movie.update({name:'Kesari'},{$push:{actor:{$each:["Kajol", "Amrish Puri", "Farida Jalal", "Satish Shah"]}}})
+
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+batch2> db.movie.find({name:'Kesari'})
+[
+  {
+    _id: ObjectId('5ca453ef2952ebdd7ae2a92f'),
+    name: 'Kesari',
+    actor: [
+      'Akshay Kumar',
+      'Pariniti chopra',
+      'Kajol',
+      'Amrish Puri',
+      'Farida Jalal',
+      'Satish Shah'
+    ],
+    price: 350,
+    ticket_no: 270,
+    rdate: ISODate('2019-01-23T00:00:00.000Z'),
+    rating: 7
+  }
+]
+================================================================================================================================================
 
 7.Add actors at a perticular position
 
+
+================================================================================================================================================
+
 8.Delete first value from array
+
+
+================================================================================================================================================
 
 9.delete last value from array
 
+================================================================================================================================================
+
  
 10.For movie "kahani 2" change rating to 5.
- 
+
+
+batch2> db.movie.updateOne({name:'kahani 2'},{$set:{rating:5}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+batch2> db.movie.find({name:'Kahani 2'})
+
+batch2> db.movie.find({name:'kahani 2'})
+[
+  {
+    _id: ObjectId('5aab6da4639395f86922a883'),
+    name: 'kahani 2',
+    ticket_no: 820,
+    actor: [
+      'vidya',  'Arjun',
+      'Jonny',  'nawaz',
+      'prasad', 'Shreyas',
+      'Jonny',  'yash'
+    ],
+    rating: 5,
+    price: 200
+  }
+]
+
+===============================================================================================================================
+
 11.Change price =400 and increase rating by 2 for all movies with name Kahani in it.
+
+
+
+batch2> db.movie.updateMany({name:/kahani/},{$set:{price:200},$inc:{rating:2}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+batch2> db.movie.find({name:'kahani 2'})
+[
+  {
+    _id: ObjectId('5aab6da4639395f86922a883'),
+    name: 'kahani 2',
+    ticket_no: 820,
+    actor: [
+      'vidya',  'Arjun',
+      'Jonny',  'nawaz',
+      'prasad', 'Shreyas',
+      'Jonny',  'yash'
+    ],
+    rating: 7,
+    price: 200
+  }
+]
+
+=======================================================================================================================================
 
 12.Decrease price of all movies by Rs.40.
 
+batch2> db.movie.updateMany({price:{$type:"number"}},{$inc:{price:-40}})    /// only selecting documents which has price in numeric datatype
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 16,
+  modifiedCount: 16,
+  upsertedCount: 0
+}
+batch2> db.movie.find({name:'kahani 2'})
+[
+  {
+    _id: ObjectId('5aab6da4639395f86922a883'),
+    name: 'kahani 2',
+    ticket_no: 820,
+    actor: [
+      'vidya',  'Arjun',
+      'Jonny',  'nawaz',
+      'prasad', 'Shreyas',
+      'Jonny',  'yash'
+    ],
+    rating: 7,
+    price: 160
+  }
+]
+
+=================================================================================================================================================================
 13.Increase the price by 10% of price to display all movies with amitabh acted in it and is at 1 st index position in array
- 
-16.Create a capped collection of size 5 by name dept.Store dno,  dname,location.Test this capped collection by adding new documents.
 
+db.movies.updateMany({"actor.0":/^[Aa]mitabh/}},[{$set:{price:{$round: [{ $multiply: ["$price", 1.10] },2]}}}])
 
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
 
+=================================================================================================================================================================
+14.Create a capped collection of size 5 by name dept.Store dno,  dname,location.Test this capped collection by adding new documents.
+=================================================================================================================================================================
 
- 
