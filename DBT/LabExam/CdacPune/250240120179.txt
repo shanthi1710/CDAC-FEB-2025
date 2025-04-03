@@ -1,0 +1,326 @@
+Q1.
+1.
+-->
+select e.empno as emp_id,
+e.ename as empname,
+d.loc as dept_location,
+d.dname as dept_name
+from emp e
+join dept d ON e.deptno = d.deptno
+where e.sal > any (select sal from emp where ename in ('JONES', 'SCOTT'));
++--------+---------+---------------+------------+
+| emp_id | empname | dept_location | dept_name  |
++--------+---------+---------------+------------+
+|   7788 | SCOTT   | DALLAS        | RESEARCH   |
+|   7839 | KING    | NEW YORK      | ACCOUNTING |
+|   7902 | FORD    | DALLAS        | RESEARCH   |
+|   1111 | GEETA   | DALLAS        | RESEARCH   |
++--------+---------+---------------+------------+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2.
+-->
+select e.ename as emp_name,
+d.dname as dept_name,
+e.sal as salary
+from emp  e
+join dept d  
+on e.deptno=d.deptno
+where e.job = 'CLERK' or e.JOB = 'SALESMAN';
++----------+------------+---------+----------+
+| emp_name | dept_name  | salary  | JOB      |
++----------+------------+---------+----------+
+| MILLER   | ACCOUNTING | 1300.00 | CLERK    |
+| ADAMS    | RESEARCH   | 1100.00 | CLERK    |
+| SMITH    | RESEARCH   |  800.00 | CLERK    |
+| JAMES    | SALES      |  950.00 | CLERK    |
+| TURNER   | SALES      | 1500.00 | SALESMAN |
+| MARTIN   | SALES      | 1250.00 | SALESMAN |
+| WARD     | SALES      | 1250.00 | SALESMAN |
+| ALLEN    | SALES      | 1600.00 | SALESMAN |
++----------+------------+---------+----------+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3.
+-->
+select e.*
+from emp e
+join dept d on e.deptno = d.deptno
+where d.dname = 'ACCOUNTING';
++-------+--------+-----------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+-----------+------+------------+---------+------+--------+
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 | NULL |     10 |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 | NULL |     10 |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 | NULL |     10 |
++-------+--------+-----------+------+------------+---------+------+--------+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4.
+-->
+select upper(e.ename) as uppercase_emp_name,
+lower(d.dname) as lowercase_dept_name,
+length(ename) as name_char_count
+from emp e 
+join dept d on e.deptno = d.deptno;
+
++--------------------+---------------------+-----------------+
+| uppercase_emp_name | lowercase_dept_name | name_char_count |
++--------------------+---------------------+-----------------+
+| SMITH              | research            |               5 |
+| ALLEN              | sales               |               5 |
+| WARD               | sales               |               4 |
+| JONES              | research            |               5 |
+| MARTIN             | sales               |               6 |
+| BLAKE              | sales               |               5 |
+| CLARK              | accounting          |               5 |
+| SCOTT              | research            |               5 |
+| KING               | accounting          |               4 |
+| TURNER             | sales               |               6 |
+| ADAMS              | research            |               5 |
+| JAMES              | sales               |               5 |
+| FORD               | research            |               4 |
+| MILLER             | accounting          |               6 |
+| GEETA              | research            |               5 |
+| RAJ                | operations          |               3 |
+| RAJ                | operations          |               3 |
++--------------------+---------------------+-----------------+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5.
+-->
+select empno,ename as "BOSS",job,mgr,hiredate,sal,comm,deptno
+from emp
+where job = 'MANAGER';
++-------+-------+------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB  | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+------+------+------------+---------+------+--------+
+|  7566 | JONES | BOSS | 7839 | 1981-04-02 | 2975.00 | NULL |     20 |
+|  7698 | BLAKE | BOSS | 7839 | 1981-05-01 | 2850.00 | NULL |     30 |
+|  7782 | CLARK | BOSS | 7839 | 1981-06-09 | 2450.00 | NULL |     10 |
++-------+-------+------+------+------------+---------+------+--------+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Q2
+1.
+-->
+select e.ename as employee_name,
+d.loc as  location_name,
+d.dname as  department_name
+from emp e join dept d on e.deptno =d.deptno
++---------------+---------------+-----------------+
+| employee_name | location_name | department_name |
++---------------+---------------+-----------------+
+| SMITH         | DALLAS        | RESEARCH        |
+| ALLEN         | CHICAGO       | SALES           |
+| WARD          | CHICAGO       | SALES           |
+| JONES         | DALLAS        | RESEARCH        |
+| MARTIN        | CHICAGO       | SALES           |
+| BLAKE         | CHICAGO       | SALES           |
+| CLARK         | NEW YORK      | ACCOUNTING      |
+| SCOTT         | DALLAS        | RESEARCH        |
+| KING          | NEW YORK      | ACCOUNTING      |
+| TURNER        | CHICAGO       | SALES           |
+| ADAMS         | DALLAS        | RESEARCH        |
+| JAMES         | CHICAGO       | SALES           |
+| FORD          | DALLAS        | RESEARCH        |
+| MILLER        | NEW YORK      | ACCOUNTING      |
+| GEETA         | DALLAS        | RESEARCH        |
+| RAJ           | BOSTON        | OPERATIONS      |
+| RAJ           | BOSTON        | OPERATIONS      |
++---------------+---------------+-----------------+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2.
+-->
+mysql> SELECT JOB,
+    -> SUM(SAL) AS total_salary
+    -> FROM EMP
+    -> GROUP BY JOB
+    -> ORDER BY total_salary DESC;
++-----------+--------------+
+| JOB       | total_salary |
++-----------+--------------+
+| NULL      |     10000.00 |
+| MANAGER   |      8275.00 |
+| ANALYST   |      6000.00 |
+| SALESMAN  |      5600.00 |
+| PRESIDENT |      5000.00 |
+| CLERK     |      4150.00 |
++-----------+--------------+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3.
+-->
+mysql> SELECT d.DEPTNO AS department_id,
+    -> d.DNAME AS department_name,
+    -> COUNT(e.EMPNO) AS employee_count
+    -> FROM DEPT d
+    -> JOIN EMP e ON d.DEPTNO = e.DEPTNO
+    -> GROUP BY d.DEPTNO, d.DNAME
+    -> HAVING COUNT(e.EMPNO) > 3;
++---------------+-----------------+----------------+
+| department_id | department_name | employee_count |
++---------------+-----------------+----------------+
+|            20 | RESEARCH        |              6 |
+|            30 | SALES           |              6 |
++---------------+-----------------+----------------+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4.
+-->
+mysql> SELECT e.*
+    -> FROM EMP e
+    -> WHERE e.EMPNO NOT IN ( SELECT DISTINCT MGR FROM EMP WHERE MGR IS NOT NULL);
++-------+--------+----------+------+------------+----------+---------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL      | COMM    | DEPTNO |
++-------+--------+----------+------+------------+----------+---------+--------+
+|  7369 | SMITH  | CLERK    | 7902 | 1980-12-17 |   800.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 |  1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN | 7698 | 1981-02-22 |  1250.00 |  500.00 |     30 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 |  1250.00 | 1400.00 |     30 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 |  1500.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK    | 7788 | 1983-01-12 |  1100.00 |    NULL |     20 |
+|  7900 | JAMES  | CLERK    | 7698 | 1981-12-03 |   950.00 |    NULL |     30 |
+|  7934 | MILLER | CLERK    | 7782 | 1982-01-23 |  1300.00 |    NULL |     10 |
+|  1111 | GEETA  | NULL     | NULL | NULL       | 10000.00 |  300.00 |     20 |
+|  2222 | RAJ    | ANALYST  | NULL | NULL       |     NULL |    NULL |     40 |
+|  2222 | RAJ    | ANALYST  | NULL | NULL       |     NULL |    NULL |     40 |
++-------+--------+----------+------+------------+----------+---------+--------+
+ 
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------Q3.
+
+delimiter //
+create function info3(emp_id int) returns varchar(20)
+deterministic
+begin
+    declare result varchar(20);
+    select ename into  result from emp where empno= emp_id;
+    return result;
+end //
+delimiter ;
+
+select empno, info3(7369) AS employee_name from emp where empno = 7369;
++-------+---------------+
+| empno | employee_name |
++-------+---------------+
+|  7369 | SMITH         |
++-------+---------------+
+----------------------------------------------------------------------------
+delimiter //
+create function info4(emp_id int) returns varchar(20)
+deterministic
+begin
+     declare result varchar(20);
+     select job into result from emp where empno = emp_id;
+     return result;
+end //
+delimiter ;
+
+select empno, info4(7369) AS job  from emp where empno = 7369;
++-------+-------+
+| empno | job   |
++-------+-------+
+|  7369 | CLERK |
++-------+-------+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Q4.
+create table log_emp as select * from emp;
+
+Query OK, 17 rows affected (0.03 sec)
+Records: 17  Duplicates: 0  Warnings: 0
+
+delimiter //
+create trigger emp_insert_trigger
+after insert on emp
+for each row
+begin
+   
+    insert into log_emp (
+        empno, ename, job, mgr, hiredate, sal, comm, deptno
+    ) values (
+        new.empno, new.ename, new.job, new.mgr, new.hiredate, 
+        new.sal, new.comm, new.deptno
+    );
+end//
+delimiter ;
+
+Query OK, 0 rows affected (0.01 sec)
+
+insert into emp (empno, ename, job) values (9999, 'TEST', 'CLERK');
+
+Query OK, 1 row affected (0.01 sec)
+ 
+
+select * from log_emp where empno = 9999;
++-------+-------+-------+------+----------+------+------+--------+
+| EMPNO | ENAME | JOB   | MGR  | HIREDATE | SAL  | COMM | DEPTNO |
++-------+-------+-------+------+----------+------+------+--------+
+|  9999 | TEST  | CLERK | NULL | NULL     | NULL | NULL |   NULL |
++-------+-------+-------+------+----------+------+------+--------+
+1 row in set (0.00 sec)
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Q5.
+test> use sample_db
+switched to db sample_db
+sample_db> db.createCollection("my_cal")
+{ ok: 1 }
+sample_db> db.my_cal.insertOne({})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67ecfaff1f7663df15b71236')
+}
+sample_db> db.my_cal.insertOne({ title:"MongoDB overview",description:"mongodb is no sql database",by:"tutorial point",url:"http://shanthi.com", tags:["mongodsh","nosql"],likes:100})
+{
+  acknowledged: true,
+  insertedId: ObjectId('67ecfb8c1f7663df15b71237')
+}
+
+sample_db> db.my_cal.find()
+[
+  { _id: ObjectId('67ecfaff1f7663df15b71236') },
+  {
+    _id: ObjectId('67ecfb8c1f7663df15b71237'),
+    title: 'MongoDB overview',
+    description: 'mongodb is no sql database',
+    by: 'tutorial point',
+    url: 'www.google.com',
+    tags: [ 'mongodsh', 'nosql' ],
+    likes: 100
+  }
+]
+ 
+
+1.update url from the document as "www.google.cm" from only first user
+-->
+db.my_cal.updateOne(
+  { _id: ObjectId('67ecfaff1f7663df15b71236') },
+  { $set: { url: "www.google.com" } }
+);
+db.my_cal.find({ _id: ObjectId('67ecfaff1f7663df15b71236') });
+
+sample_db> db.my_cal.find()
+[
+  { _id: ObjectId('67ecfaff1f7663df15b71236') },
+  {
+    _id: ObjectId('67ecfb8c1f7663df15b71237'),
+    title: 'MongoDB overview',
+    description: 'mongodb is no sql database',
+    by: 'tutorial point',
+    url: 'www.google.com',
+    tags: [ 'mongodsh', 'nosql' ],
+    likes: 100
+  }
+]
+
+2.show the doucument that has likes more than 20
+-->
+
+db.my_cal.find({ likes: { $gt: 20 } });
+ 
+  {
+    _id: ObjectId('67ecfb8c1f7663df15b71237'),
+    title: 'MongoDB overview',
+    description: 'mongodb is no sql database',
+    by: 'tutorial point',
+    url: 'www.google.com',
+    tags: [ 'mongodsh', 'nosql' ],
+    likes: 100
+  }
+ 
