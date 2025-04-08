@@ -1,0 +1,16 @@
+Day1: 
+
+1) Write simple java program to get person name from command line 
+and print Hello <Name> on console.
+
+2) Write menu driven java program for performing 
+Add, Subtract, Multiplication and division of numbers. 
+
+3)Write menu driven java program with below options
+
+	Calculate simple interest
+	Calculate compound interest
+
+4)Get 4-digit number from user, write a function to calculate sum of digits of the 4-digit number: Using loop and Using recursion
+
+5) Write a function for factorial and use the function for printing factorial series like 1 2 6 24 120………
