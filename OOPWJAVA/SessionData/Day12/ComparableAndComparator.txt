@@ -1,0 +1,32 @@
+Comparable<T> --> SAM @Functional Interface
+
+
+int compareTo​(T o)
+returns
++Ve  == > 0 first one is big
+-ve == < 0 first one is small 
+0 ==> both are same
+
+compare two objects 
+1) coming as invoking objects
+2) Coming as argument
+
+Comparable provides natural sorting 
+criteria by implementing Comparable<T>
+-------------------------------------------
+
+Comparator<T> --> SAM @Functional Interface
+
+int	compare​(T o1, T o2)
+returns
++Ve  == > 0 first one is big
+-ve == < 0 first one is small 
+0 ==> both are same
+
+compare two objects 
+1) coming as argument 1
+2) Coming as argument 2
+
+Additional sorting criteria than Natural sorting
+ex. Natural criteria is rollNo
+ and additional Criteria is name

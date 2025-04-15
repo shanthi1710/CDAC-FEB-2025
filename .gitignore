@@ -1,0 +1,6 @@
+# Java IDE and build files
+.settings/
+.classpath
+.project
+bin/
+.metadata/
