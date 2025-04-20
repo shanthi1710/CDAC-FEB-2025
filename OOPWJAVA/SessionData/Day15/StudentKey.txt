@@ -1,0 +1,61 @@
+class Student {
+Integer roll
+String std
+String div
+String  name
+LocalDate dob
+........
+}
+//Jugad solution
+Map<String, Student> mp = new HashMap<>();
+Student s1 = ..........
+String uniqueKey = s1.getStd()+s1.getDiv()+s1.getRoll();
+map.put(uniqueKey, s1);
+
+map.get(uniqueKey);
+
+
+
+
+
+
+
+
+
+//Approch 2
+//Immutable key
+class final StudentKey {
+private final String std
+private final String div
+private final Integer roll
+
+public StudentKey( String std,String div,Integer roll) {
+}
+//Implement equals and hashcode full
+//Only getters
+}
+
+class Student {
+Studentkey  key
+String  name
+LocalDate dob
+//Paramterised and default ctor
+Student(String std, string div, Integer roll,.....)
+{
+
+this.key = new StudentKey(std, div, roll)
+}
+........
+}
+
+Map<StudentKey, Student> mp = new HashMap<>();
+Student s1 = ..........
+map.put(s1.getKey(), s1)
+
+
+
+//get
+StudentKey key = new StudentKey(......)
+map.get(key)
+
+

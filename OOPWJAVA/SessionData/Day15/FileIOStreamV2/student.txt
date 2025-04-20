@@ -1,0 +1,6 @@
+Book [isbn=978-100, title=Java 8 IN ACTION, author=Raoul-Gabriel, bookType=TECH, publishDate=2010-04-24, price=800.0]
+Book [isbn=978-150, title=Brutal, author=Uday Satpathy, bookType=THRILLER, publishDate=2010-04-24, price=600.0]
+Book [isbn=978-160, title=Asa Mi Asami, author=P. L. Deshapande, bookType=COMEDY, publishDate=1984-04-24, price=250.0]
+Book [isbn=978-101, title=Java FAQ, author=Jonni M. Kanerva, bookType=TECH, publishDate=2012-10-18, price=600.0]
+Book [isbn=978-140, title=I Too Had a Love Story, author= Ravinder Singh, bookType=FICTION, publishDate=1988-08-30, price=400.0]
+Book [isbn=978-900, title=Head First Java, author=Kathy Sierra, bookType=TECH, publishDate=2015-04-20, price=1700.0]
