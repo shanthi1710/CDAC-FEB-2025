@@ -1,0 +1,87 @@
+
+
+Which characteristics of cloud computing is more attractive to end user?
+On-demand self-service.
+Broad network access.
+Resource pooling.
+Rapid elasticity.
+Measured Service.
+
+Which of following is cloud computing service supporting hardware visualization
+
+Select variant which locates element by value of their id attribute in web driver selenium
+
+Which of following is not applicable while using spiral model
+
+What can you deploy on kubernetes
+
+Which of following activity is not fundamental entity to software engineering
+
+Which git command allows you to set git user name
+
+Which of following is not true about Software development life cycle
+
+What is correct commit syntax for all messages with changes
+
+Which of following can be considered PaaS offering
+
+The technology used to distribute service requests to resources is ....
+
+What is not true about black box testing
+
+Which of following is not responsibility of business analysts
+
+Which of following best describes goal of Dev ops
+
+What is not true about deployment diagrams
+
+What is used for measurement of size of a user story in agile project
+
+Which statement best describes goal of change management in devops environment
+
+In web driver Which of following is valid select statement that select drop down .
+
+Which of following is a structured data store that supporting indexing n data queries to both EC2 N S3
+
+Another name for glass box testing is
+
+Select right code for creating object n calling function
+
+Select correct definition of delegates in dotnet
+The character pair ? : is .... operator in c#
+
+Which of below code statement is used to raise exception in c#
+
+Select right code for storing connection string in web.config or app.config file
+
+Which of following is true about tempdata in mvc
+
+Select correct code for getting list of employees from specific city from entity framework using lambda expression
+
+Which is mandatory html helper function in layout
+
+Which of below object used by SQL Connection to give security commands
+
+How to explicitly kill a user's session
+
+What is false about an array
+
+Which of following is correct attributes used in MVC security with actions
+
+Select the control that does not have any visible interface
+
+Select wrong statement about rest services
+
+Select incorrect statement about read only variable
+
+Which of following is not a namespace in .net framework class library
+
+Which of following is not a member of ADODB command object in connected mode
+
+To apply an attribute to an assembly correct way of implementation is....
+
+How do you manage session state in asp.net pages
+
+What should be used to send some additional data from action to view
+
+Which is right code for deploying an assembly to GAC

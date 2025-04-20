@@ -1,0 +1,48 @@
+d
+c
+a
+d
+d
+c
+c
+	7	b
+c
+d RE
+b
+
+a
+d
+b
+d
+	15	a
+	16	b
+	17	a
+	18	d
+a
+	20	c  thread method run method not override
+
+a
+d
+	23b a RE
+	24c a
+a
+
+	26	a
+d
+	28	c
+	29	b
+d
+
+
+b
+a
+a
+b
+a
+	a
+c
+	d
+	d
+	a
+	
+
