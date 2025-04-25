@@ -1,0 +1,21 @@
+create a console based java program to manage hospital patient using inheritance and polymorphism each patient should have:
+Patient Id
+patient Name
+Patient Age
+Admission Date(Use Local Date)
+Department(eg,Cardology,Neurology)
+Patient Type (use ENUM:IN_PATIENT,OUT_PATIENT,EMERGENCY)
+
+Implement a base class patient and create subclass such as Inpatient,OutPatient,and EmergencyPatient:
+1.add a patient:add a new patient record using polymorphism .ensure the patient id is unique and the appropriate subclass is used based on patient type
+2.Discharge a patient:Remove a patient from the system using their patient id,use custom exception handling if the is invalid or the is already discharged.
+3.display all patient :show all patient records shorted by admission date using the  steam api
+4.Filter patient by department:Allow filtering of patient by department name.display result and sort by name or age
+5.Billing Summry:Use a @functionalInterfsce(e.g BillCalculater) and lambda expression to generate a billing summery.diffrant billing logic should apply based on patient type and (optionally) during of stay
+
+use inheritance to represent diffrant types of patients.use Polymorphism to process and display patient record
+use stream api for sorting and filtering operation
+store record in collection such List<Patient>
+follow java naming convention for classes,variable and method
+use custom exception to handle invalid operation
+use java 8  feature:lambda,@FunctionalInterface,stream API,Optional
