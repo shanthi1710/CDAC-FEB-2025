@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Number String Operations</title>
+    <script>
+      const num = "1,2,3,4,5,6,7,8,9";
+
+      const numbers = num.split(",").map(Number);
+
+      const sum = numbers[0] + numbers[4];
+
+      const product = numbers[1] * numbers[7];
+
+      document.write(`
+            <p>Original string: ${num}</p>
+            <p>1. Addition of "1" (position 0) and "5" (position 4): ${numbers[0]} + ${numbers[4]} = ${sum}</p>
+            <p>2. Multiplication of "2" (position 1) and "8" (position 7): ${numbers[1]} × ${numbers[7]} = ${product}</p>
+        `);
+    </script>
+  </head>
+  <body></body>
+</html>

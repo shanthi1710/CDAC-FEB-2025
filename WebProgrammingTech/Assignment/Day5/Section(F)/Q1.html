@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Number String Operations</title>
+    <script>
+      const num = "1,2,3,4,5,6,7,8,9";
+
+      const numbers = num.split(",").map(Number);
+
+      document.write("<h3>1. Numbers without commas:</h3>");
+      document.write("<p>" + numbers.join(" ") + "</p>");
+
+      document.write("<h3>2. Even numbers:</h3>");
+      const evens = numbers.filter((n) => n % 2 === 0);
+      document.write("<p>" + evens.join(", ") + "</p>");
+    </script>
+  </head>
+  <body></body>
+</html>

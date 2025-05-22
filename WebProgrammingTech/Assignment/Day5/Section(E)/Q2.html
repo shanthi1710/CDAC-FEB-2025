@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      #result {
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      .palindrome {
+        background-color: #d4edda;
+        color: #155724;
+      }
+      .not-palindrome {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+    </style>
+    <title>Palindrome Checker</title>
+    <script>
+      function checkPalindrome() {
+        const input = document.getElementById("inputString").value;
+        const cleanStr = input.replace(/[\W_]/g, "").toLowerCase();
+
+        if (!cleanStr) {
+          document.getElementById("result").innerHTML =
+            "Please enter a valid string";
+          return;
+        }
+        const reversedStr = cleanStr.split("").reverse().join("");
+        const resultElement = document.getElementById("result");
+        if (cleanStr === reversedStr) {
+          resultElement.innerHTML = `"${input}" is a palindrome!`;
+          resultElement.className = "palindrome";
+        } else {
+          resultElement.innerHTML = `"${input}" is NOT a palindrome`;
+          resultElement.className = "not-palindrome";
+        }
+      }
+      document
+        .getElementById("inputString")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
+            checkPalindrome();
+          }
+        });
+    </script>
+  </head>
+  <body>
+    <h2>Palindrome Checker</h2>
+    <input
+      type="text"
+      id="inputString"
+      placeholder="Enter a string (e.g.,abba)"
+    />
+    <button onclick="checkPalindrome()">Check</button>
+    <div id="result"></div>
+  </body>
+</html>

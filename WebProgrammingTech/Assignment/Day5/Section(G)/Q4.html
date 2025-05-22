@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Details</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      table {
+        width: 80%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Movie Details</h1>
+    <button onclick="addMovie()">Add Movie</button>
+    <table id="movieTable">
+      <thead>
+        <tr>
+          <th>Movie Name</th>
+          <th>Price</th>
+          <th>Seat</th>
+        </tr>
+      </thead>
+      <tbody id="movieBody"></tbody>
+    </table>
+
+    <script>
+      function addMovie() {
+        const name = prompt("Enter Movie Name:");
+        const price = prompt("Enter Ticket Price:");
+        const seat = prompt("Enter Seat Number:");
+
+        if (name && price && seat) {
+          const tableBody = document.getElementById("movieBody");
+          const newRow = tableBody.insertRow();
+
+          newRow.insertCell(0).textContent = name;
+          newRow.insertCell(1).textContent = "₹" + price;
+          newRow.insertCell(2).textContent = seat;
+        } else {
+          alert("Please enter all movie details!");
+        }
+      }
+
+      window.onload = function () {};
+    </script>
+  </body>
+</html>
