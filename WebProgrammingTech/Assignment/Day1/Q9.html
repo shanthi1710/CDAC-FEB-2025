@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Centered Form</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: white;
+      }
+
+      .form-container {
+        background-color: #f9f5e6;
+        padding: 20px;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+
+      fieldset {
+        border: 1px solid #888;
+        padding: 10px 20px 20px;
+        margin-bottom: 10px;
+      }
+
+      legend {
+        font-weight: bold;
+      }
+
+      label {
+        display: inline-block;
+        width: 120px;
+        margin-top: 10px;
+      }
+
+      input[type="text"],
+      select {
+        width: 200px;
+        padding: 4px;
+        margin-top: 5px;
+      }
+
+      .radio-group {
+        margin-top: 10px;
+      }
+
+      button {
+        padding: 6px 14px;
+        font-size: 14px;
+        margin-top: 10px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <form>
+        <fieldset>
+          <legend>Name Details</legend>
+          <label for="fav-name">Favorite Name:</label>
+          <input type="text" id="fav-name" name="fav-name" /><br />
+          <label for="curr-name">Current Name:</label>
+          <input type="text" id="curr-name" name="curr-name" /><br />
+          <label for="next-name">Your Next Name:</label>
+          <input type="text" id="next-name" name="next-name" />
+        </fieldset>
+
+        <fieldset>
+          <legend>Address Details</legend>
+          <label for="address">Your Address:</label>
+          <select id="address" name="address">
+            <option>Earth</option>
+            <option>Mars</option>
+            <option>Venus</option></select
+          ><br />
+
+          <div class="radio-group">
+            <label>Like It?</label>
+            <input type="radio" id="yes" name="like" value="yes" />
+            <label for="yes">Yes</label>
+            <input type="radio" id="no" name="like" value="no" />
+            <label for="no">No</label>
+          </div>
+        </fieldset>
+
+        <button type="submit">Send Away!</button>
+      </form>
+    </div>
+  </body>
+</html>

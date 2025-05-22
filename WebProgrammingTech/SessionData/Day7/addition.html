@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <script>
+        function sum(){
+            var num1 = document.getElementById("number1").value
+            var num2 = document.getElementById("number2").value
+            var c = Number(num1) + Number(num2)
+            document.getElementById("result").innerText = "<h2>"+c+"</h2>"
+        }
+        
+    </script>
+</head>
+<body>
+    Enter number 1<input type="text" id="number1"/>
+    <br>
+    Enter number 2<input type="text" id="number2"/>
+    <button onclick="sum()">sum</button>
+    <br>
+    <span id="result"></span>
+</body>
+</html>
+
+
+
+
+

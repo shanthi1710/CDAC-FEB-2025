@@ -1,0 +1,21 @@
+Note : 
+1.Last question of each Section is compulsory
+2.Implement Section J using submit event and click event
+
+______________________________________________Section I_________________________________________________
+1.Write a calculator program.Create two input box and five button add,substract,multiply divide, modulas
+
+2.Write a code to accept name of Friends name from user and show in list using DOM
+3.Create a web page and take 3 Movies details  and show in table
+Movies property : Movie Name,Price,Seat
+
+
+______________________________________________Section J________________________________________________
+1.Create a web page and take 3 Movies details  and show in table (Use bootstrap)
+Movies property : Movie Name,Price,Seat
+
+2.Write js code to read movie data from user and show in table(use bootstrap)
+Movie Fields : movieName, actor, release,Movie type(2d,3d,IMAX)(use checkbox), language(Use radio button), show time(Use input type=datetime-local)
+
+
+

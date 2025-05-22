@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Document</title>
+    <script>
+      var fruits = [];
+      function user_input() {
+        var n = prompt("Enter n");
+        for (i = 0; i < n; i++) {
+          var fruitName = prompt("Enter " + i + "fruit");
+          fruits.push(fruitName);
+        }
+      }
+
+      function display() {
+        var htmlStr = "<ol>"; // <ol>
+        for (i = 0; i < fruits.length; i++) {
+          htmlStr += "<li>" + fruits[i] + "</li>";
+          // <ol><li>Apple</li>
+          // <ol><li>Apple</li><li>Banana</li>
+          // <ol><li>Apple</li><li>Banana</li><li>Pineapple</li>
+        }
+        htmlStr += "</ol>"; //<ol><li>Apple</li><li>Banana</li><li>Pineapple</li></ol>
+        document.write(htmlStr);
+      }
+
+      user_input()
+      display()
+
+    </script>
+  </head>
+  <body></body>
+</html>

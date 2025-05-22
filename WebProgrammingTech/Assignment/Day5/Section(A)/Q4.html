@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Simple Calculator</title>
+    <script>
+        var a = parseFloat(prompt("Enter first number:"));
+        var b = parseFloat(prompt("Enter second number:"));
+        var c = prompt("Enter an operator (+, -, *, /)");
+
+        if (isNaN(a) || isNaN(b)) {
+            document.write("Please enter valid numbers");
+        } else {
+            if (c == '+') {
+                let res = a + b; 
+                document.write(a + " + " + b + " = " + res);
+            } else if (c == '-') {
+                let res = a - b; 
+                document.write(a + " - " + b + " = " + res);
+            } else if (c == '*') {
+                let res = a * b; 
+                document.write(a + " * " + b + " = " + res);
+            } else if (c == '/') {
+                if (b === 0) {
+                    document.write("Cannot divide by zero");
+                } else {
+                    let res = a / b; 
+                    document.write(a + " / " + b + " = " + res);
+                }
+            } else {
+                document.write("Invalid operator");
+            }
+        }
+    </script>
+</head>
+<body>
+</body>
+</html>

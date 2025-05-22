@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <script>
+        var x = ["Siddhant","verma","jd","hj","js",7834, true]
+        console.log(x[0])
+        console.log(x[1])
+        console.log(x[2])
+        console.log(x.length)
+        //console.log(x.reverse()) // it reverses the actual array
+        //console.log(x)
+        console.log(x.includes("jd"))
+        console.log(x.indexOf("jd"))
+        console.log(x.lastIndexOf("jd"))
+        //insert 
+        x.push("ds") // insert at the end
+        x.unshift("as") // insert at the begining
+        console.log(x)
+
+        //remove
+        x.pop() // remove from the end
+        x.shift() // remove from the begining
+        console.log(x)
+
+        //remove the count of element from the  index
+        x.splice(2,2)
+        console.log(x)
+
+        // joins element of array to create string by delimitor
+        console.log(x.join())
+
+        //string split
+        x = "This is siddhant"
+        y = "2,34,5.65,5456,21"
+        console.log(x.split(" ")) // return the array after splitting by seperator
+        console.log(y.split(","))
+        var x= prompt("Enter a number")
+        //condition ? trueexpression : elseexpression
+        var y = x == 100 ? "equal" : "not equal"
+        console.log(y)
+
+
+</script>
+</head>
+<body>
+    
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <script>
+      var users = [
+        {username : "sid", password : "2332"},
+        {username : "asd", password : "6787"},
+        {username : "saf", password : "4690"}
+      ] 
+
+        function display(){
+            var htmlStr = "<table border=1><tr><th>username</th><th>password</th></tr>"
+            for(i = 0; i < users.length; i++){
+                htmlStr += `<tr>
+                        <td>${users[i].username}</td>
+                        <td>${users[i].password}</td>
+                    </tr>`
+            }
+            htmlStr += "</table>"
+            document.write(htmlStr)
+        }
+        display()
+        
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

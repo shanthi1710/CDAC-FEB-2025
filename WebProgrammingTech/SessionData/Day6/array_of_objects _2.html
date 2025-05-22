@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <script>
+      var users = []
+      
+        function user_input(){
+          var n = prompt("Enter n")
+          for(i = 0 ; i < n ; i++){
+            var user = {}
+            user.username = prompt("Enter username")
+            user.password = prompt("Enter password")
+            users.push(user)
+          }
+        }
+
+        function display(){
+            var htmlStr = "<table border=1><tr><th>username</th><th>password</th></tr>"
+            for(i = 0; i < users.length; i++){
+                htmlStr += `<tr>
+                        <td>${users[i].username}</td>
+                        <td>${users[i].password}</td>
+                    </tr>`
+            }
+            htmlStr += "</table>"
+            document.write(htmlStr)
+        }
+        user_input()
+        display()
+        
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

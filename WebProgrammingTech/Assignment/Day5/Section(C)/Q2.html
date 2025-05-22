@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #fruitList{
+            margin-top: 20px;
+        }
+        li {
+            margin: 5px 0;
+            padding: 5px;
+            background-color: #f0f0f0;
+            border-radius: 3px;
+        }
+     </style>
+    <title>Fruit List</title>
+    <script>
+        function addFruit() {
+        const fruitInput = document.getElementById('fruitInput');
+        const fruitName = fruitInput.value.trim();
+
+        if (fruitName === '') {
+            alert("Please enter a fruit name");  
+            return;
+        }
+
+        const fruitList = document.getElementById('fruitList');
+        const listItem = document.createElement('li');
+        listItem.textContent = fruitName;
+        fruitList.appendChild(listItem);
+
+        fruitInput.value = '';
+        fruitInput.focus();
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('fruitInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addFruit();
+            }
+        });
+    });
+    </script>
+</head>
+<body>
+    <h2>Fruit List App</h2>
+    <div>
+        <input type="text" id="fruitInput" placeholder="Enter a fruit name">
+        <button onclick="addFruit()">Add Fruit</button>
+    </div>
+    <ul id="fruitList"></ul>
+</body>
+</html>

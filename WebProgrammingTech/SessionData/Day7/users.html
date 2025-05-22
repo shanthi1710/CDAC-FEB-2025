@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <script>
+        var users = []
+        function save(){
+            var n = document.getElementById("name").value
+            var e = document.getElementById("email").value
+            var d = document.getElementById("dob").value
+            users.push({
+                name :n,
+                email : e,
+                dob : d 
+            })
+            alert("User saved")
+            display()
+        }
+
+        function display(){
+            var htmlStr = ""
+            for(i = 0; i< users.length; i++){
+                htmlStr += `<tr>
+                    <td>${users[i].name}</td>
+                    <td>${users[i].email}</td>
+                    <td>${users[i].dob}</td>
+                </tr>`
+            }
+            document.getElementById("tabledata").innerHTML= htmlStr
+        }
+
+    </script>
+</head>
+<body>
+    <div>
+        <input type="text" id="name"/>
+        <br>
+        <input type="email" id="email"/>
+        <br>
+        <input type="date" id="dob"/>
+        <br>
+        <button onclick="save()">Save</button>
+    </div>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>dob</th>
+            </tr>
+        </thead>
+        <tbody id="tabledata">
+
+        </tbody>
+    </table>
+</body>
+</html>

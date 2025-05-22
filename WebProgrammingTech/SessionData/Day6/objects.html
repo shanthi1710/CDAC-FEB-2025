@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <script>
+        /* // key is string, number
+                {
+                    property : value,
+                    key : value
+                    ...
+                }
+        */
+        var x = {
+            name : "Siddhant",
+            email : "sid@gmail.com",
+            age : 321,
+            hobbies : ["travel", "ds"],
+            address : {
+                city : "Pune",
+                state : "MH"
+            } ,
+            //access : {option : "Order", role : "admin"}
+        }
+        
+        //access
+        console.log(x.name)
+        console.log(x["email"])
+        console.log(x.hobbies) // ["travel", "ds"]
+        console.log(x["hobbies"][1])
+        console.log(x.address) //{city : "pune", state : "MH"}
+        console.log(x["address"].city ) // "Pune" 
+        console.log(x)
+        //modification
+        x["name"] = "Sid"
+        x.email = "s@gmail.com"
+        x.address.city =  "Mumbai"
+        x.hobbies.push("dsh")
+        console.log(x)
+        
+        // insert new property
+        x.phone = "738465873"
+        x.address.pincode = "37897"
+        console.log(x) 
+        
+        //x.access = {option : "order", role : "admin"}
+        x.access = {}
+        x.access.option = "order"
+        a.access.role = "admin"
+        
+        //delete
+        delete x.phone
+        delete x.address.pincode
+        delete x // whole object
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

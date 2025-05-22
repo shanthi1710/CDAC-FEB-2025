@@ -1,0 +1,31 @@
+Three ways to write css:
+1. Inline CSS
+<tagname style="property:value;property:value;">
+2.Internal CSS
+<style>
+tagSelector{
+	property:value;
+	property:value;
+}
+</style>
+3.External CSS
+tagSelector{
+	property:value;
+	property:value;
+}
+
+tagSelector:
+1.By tag Name
+2.By id attribute
+#id{}
+3.By class attribute
+.classname{}
+
+
+
+
+
+
+
+
+
