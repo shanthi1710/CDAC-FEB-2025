@@ -1,0 +1,471 @@
+Q. What is data structure?
+- data structure is a way to store data into the memory (i.e. into the main memory) in an orgnanized manner so that operations (like addition, deletion, searching, sorting, traversal etc....) can be performed efficiently.
+
+Q. Why data structure?
+- to achieve following 3 things:
+	1. efficiency
+	2. abstraction
+	3. reusability
+	
++ There are two types of data structures:
+	1. linear data structure/basic data structure:
+		- array
+		- structure
+		- union
+		- class
+		- linked list
+		- stack
+		- queue
+		
+	2. non-linear data structure/advanced data structure:
+		- tree (heirachical data structure)
+		- graph
+		- hash table (associative data structure)
+		- binary heap
+-----------------------------------------------------------------------------------------------
++ Array: it is a collection/list of logically related similar type of elements which gets stored into the memory at contiguos memory locations.
+
++ Structure: it is a collection of logically related similar and dissimilar type of
+elements which gets stored into the memory collectively (i.e. at contiguos memory
+locations).
+----------------------------------------------------------------------------------------------
+Q. What is an algorithm?
+	- an algo is a finite set of instructions, if followed, acomplishes, a given task.
+	- an algo is a well defined procedure to get solution for given problem.
+	- it is a finite set of instructions written in human understandable language (i.e.
+	in english) with programming constraints to get a solution for a given problem.
+	- an algorithm is nothing but a "pseudocode".
+	- an algorithm is a "solution".
+	- there are two approaches to write an algorithm:
+		1. iterative approach
+		2. recursive approach
+		
+	- for example - to do addition of all array ele's
+	1. iterative approach:
+	
+	Algorithm ArraySum(A,n)//A is an array of "n" no. of elements
+	{
+		sum = 0;
+		for( int index = 1 ; index <= n ; ++index )
+		{
+			sum += A[index];
+		}
+		return sum;
+	}
+
+	2. recursive approach:
+	
+	Algorithm RArraySum(A, n, index)//A is an array of "n" no. of elements
+	{
+		if( index == SIZE )
+			return 0;
+			
+		return ( A[index] + RSum(A,n,index+1) );
+	}
+	
+	- "recursion": it is a process in which we can give call to function from the same
+	function itself OR function calls itself within itself.
+	
+	- there are two types of recursive functions:
+	1. tail-recursive: recursive function in which recursive function call is the last
+	executable statement, reffered as tail recursive.
+	e.g. quick_sort()
+		
+	2. non-tail recursive: recursive function in which recursive function call is not 
+	the last executable statement is called as non-tail recursive.
+	e.g. merge_sort()
+	-------------------------------------------------------------------------------
+	- one problem may has many solutions/algorithms.
+	- e.g. sorting: to arrange elements in a collection/list (i.e. array or linked
+	list) of elements either in an ascending order or in a descending order.
+	 	A1 -- selection sort
+	 	A2 -- bubble sort
+	 	A3 -- insertion sort
+	 	A4 -- quick sort
+	 	A5 -- merge sort
+	 	A6 -- heap sort
+	 	A7 -- radix sort
+	 	A8 -- shell sort
+	 	etc...
+
+	 - when one problem has many solutions/algorithms one need to select an efficient
+	 solution/algorithm out of them.
+	 - to decide an efficiency of an algorithms we need to do their analysis.
+	 - analysis of an algorithm: it is a work of determining how much time i.e.
+	 "computer time" and space i.e. "computer memory" an algorithms needs to complete
+	 its execution.
+	 - there are two measures of an analysis of an algo:
+	 1. time complexity: time complexity of an algorithm is the amount computer time it
+	 needs to run to completion.
+	 
+	 2. space complexity: space complexity of an algorithm is the amount computer
+	 memory/space it needs to run to completion.
+	 
+	 * space complexity (space required for any function/program/algorithm):
+	 = code space ( i.e. instructions resides in a main memory )
+	 + data space (i.e. space required for simple variables, constants and instance
+	  variables) 
+	 + stack space (applicable only for recursive algorithms): it contains space
+	 required for formal parameters, local variables, return addr etc... i.e. function
+	 activation records of the called functions.
+	 
+	+ space complexity has two components:
+	1. fixed component: code space + data space (space required for simple variables
+	and constants).
+	
+	2. variable component: instance characteristics i.e. input size + stack space
+	(applicable in only case of recursive approach).
+	
+	
+	* time complexity: 
+	time complexity = compilation time + execution time
+	- compilation time is a fixed component, whereas execution time is a variable
+	component.
+	- execution time is depends on instance characteristics i.e. input size
+	- as an execution time is not only depends on instance chars, it also depends on
+	some external factors/environment like type of machine, no. of processes running
+	in the system, and hence time complexity cannot be calculated exactly by using
+	this approach, therefore another method can be used for calculating time and space
+	complexities reffered as "asymptotic analysis".
+	
+	+ asymptotic analysis: it is a "mathematical" way to calculate time complexity and
+	space complexity of an algorithm without implementing it in any programming
+	language.
+	- to do asymptotic analysis "basic operation" in an algo can be focused.
+	e.g. in searching and sorting algo's comparison is the basic operation, and hence
+	analysis of such algo's can be done on the basis of no. of comparisons in it.
+	
+	+ best case time complexity: when an algo takes minimum amount of time to complete
+	its execution then it is reffered as best case time complexity.
+	
+	+ worst case time complexity: when an algo takes maximum amount of time to complete
+	its execution then it is reffered as worst case time complexity.
+	
+	+ average case time complexity: when an algo takes neither minimum nor maximim
+	amount of time to complete its execution then it is reffered as an average case
+	time complexity.
+
+	+ asymptotic notations:
+	1. Big Oh (O) -- asymptotic upper bound -- worst case
+	2. Big Omega ( ) -- asymptotic lower bound -- best case
+	3. Big Theta ( ) -- asymptotic tihght bound -- average case
+--------------------------------------------------------------------------------------
++ assumptions/rules in an asymtotic analysis:
+	- if running time an algorithm/function contains any additive or substractive
+	constant, then it can be neglected.
+	 i.e. O(n+3) or O(2-n) => O(n).
+	 
+	- if running time of an algorithm/function has any multiplicative or divisive
+	constant then it can be neglected. 
+	i.e. O(2.n^2) or O(n^2/2)	=> O(n^2).
+
+	+ O(1):
+	- if any function/algo do not contains loop or call to any non-constant function
+	or recursive function calls then time complexity of that function/algo is
+	considered as O(1).
+	e.g. swap() function
+	void swap(int *ptr1, int *ptr2)
+	{
+		int temp = *ptr1;
+		*ptr1 = *ptr2;
+		*ptr2 = temp;
+	}
+	OR
+	- if loop in a function/algo executes fixed number of times then time complexity
+	is considered as O(1).
+	e.g.
+	for( int i = 0 ; i < c ; i++ )//where c is integer constant
+	{
+		//O(1) statements
+	}
+	
+	+ O(n):
+	- in a function/algo, if a loop variable either incremets or decrements by a
+	constant value, then time complexity is considered as O(n).
+	e.g.
+	for( int i = 0 ; i < n ; i += c )//where c is integer constant
+	{
+		//O(1) statements
+	}
+	OR
+	for( int i = n ; i >= 0 ; i -= c )//where c is integer constant
+	{
+		//O(1) statements
+	}
+
+	+ O(log n):
+	- if a loop variable in an algo/function/program is either gets divided or
+	multiplied then we will get time complexity in terms of log.
+	e.g.
+	for( int i = 0 ; i < n ; i *= c )//where c is integer constant
+	{
+		//O(1) statements
+	}
+	OR
+	for( int i = 0 ; i < n ; i /= c )//where c is integer constant
+	{
+		//O(1) statements
+	}
+
+	+ O(n^c): for nested loops: if "c" no. of nested loops (i.e. loop inside loop)
+	- in this case time complexity of an algo/function is the time taken by the statement/s
+	 inside the innermost loop.
+	
+	for( int i = 0 ; i < n ; i++ ) //--> O(n+1) times
+	{
+		for( int j = 0 ; j < n ; j++ )//O( n(n+1)) times
+		{
+			//statements //-> n*n => n^2
+		}
+	}
+		
+	+  if any function/algo contains two consecutive loops:
+	
+	for( int i = 0 ; i < n ; i ++ )
+	{
+		//O(1) statement/s
+	}
+		
+	for( int i = 0 ; i < m ; i ++ )
+	{
+		//O(1) statement/s
+	}
+		
+	O(n) + O(m) => for m == n => O(2n) => O(n)
+	
+----------------------------------------------------------------------------------------
++ array:
+	- "searching": to serach a key ele in a given collection/list of elements.
+
+	1. linear search:
+	Algorithm LinearSearch(A, n, key)
+	{
+		for( int index = 1 ; index <= SIZE ; index++ )
+		{
+			if( A[ index ] == key )
+				return true;
+		}
+		return false;
+	}
+	
+	
+	* best case -- when key is found at first pos then algo does only one comparison,
+	time complexity of an algo in this case = O(1).
+		Big Omega(1)
+		
+	
+	* worst case -- when either key is exists at last position or key does not exists
+	algo does max "n" no. of comparisons whereas "n" size of an array, in this case
+	time complexity of an algo = O(n).
+	
+	* average case -- if key is exists at in between position the algo takes neither
+	minimum nor max time to complete its execution, in this case time complexity of
+	an algo = O(n/2)
+
++ searching algorithms:
+	1. linear search:
+	- also called as "sequential search".
+	- it sequentially checks each element of the list until the match is found or the
+	whole list has been searched.
+	- best case -- occurs when key ele is found at first position, in this case algo
+	takes O(1) time.
+	- worst case -- occurs when either key ele is found at last position or key ele
+	does not exists, in this case algo takes O(n) time whereas n is the no. of ele's
+	in the list/collection.
+	- average case -- occures when key ele is exists in the list at in between
+	position, in this ase algo takes O(n/2) => O(n) time.
+	
+	2. binary search:
+	- also called as "logarithmic search" or "half interval search"
+	- this algo follows "divide-and-conquer" stratergy.
+	- to apply binary search prerequisite is collection/list of elements must be in a
+	sorted manner.
+	- in the first iteration -- mid position gets calculated and key ele gets compared
+	with ele at mid position, if key ele is found then it will be the best case,
+	otherwise array gets divided logically into two sub array's left subarray and
+	right sub array.
+	- if key ele is smaller than mid position ele then key ele gets searched into the
+	left sub array only, by skipping the whole right sub array checking, or, if key ele
+	is greater than mid position ele then key ele gets searched into the right sub
+	array only by skipping whole left sub array.
+	- the logic repeats either till key ele is not found or till size of an array is
+	less than one.
+	- if key ele is found at mid position in the very first iteration then no. of
+	comparisons are "1" and it is considered as a best case, in this algo takes O(1)
+	time, otherwise it takes O(log n) time.
+	- as in every iteration this algo does 1 comparison and divides array into sub
+	two arrays and key ele gets searched either one of the subarray, i.e. after every
+	iteration it divides 
+	
+	
+	=> T(n) = T(n/2) + 1
+	for n = 1
+	T(n) = T(1) + 1
+	i.e. running time of an algo is O(1). --- trivial case
+	
+	for n > 1
+	T(n) = T(n/2)+ 1 ..... (I)
+	to get the value of T(n/2) put  n = n/2 in eq-I we get,
+	=> T(n/2) = T( n/2 / 2 ) + 1
+	=> T(n/2) = T(n/4) + 1 .....(II)
+	
+	substitute the value of T(n/2) in eq-I we get,
+	=> T(n) = [ T(n/4) + 1 ] + 1
+	=> T(n) = T(n/4) + 2 .....(III)
+	
+	
+	to get the value of T(n/2) put n = n/2 in eq-II we get,
+	=> T( (n/2) / 2 ) = T( (n/4) / 2 ) + 1
+	=> T(n/4) = T(n/8) + 1 .... (IV)
+	
+	substitute the value of T(n/4) in eq-III we get,
+	=> T(n/4) = [ T(n/8) + 1 ] + 2
+	=> T(n/4) = T(n/8) + 3 ......(V)
+	
+	.
+	.
+	after k iterations:
+	
+	T(n) = T(n/2^k) + k
+	
+	for n = 2^k
+	log n = log 2^k .... by taking log on both side
+	log n = k log 2
+	therefore, k = log n
+	=> T(n) = T(2^k/2^k) + log n
+	=> T(n) = T(1) + log n
+	=> T(n) = log n
+	
+	and hence, T(n) = O(log n).
+	
+	+ difference between linear search and binary search:
+	- in linear search after every iteration search space is reduced by 1 i.e. (n-1)
+	and in binary search search space is reduced by half of elements i.e. by (n/2).
+	- worst case time complexity of linear search is O(n) and of binary search is
+	O(log n) hence binary search is efficient than linear search.
+	- binary search cannot be applied on linked list.
+
+=========================================================================================
+1. selection sort:
+------------------
+	- inplace comparison sort
+	- this algo divides the list logically into two sublists, first list contains all
+	elements and another list is empty.
+	- in the first iteration -- first element from the first list is selected and gets
+	compared with remaining all ele's in that list, and the smallest ele can be added
+	into the another list, so after first iteration second list contains the smallest
+	ele in it.
+	- in the second iteration -- second element from the first list is selected and
+	gets compared with remaining all ele's in that list and the smallest amongst them
+	can be added into the another list at next position, so in second iteration the
+	second smallest element gets added into the another list next to the smallest one,
+	and so on.....
+	- so in max (n-1) no. of iterations all elements from first list gets added into
+	the another list (which was initially empty) in a sorted manner and we will get
+	all elements in a collection/list in a sorted manner.
+	- in every iteration one element gets selected and gets compared with remaining 
+	- best case, worst case and average case time complexity of selection sort algo is
+	O(n^2).
+	- advantages:
+		1. simple to implement
+		2. inplace
+	- disadvantages:
+		- not efficient for larger input size collection of ele's array/list.
+		- not adaptive i.e. not efficient for already sorted input sequence.
+	
+================================================================================================
+2. bubble sort:
+---------------
+	- sometimes reffered to as "sinking sort".
+	- this algo divides the list logically into two sublists, initially first list
+	contains all elements and another list is empty.
+	- in the first iteration -- the largest element from first list gets selected and
+	gets added into the another list at last position.
+	- in the second iteration -- largest element from the ele's left in a first list
+	is selected and gets added into the second list at second last position and so
+	on....
+	- so in max (n-1) no. of iterations all elements from first list gets added into
+	the another list (which was initially empty) in a sorted manner from last position
+	to first position and we will get all elements in a collection/list in a sorted
+	manner.
+	OR
+	- ele's at consecutive locations gets compared with each other of they are not in
+	order then they gets swapped otherwise their position remains same.
+
+	- best case -- if array ele's are already sorted then this algo takes O(n) time
+	- worst case and average case time complexity of bubble sort algo is O(n^2).
+	
+	- advantages:
+		- simple to implement
+		- inplace - do not takes extra space for sorting ele's
+		- can be implement as an adaptive
+		- highly stable 
+	- disadvantages:
+		- not efficient for larger input size collection of ele's array/list.
+		- not adaptive in nature but can be implement as an adaptive
+
+
++ "queue": 
+	- it is a collection/list (i.e.  array or linked list) of logically related similar
+	type of elements into which element can be added from one end reffered as "rear" end,
+	and ele can be deleted from another end reffered as "front" end.
+	- in this list element which was added first can be deleted first, so this list works
+	in "first in first out" manner, and hence it is also called as "FIFO" list.
+	OR "LILO" -- last in last out.
+	- we can perform two operation on queue:
+		1. enqueue -- to insert/add/push element into the queue
+		2. dequeue -- to remove/delete/pop element from the queue
+
+	- there are different types of queue:
+	1. linear queue
+	2. circular queue
+	3. priority queue:
+		- it is a queue in which element can be added from rear end randomly and element
+		having highest priority can only be deleted first.
+		- priority queue can be implemented by using linked list
+		- it can be implemented efficiently by using "binary heap".
+		
+	4. double ended queue i.e. "deque"
+		- it is a queue in which element can be added as well as deleted from both the ends
+		- we can perform four operations on deque:
+			1. push_front() -- insert/push/add ele from front end
+			2. push_back() -- insert/push/add ele from back end
+			3. pop_front() -- remove/delete/pop ele from front end
+			2. pop_back() -- remove/delete/pop ele from back/rear end
+		- dequeu can be implemented by using doubly circular linked list.
+
++ "applications of queue":
+	- queue can be used to implement advanced data algo's like "bfs" breadth first search
+	in tree and graph.
+	- queue can be used to implement os algorithms like cpu shed algos's - priority sched
+	 algo, FCFS etc..., page replacement algo's -- FIFO, disk sched algo's
+	 - queue can be used to implement kernel/os data structures like job queue, ready queue
+	 waiting queue etc....
+	 - queue can be used in an application where the requirement is in a collection/list 
+	 of ele's list works in "first in first out".
+	 
+------------------------------------------------------------------------------------
++ "stack":
+	- it is a collection/list (i.e. array or linked list) of logically related similar type of
+	elements into which element can be added as well deleted from only one end reffered as "top"
+	 end.
+	 - in this list the element which was added last can only be removed first, so this list
+	 works in "last in first out" manner, and hence it is also called as "LIFO" list.
+	 OR "FILO" list.
+	- we perform three operations on stack:
+	1. push -- insert/add element into the stack from top end
+	2. pop -- delete/remove element from the stack which is at top end
+	3. peek -- to get element which is at top position
+	
++ "applications of stack":
+	- stack is used by an os to control flow of an execution of a programs
+	- stack can be used internally by an os in the process of recursion
+	- undo and redo functionalities of an os uses stack
+	- stack can be used to implement advanced data structure algo's like "dfs" depth
+	first search in tree and graph.
+	- stack can be used in any applications where in a collection/list of elements works
+	in last in first out manner.
+	- stack can be used to implement algo's like:
+		- conversion of infix expreesion into its eq postfix and prefix
+		- evalution of postfix expression
+
